@@ -1,0 +1,63 @@
+{
+    "editor.minimap.enabled": false,
+    "editor.wordWrap": "on",
+    "cSpell.language": "en,de",
+    "cSpell.enabled": true,
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "document",
+            "tools": [
+                "latexmk"
+            ]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-shell-escape",
+                "-pdf",
+                "-pdflatex=lualatex",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ]
+        }
+    ],
+    "latex-workshop.synctex.afterBuild.enabled": true,
+    "latex-workshop.intellisense.package.enabled": true,
+    "latex-workshop.chktex.enabled": false,
+    "editor.tabCompletion": "onlySnippets",
+    "latex-workshop.latex.autoBuild.run": "never",
+    "[latex]": {
+        "editor.formatOnSave": false,
+    },
+    "[bibtex]": {
+        "editor.formatOnSave": false,
+    },
+    "files.associations": {
+        "*.latex": "latex"
+    },
+    "files.exclude": {
+        "root.aux": true,
+        "root.bbl": true,
+        "root.bcf": true,
+        "root.blg": true,
+        "root.fdb_latexmk": true,
+        "root.fls": true,
+        "root.lof": true,
+        "root.lol": true,
+        "root.lot": true,
+        "root.out": true,
+        "root.toc": true,
+        "root-plantuml.latex": true,
+        "root-plantuml.txt": true,
+        "root.run.xml": true,
+        "root.synctex.gz": true,
+        "__latexindent_temp.tex": true
+    },
+    "files.insertFinalNewline": true
+}
