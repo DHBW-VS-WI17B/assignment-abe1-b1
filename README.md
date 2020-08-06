@@ -7,7 +7,7 @@ This assignment replaces the exams for the lecture `Management, 5th/6th semester
 - Implement the [actor model](https://en.wikipedia.org/wiki/Actor_model) according to [given requirements](docs/assignment.pdf).
     - Any programming language or framework is allowed.
     - CLI application as a client is enough.
-    - The application must not be decoupled (client and server can run in the same process).
+    - With own implementation of the actuators: The application must not be decoupled (client and server can run in the same process).
 - Write a documentation
     - Contents
         - Use-Cases
