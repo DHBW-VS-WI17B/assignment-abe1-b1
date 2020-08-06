@@ -1,0 +1,39 @@
+\newgeometry{%
+    left    = 25mm,
+    right   = 25mm,
+    top     = 30mm,
+    bottom  = 30mm
+}
+
+\begin{center}
+    \setstretch{2}
+    {\Huge \textbf{\dhbwGetTitle}}\\
+    \ifdef{\dhbwGetSubtitle}{%
+        \vspace{5mm}
+        \setstretch{1.44}
+        {\Large \textbf{\dhbwGetSubtitle}}
+    }{}
+    \vfill
+    \dhbwGetTextType\\
+    \ifdef{\dhbwGetAcademicYear}{%
+        \ Studienjahrgang\ \dhbwGetAcademicYear\\
+    }{}
+    \ifdef{\dhbwGetCourse}{%
+        \ Kurs\ \dhbwGetCourse\\
+    }{}
+    \vspace{1cm}
+    Fakultät\ \dhbwGetFaculty\\
+    Studiengang\ \dhbwGetFieldOfStudy\\
+    \vspace{1cm}
+    DUALE\ HOCHSCHULE\ BADEN-WÜRTTEMBERG\\
+    VILLINGEN-SCHWENNINGEN\\
+    \vspace{1cm}
+    \ifundef{\dhbwGetCompanyLogo}{%
+        \vspace{1cm}
+        \includegraphics[width=0.45\linewidth]{udhbwvst-dhbw-vs-logo.png}\\
+    }{}
+    \vspace{1.5cm}
+    \authorA\hfill\authorB\hfill\authorC\hfill\authorD\hfill\authorE
+\end{center}
+
+\restoregeometry

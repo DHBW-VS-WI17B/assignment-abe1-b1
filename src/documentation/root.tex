@@ -1,0 +1,40 @@
+\documentclass[auto-generate=false]{udhbwvst}
+
+\newcommand{\authorA}{Carola Bohnet}
+\newcommand{\authorB}{Robin Genz}
+\newcommand{\authorC}{Leonie Klein}
+\newcommand{\authorD}{Luca Scheurer}
+\newcommand{\authorE}{Elias Schrempp}
+
+\dhbwSetup{%
+    faculty			= {Wirtschaft},
+    field of study	= {Wirtschaftsinformatik},
+    academic year	= {2017},
+    course			= {B},
+    title			= {Entwurf und Implementierung eines Aktorensystems},
+    text type		= {Seminararbeit}
+}
+
+\input{acronyms.tex}
+
+\begin{document}
+
+\dhbwSetFrontMatter
+
+\pdfbookmark[1]{Titelblatt}{title-page}
+\input{title.tex}
+
+\dhbwPrintTableOfContents
+
+\dhbwSetListMatter
+
+\dhbwPrintListOfAcronyms
+\dhbwPrintListOfFigures
+
+\dhbwSetMainMatter
+
+\input{text/index.tex}
+
+\dhbwPrintBibliography
+
+\end{document}
