@@ -7,6 +7,7 @@ on:
       - '!src/documentation/.devcontainer/**'
       - '!src/documentation/.vscode/**'
       - '!src/documentation/.gitignore'
+  pull_request:
 
 jobs:
   build-documentation:
