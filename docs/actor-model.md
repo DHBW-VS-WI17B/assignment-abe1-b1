@@ -24,5 +24,5 @@ Aktoren können mit den folgenden drei Tätigkeiten auf Nachrichten reagieren:
 3. Verhalten oder Zustand ändern
 
 -----------
-Quelle 1: `Aktoren.pdf` von Prof. Dr. Wolfgang Funk.  
+Quelle 1: `Aktoren.pdf` von Prof. Dr. Wolfgang Funk  
 Quelle 2: https://www.youtube.com/watch?v=7erJ1DV_Tlo
