@@ -1,0 +1,52 @@
+@startuml
+
+scale 0.7
+
+hide circle
+skinparam linetype ortho
+
+entity "Event" as event {
+    id: number
+    name: string
+    date: number
+    location: Address
+    price: number
+    max_tickets: number
+    max_tickets_per_customer: number
+    sale_start_date: number
+    sale_period: number
+}   
+entity "Ticket" as ticket {
+    id: number
+    order_date: number
+}
+entity "Customer" as customer {
+    id: number
+    name: string
+    address: Address
+    budget: number
+}
+entity "Sale" as sale {
+    id: number
+    start_date: number
+    period: number
+}
+entity "Address" as address {
+    name: string
+    street: string
+    zip: string
+    city: string
+    street_number: string
+}
+entity "Admin" as admin {
+    id: number
+    name: string
+}
+
+event ||--o{ ticket
+event }o--|| address
+event ||--|| sale
+customer ||--o{ ticket
+admin ||--o{ event
+
+@enduml
