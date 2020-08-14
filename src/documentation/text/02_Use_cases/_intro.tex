@@ -11,15 +11,15 @@ Im Rahmen dieses Kapitels werden die funktionalen Anforderungen an das System in
             :Verwalter: as Admin
 
             rectangle Ticketverkauf {
-                Customer --- (Tickets kaufen)
+                Customer --- (Tickets für Veranstaltung bestellen)
                 Customer --- (Budget abrufen)
-                Customer --- (Bestellte Tickets abrufen)
-                (Bestellte Tickets filtern) .> (Bestellte Tickets abrufen) : extends
+                Customer --- (Daten zu bestellten Tickets abrufen)
+                (Daten zu bestellten Tickets filtern) .> (Daten zu bestellten Tickets abrufen) : extends
                 Customer ---- (Veranstaltungsliste abrufen)
                 Customer ---- (Veranstaltungsdaten abrufen)
 
-                (Verkaufte Tickets abrufen) --- Admin
-                (Event erstellen) --- Admin
+                (Anzahl verkaufter Tickets abrufen) --- Admin
+                (Veranstaltung anlegen) --- Admin
                 (Veranstaltungsliste abrufen) ---- Admin
                 (Veranstaltungsdaten abrufen) ---- Admin
             }
@@ -92,7 +92,7 @@ Die ermittelten Anwendungsfälle werden in den Tabellen \ref{tab:use_case_list_e
     \end{tabularx}    
 \end{dhbwtable}
 
-\begin{dhbwtable}{caption={Anwendungsfall: Jahresbudget abrufen},label=tab:use_case_get_budget,float=H}
+\begin{dhbwtable}{caption={Anwendungsfall: Budget abrufen},label=tab:use_case_get_budget,float=H}
     \begin{tabularx}{\textwidth}{lX}
         \toprule
         \textbf{Merkmal} & \textbf{Beschreibung}  \\ \midrule
