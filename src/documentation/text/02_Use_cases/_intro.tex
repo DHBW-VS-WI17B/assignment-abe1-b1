@@ -40,11 +40,12 @@ Die ermittelten Anwendungsfälle werden in den Tabellen \ref{tab:use_case_list_e
         Akteure         & Kunde, Verwalter \\
         Vorbedingungen  & Keine \\
         Ablauf          & \begin{minipage}[t]{\linewidth}
+        \vspace*{-3mm}
         \begin{enumerate}[leftmargin=*,nosep,after=\strut]
             \item Der Akteur stellt über den Client eine Anfrage an die Verwaltungskomponente.
             \item Der Client gibt eine Liste mit den Daten der Veranstaltungen aus.
         \end{enumerate} 
-        \end{minipage}\\\bottomrule
+        \end{minipage} \\\bottomrule
     \end{tabularx}    
 \end{dhbwtable}
 
@@ -55,10 +56,13 @@ Die ermittelten Anwendungsfälle werden in den Tabellen \ref{tab:use_case_list_e
         Beschreibung    & Der Akteur ruft die Daten zu einer bestimmten Veranstaltung ab. \\
         Akteure         & Kunde, Verwalter \\
         Vorbedingungen  & Keine \\
-        Ablauf          & \begin{enumerate}
+        Ablauf          & \begin{minipage}[t]{\linewidth}
+        \vspace*{-3mm}
+        \begin{enumerate}[leftmargin=*,nosep,after=\strut]
             \item Der Akteur stellt über den Client eine Anfrage an die Verwaltungskomponente.
             \item Der Client gibt entweder die Daten zu der ausgewählten Veranstaltung aus oder die Information, dass die ausgewählte Veranstaltung nicht existiert.
-        \end{enumerate} \\\bottomrule
+        \end{enumerate}
+        \end{minipage} \\\bottomrule
     \end{tabularx}    
 \end{dhbwtable}
 
@@ -68,17 +72,23 @@ Die ermittelten Anwendungsfälle werden in den Tabellen \ref{tab:use_case_list_e
         \textbf{Merkmal} & \textbf{Beschreibung}  \\ \midrule
         Beschreibung    &  Die Akteur kauft eine bestimmte Anzahl an Tickets für eine Veranstaltung. \\
         Akteure         &  Kunde \\
-        Vorbedingungen  &  \begin{itemize}[leftmargin=*,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+        Vorbedingungen  &  \begin{minipage}[t]{\linewidth}
+        \vspace*{-3mm}
+        \begin{itemize}[leftmargin=*,nosep,after=\strut]
             \item Die ausgewählte Veranstaltung existiert.
             \item Es sind noch Tickets verfügbar.
             \item Der Verkaufzeitraum hat bereits begonnen und ist noch nicht beendet.
             \item Das Budget des Kunden genügt für den Erwerb.
-        \end{itemize} \\
-        Ablauf          & \begin{enumerate}[leftmargin=*,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt]
+        \end{itemize}
+        \end{minipage} \\
+        Ablauf          & \begin{minipage}[t]{\linewidth}
+        \vspace*{-3mm}
+        \begin{enumerate}[leftmargin=*,nosep,after=\strut]
             \item Der Akteur stellt über den Client eine Anfrage an die Verwaltungskomponente.
             \item Die Verwaltungskomponente überprüft die Bedingungen und führt, falls möglich, die Transaktion durch.
             \item Der Client bestätigt dem Akteur mittels Bildschirmausgabe den Kauf oder teilt ihm im Fehlerfall den Grund für den fehlgeschlagenen Kauf mit.
-        \end{enumerate} \\\bottomrule
+        \end{enumerate}
+        \end{minipage} \\\bottomrule
     \end{tabularx}    
 \end{dhbwtable}
 
@@ -89,10 +99,13 @@ Die ermittelten Anwendungsfälle werden in den Tabellen \ref{tab:use_case_list_e
         Beschreibung    &  Der Akteur ruft den aktuellen Stand seines Budgets ab. \\
         Akteure         &  Kunde \\
         Vorbedingungen  &  Keine \\
-        Ablauf          & \begin{enumerate}
+        Ablauf          & \begin{minipage}[t]{\linewidth}
+        \vspace*{-3mm}
+        \begin{enumerate}[leftmargin=*,nosep,after=\strut]
             \item Der Akteur stellt über den Client eine Anfrage an die Verwaltungskomponente.
             \item Der Client gibt den aktuellen Stand des Budgets aus.
-        \end{enumerate} \\\bottomrule
+        \end{enumerate}
+        \end{minipage} \\\bottomrule
     \end{tabularx}    
 \end{dhbwtable}
 
@@ -103,10 +116,13 @@ Die ermittelten Anwendungsfälle werden in den Tabellen \ref{tab:use_case_list_e
         Beschreibung    & Der Akteur ruft die Daten zu seinen bestellten Tickets ab. Die Daten können hierbei nach Bestelldatum oder Zeitpunkt der Veranstaltung gefiltert werden. \\
         Akteure         & Kunde \\
         Vorbedingungen  & Keine \\
-        Ablauf          & \begin{enumerate}
+        Ablauf          & \begin{minipage}[t]{\linewidth}
+        \vspace*{-3mm}
+        \begin{enumerate}[leftmargin=*,nosep,after=\strut]
             \item Der Akteur stellt über den Client eine Anfrage an die Verwaltungskomponente.
             \item Der Client gibt eine Liste mit den Daten der bestellten Tickets aus.
-        \end{enumerate} \\\bottomrule
+        \end{enumerate}
+        \end{minipage} \\\bottomrule
     \end{tabularx}    
 \end{dhbwtable}
 
@@ -117,10 +133,13 @@ Die ermittelten Anwendungsfälle werden in den Tabellen \ref{tab:use_case_list_e
         Beschreibung    & Der Akteur ruft die Anzahl der verkauften Tickets pro Veranstaltung ab. \\
         Akteure         & Verwalter \\
         Vorbedingungen  & Keine \\
-        Ablauf          & \begin{enumerate}
+        Ablauf          & \begin{minipage}[t]{\linewidth}
+        \vspace*{-3mm}
+        \begin{enumerate}[leftmargin=*,nosep,after=\strut]
             \item Der Akteur stellt über den Client eine Anfrage an die Verwaltungskomponente.
             \item Der Client gibt eine Liste mit der Anzahl der verkauften Tickets pro Veranstaltung aus.
-        \end{enumerate} \\\bottomrule
+        \end{enumerate}
+        \end{minipage} \\\bottomrule
     \end{tabularx}    
 \end{dhbwtable}
 
@@ -131,10 +150,13 @@ Die ermittelten Anwendungsfälle werden in den Tabellen \ref{tab:use_case_list_e
         Beschreibung    & Der Akteur legt eine Veranstaltung an. \\
         Akteure         & Verwalter \\
         Vorbedingungen  & Keine \\
-        Ablauf          & \begin{enumerate}
+        Ablauf          & \begin{minipage}[t]{\linewidth}
+        \vspace*{-3mm}
+        \begin{enumerate}[leftmargin=*,nosep,after=\strut]
             \item Der Akteur stellt über den Client eine Anfrage an die Verwaltungskomponente.
             \item Der Client prüft, ob alle erforderlichen Informationen übergeben wurden.
             \item Der Client gibt entweder die ID der angelegten Veranstaltung oder einen Hinweis auf fehlende Eingaben aus.
-        \end{enumerate} \\\bottomrule
+        \end{enumerate}
+        \end{minipage} \\\bottomrule
     \end{tabularx}    
 \end{dhbwtable}
