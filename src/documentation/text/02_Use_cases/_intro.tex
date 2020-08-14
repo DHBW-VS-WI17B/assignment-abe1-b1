@@ -1,0 +1,29 @@
+Die in der Aufgabenstellung ermittelten Use-Cases gehen aus Abbildung X hervor.
+
+\begin{dhbwfigure}{caption=Informative Sequence Diagram,label=fig:seq}
+    \begin{plantuml}
+        @startuml
+            left to right direction
+
+            actor Kunde
+            actor Verwalter
+            rectangle Ticketverkauf {
+                Kunde - -> (Tickets kaufen)
+                Kunde - -> (Jahresbudget einsehen)
+                Kunde - -> (Eventliste einsehen)
+                Kunde - -> (Eventdaten einsehen)
+                Kunde - -> (Bestellte Tickets einsehen)
+                (Bestellte Ticktes filtern) ..> (Bestellte Tickets einsehen)
+
+                Verwalter - -> (Verkaufte Tickets einsehen)
+                Verwalter - -> (Event erstellen)
+                Verwalter - -> (Eventliste einsehen)
+                Verwalter - -> (Eventdaten einsehen)
+            }
+        @enduml
+    \end{plantuml}
+\end{dhbwfigure}
+
+Eine detaillierte Beschreibung der Use-Cases, geht aus den Tabellen X-Y hervor.
+
+*TABELLEN X_Y hier einfügen*
