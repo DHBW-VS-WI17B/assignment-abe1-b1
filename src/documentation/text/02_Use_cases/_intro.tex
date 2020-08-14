@@ -1,29 +1,63 @@
-Die in der Aufgabenstellung ermittelten Use-Cases gehen aus Abbildung X hervor.
+Im Rahmen dieses Kapitels werden die funktionalen Anforderungen an das System in Form von Anwendungsfällen beschrieben. 
 
-\begin{dhbwfigure}{caption=Informative Sequence Diagram,label=fig:seq}
+\begin{dhbwfigure}{caption=Anwendungsfall-Diagramm,label=fig:use_case_diagram,float=H}
     \begin{plantuml}
         @startuml
+
             left to right direction
+            skinparam packageStyle rectangle
 
-            actor Kunde
-            actor Verwalter
+            :Kunde: as Customer
+            :Verwalter: as Admin
+
             rectangle Ticketverkauf {
-                Kunde - -> (Tickets kaufen)
-                Kunde - -> (Jahresbudget einsehen)
-                Kunde - -> (Eventliste einsehen)
-                Kunde - -> (Eventdaten einsehen)
-                Kunde - -> (Bestellte Tickets einsehen)
-                (Bestellte Ticktes filtern) ..> (Bestellte Tickets einsehen)
+                Customer --- (Tickets kaufen)
+                Customer --- (Budget abrufen)
+                Customer ---- (Veranstaltungsliste abrufen)
+                Customer ---- (Veranstaltungsdaten abrufen)
+                Customer --- (Bestellte Tickets abrufen)
+                (Bestellte Tickets filtern) .> (Bestellte Tickets abrufen) : extends
 
-                Verwalter - -> (Verkaufte Tickets einsehen)
-                Verwalter - -> (Event erstellen)
-                Verwalter - -> (Eventliste einsehen)
-                Verwalter - -> (Eventdaten einsehen)
+                (Verkaufte Tickets abrufen) --- Admin
+                (Event erstellen) --- Admin
+                (Veranstaltungsliste abrufen) ---- Admin
+                (Veranstaltungsdaten abrufen) ---- Admin
             }
         @enduml
     \end{plantuml}
 \end{dhbwfigure}
 
-Eine detaillierte Beschreibung der Use-Cases, geht aus den Tabellen X-Y hervor.
+\autoref{fig:use_case_diagram} beinhaltet ein Anwendungsfalldiagramm.
+Es dient der Beschreibung von elementaren Funktionen und \dfootcite[59]{objektorientierte_systemanalyse}{... stellt das Zusammenspiel der Anwendungsfälle eines Systems untereinander und mit den Akteuren dar}.
 
-*TABELLEN X_Y hier einfügen*
+Die ermittelten Anwendungsfälle werden in den Tabellen \ref{tab:use_case_list_events} bis TODO genauer erläutert.
+
+\begin{dhbwtable}{caption={Anwendungsfall 1: Veranstaltungsliste abrufen},label={tab:use_case_list_events},float=H}
+    \begin{tabularx}{\textwidth}{lX}
+        \toprule
+        \textbf{Merkmal} & \textbf{Beschreibung}  \\ \midrule
+        Beschreibung    & Es kann eine Liste mit den Namen und IDs der angebotenen Veranstaltungen abgerufen werden. \\
+        Akteure         & Kunde, Verwalter \\
+        Vorbedingungen  & Keine \\
+        Ablauf          & \begin{enumerate}
+            \item Der Akteur stellt über den Client eine Anfrage an die Verwaltungskomponente.
+            \item Der Client gibt eine List mit Veranstaltungen aus.
+        \end{enumerate} \\\bottomrule
+    \end{tabularx}    
+\end{dhbwtable}
+
+\begin{dhbwtable}{caption=Anwendungsfall 2: Veranstaltungsdaten abrufen,label=tab:use_case_get_event_data,float=H}
+    \begin{tabularx}{\textwidth}{lX}
+        \toprule
+        \textbf{Merkmal} & \textbf{Beschreibung}  \\ \midrule
+        Beschreibung    & Zu einer bestimmten angebotenen Veranstaltung kann der Namen und die ID abgerufen werden. \\
+        Akteure         & Kunde, Verwalter \\
+        Vorbedingungen  & Keine \\
+        Ablauf          & \begin{enumerate}
+            \item Der Akteur stellt über den Client eine Anfrage an die Verwaltungskomponente.
+            \item Der Client gibt entweder die Daten zu der Veranstaltung oder den Hinweis, das die Veranstaltung nicht gefunden werden konnte, aus.
+        \end{enumerate} \\\bottomrule
+    \end{tabularx}    
+\end{dhbwtable}
+
+% Work in progress ...
