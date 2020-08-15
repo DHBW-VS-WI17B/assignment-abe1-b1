@@ -7,6 +7,59 @@ Da die Anforderungen ausschließlich der Aufgabenstellung entstammen, findet kei
 Funktionale Anforderungen beschreiben die gewünschten spezifischen Funktionalitäten.\ifootcite[37]{grande2011}
 Tabelle X beinhaltet die funktionalen Anforderungen an das Gesamtsystem.
 
+\newcounter{tablenumber}
+\newcommand\inctablenumber{\stepcounter{tablenumber}}
+\newcommand\tablenumber{\arabic{tablenumber}}
+\newcounter{rownumber}
+\newcommand\incrownumber{\stepcounter{rownumber}}
+\newcommand\rownumber{\arabic{rownumber}}
+\setcounter{tablenumber}{1}
+\setcounter{rownumber}{1}
+\begin{dhbwtable}{caption={Allgemeine Anforderungen},label=tab:requirements,float=H}
+    \begin{tabularx}{\textwidth}{l | X}
+        \toprule
+        \textbf{ID} & \textbf{Beschreibung}  \\\midrule
+        \tablenumber .\rownumber & Kunde und Verwalter sollen über Clients auf die Verwaltungskomponente zugreifen können. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Die Anzahl der verfügbaren Tickets einer Veranstaltung soll begrenzt sein. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Die Anzahl der verkauften Tickets einer Veranstaltung pro Kunde soll begrenzt sein. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Der Kunde soll ein maximales Budget besitzen. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Der Verkauf von Tickets soll zu einem bestimmten Zeitpunkt starten und nur innerhalb eines bestimmten Zeitraums möglich sein. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Der Ticketverkauf soll zentral verwaltet werden. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Mehrere Kunden sollen gleichzeitig auf den Ticketverkauf zugreifen können. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Es sollen folgende Daten zu einem Kunden verwaltet werden: Name, Adresse, erworbene Tickets mit Kaufdatum. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Es sollen folgende Daten zu einer Veranstaltung verwaltet werden: ID, Name, Datum, Ort, Preis eines Tickets. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Das Budget des Kunden soll veranstaltungsübergreifend gelten. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Das Budget eines Kunden darf nur dem Kunden selbst bekannt sein.  \\\bottomrule
+    \end{tabularx}    
+\end{dhbwtable}
+
+\setcounter{tablenumber}{2}
+\setcounter{rownumber}{1}
+\begin{dhbwtable}{caption={Anforderungen an den Client des Kunden},label=tab:requirements,float=H}
+    \begin{tabularx}{\textwidth}{l | X}
+        \toprule
+        \textbf{ID} & \textbf{Beschreibung}  \\\midrule
+        \tablenumber .\rownumber & Der Kunde soll eine Liste mit Namen und IDs der angebotenen Veranstaltungen abrufen können. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Der Kunde soll die Daten einer bestimmten Veranstaltung abrufen können. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Der Kunde soll in einem Aufruf mehrere Tickets für eine Veranstaltung erwerben können. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Der Kunde soll die Daten zu den von ihm bestellten Tickets abrufen können. Dabei soll nach Bestelldatum oder Zeitpunkt der Veranstaltung gefiltert werden können. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Der Kunde soll den aktuellen Stand seines Budgets prüfen können. \\\bottomrule
+    \end{tabularx}    
+\end{dhbwtable}
+
+\setcounter{tablenumber}{3}
+\setcounter{rownumber}{1}
+\begin{dhbwtable}{caption={Anforderungen an den Client des Verwalters},label=tab:requirements,float=H}
+    \begin{tabularx}{\textwidth}{l | X}
+        \toprule
+        \textbf{ID} & \textbf{Beschreibung}  \\\midrule
+        \tablenumber .\rownumber & Der Verwalter soll eine Veranstaltung anlegen können. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Der Verwalter soll eine Liste mit Namen und IDs der angebotenen Veranstaltungen abrufen können. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Der Verwalter soll die Daten einer bestimmten Veranstaltung abrufen können. \\\midrule\incrownumber
+        \tablenumber .\rownumber & Der Verwalter soll die Anzahl der verkauften Tickets pro Veranstaltung abrufen können. \\\bottomrule
+    \end{tabularx}    
+\end{dhbwtable}
+
 \subsubsection{Nicht-funktionale Anforderungen}\label{sec:non_functional_requirements}
 
 Nicht-funktionale Anforderungen sind meist unspezifisch und bestimmen Qualitätsmerkmale und Randbedingungen.\ifootcite[39]{grande2011}
