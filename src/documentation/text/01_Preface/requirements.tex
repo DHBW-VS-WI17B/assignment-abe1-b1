@@ -1,11 +1,7 @@
 In diesem Kapitel werden die zu erfüllenden Eigenschaften und Leistungen an das System gesammelt. Dadurch werden strukturierte und konkrete Anforderungen an das Gesamtsystem bereitgestellt.
-Nachfolgend wird zwischen funktionalen und nicht-funktionalen Anforderungen unterschieden.
 Da die Anforderungen ausschließlich der Aufgabenstellung entstammen, findet keine Gewichtung der einzelnen Anforderungen hinsichtlich der Umsetzungsrelevanz statt.
 
-\subsubsection{Funktionale Anforderungen}\label{sec:functional_requirements}
-
-Funktionale Anforderungen beschreiben die gewünschten spezifischen Funktionalitäten.\ifootcite[37]{grande2011}
-Tabelle X beinhaltet die funktionalen Anforderungen an das Gesamtsystem.
+\autoref{tab:general_requirements} beinhaltet die allgemeinen Anforderungen an das Gesamtsystem.
 
 \newcounter{tablenumber}
 \newcommand\inctablenumber{\stepcounter{tablenumber}}
@@ -15,7 +11,7 @@ Tabelle X beinhaltet die funktionalen Anforderungen an das Gesamtsystem.
 \newcommand\rownumber{\arabic{rownumber}}
 \setcounter{tablenumber}{1}
 \setcounter{rownumber}{1}
-\begin{dhbwtable}{caption={Allgemeine Anforderungen},label=tab:requirements,float=H}
+\begin{dhbwtable}{caption={Allgemeine Anforderungen},label=tab:general_requirements,float=H}
     \begin{tabularx}{\textwidth}{l | X}
         \toprule
         \textbf{ID} & \textbf{Beschreibung}  \\\midrule
@@ -33,9 +29,11 @@ Tabelle X beinhaltet die funktionalen Anforderungen an das Gesamtsystem.
     \end{tabularx}    
 \end{dhbwtable}
 
+\autoref{tab:customer_client_requirements} beinhaltet die Anforderungen an den Client des Kunden.
+
 \setcounter{tablenumber}{2}
 \setcounter{rownumber}{1}
-\begin{dhbwtable}{caption={Anforderungen an den Client des Kunden},label=tab:requirements,float=H}
+\begin{dhbwtable}{caption={Anforderungen an den Client des Kunden},label=tab:customer_client_requirements,float=H}
     \begin{tabularx}{\textwidth}{l | X}
         \toprule
         \textbf{ID} & \textbf{Beschreibung}  \\\midrule
@@ -47,9 +45,11 @@ Tabelle X beinhaltet die funktionalen Anforderungen an das Gesamtsystem.
     \end{tabularx}    
 \end{dhbwtable}
 
+\autoref{tab:admin_client_requirements} beinhaltet die Anforderungen an den Client des Verwalters.
+
 \setcounter{tablenumber}{3}
 \setcounter{rownumber}{1}
-\begin{dhbwtable}{caption={Anforderungen an den Client des Verwalters},label=tab:requirements,float=H}
+\begin{dhbwtable}{caption={Anforderungen an den Client des Verwalters},label=tab:admin_client_requirements,float=H}
     \begin{tabularx}{\textwidth}{l | X}
         \toprule
         \textbf{ID} & \textbf{Beschreibung}  \\\midrule
@@ -59,8 +59,3 @@ Tabelle X beinhaltet die funktionalen Anforderungen an das Gesamtsystem.
         \tablenumber .\rownumber & Der Verwalter soll die Anzahl der verkauften Tickets pro Veranstaltung abrufen können. \\\bottomrule
     \end{tabularx}    
 \end{dhbwtable}
-
-\subsubsection{Nicht-funktionale Anforderungen}\label{sec:non_functional_requirements}
-
-Nicht-funktionale Anforderungen sind meist unspezifisch und bestimmen Qualitätsmerkmale und Randbedingungen.\ifootcite[39]{grande2011}
-Tabelle Y beinhaltet die nicht-funktionalen Anforderungen an das Gesamtsystem.
