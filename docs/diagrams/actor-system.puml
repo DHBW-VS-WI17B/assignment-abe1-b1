@@ -1,0 +1,18 @@
+@startuml
+
+scale 0.7
+left to right direction
+
+agent "Customers\n State" as CustomersState
+agent "Events\n State" as EventsState
+agent "Tickets\n State" as TicketsState
+
+usecase "Customers\n Actor" as CustomersActor
+usecase "Events\n Actor" as EventsActor
+usecase "Tickets\n Actor" as TicketsActor
+
+CustomersState -- CustomersActor
+EventsState -- EventsActor
+TicketsState -- TicketsActor
+
+@enduml
