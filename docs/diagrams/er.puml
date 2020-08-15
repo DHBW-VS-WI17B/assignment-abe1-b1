@@ -38,15 +38,10 @@ entity "Address" as address {
     city: string
     street_number: string
 }
-entity "Admin" as admin {
-    id: number
-    name: string
-}
 
 event ||--o{ ticket
 event }o--|| address
 event ||--|| sale
 customer ||--o{ ticket
-admin ||--o{ event
 
 @enduml
