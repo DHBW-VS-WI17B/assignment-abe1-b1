@@ -42,3 +42,28 @@ def get(event_id):
     }
     events = asys.ask(actor, message, 2)
     return jsonify(events)
+
+
+@bp.route("/<event_id>/purchase?count", methods=["POST"])
+def purchase(event_id):
+    asys = ActorSystem()
+    actor = asys.createActor(EventsActor, None, ActorName.EVENT_ACTOR)
+    message = {
+        "action": EventsActorAction.EVENTS_PURCHASE,
+        "payload": event_id, count
+    }
+    asys.tell(actor, message)
+    return '', 204
+
+
+@bp.route("/<event_id>/tickets", methods=["GET"])
+def get(event_id):
+    asys = ActorSystem()
+    actor = asys.createActor(EventsActor, None, ActorName.EVENT_ACTOR)
+    message = {
+        "action": EventsActorAction.EVENTS_GET_TICKETS,
+        "payload": event_id
+    }
+    events = asys.ask(actor, message)
+    return jsonify(events)
+
