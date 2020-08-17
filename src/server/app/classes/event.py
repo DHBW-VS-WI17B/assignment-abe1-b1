@@ -21,10 +21,10 @@ class Event:
         date = json.get('date')
         location = json.get('location')
         price = json.get('price')
-        max_tickets = json.get('maxTickets')
-        max_tickets_per_customer = json.get('maxTicketsPerCustomer')
-        sale_start_date = json.get('saleStartDate')
-        sale_period = json.get('salePeriod')
+        max_tickets = json.get('max_tickets')
+        max_tickets_per_customer = json.get('max_tickets_per_customer')
+        sale_start_date = json.get('sale_start_date')
+        sale_period = json.get('sale_period')
         event = Event(name, date, location, price, max_tickets,
                       max_tickets_per_customer, sale_start_date, sale_period)
         return event
