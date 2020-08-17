@@ -19,8 +19,6 @@ class EventsActor(Actor):
                     break
             self.send(sender, ret_value)
         if msg.action == EventsActorAction.EVENTS_TICKETS:
-            # TODO
             print('TODO')
         if msg.action == EventsActorAction.EVENTS_PURCHASE:
-            # TODO
             print('TODO')
