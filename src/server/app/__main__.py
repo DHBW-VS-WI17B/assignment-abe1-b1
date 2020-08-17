@@ -21,7 +21,8 @@ from gevent import pywsgi
 from app.routes import events
 
 
-def signal_handler(signal, frame):
+def signal_handler(signalnum, frame):
+    # pylint: disable=unused-argument
     ActorSystem().shutdown()
     sys.exit(0)
 
@@ -40,9 +41,9 @@ def main(args):
 
 
 if __name__ == '__main__':
-    args = docopt(__doc__, version='1.0.0')
-    if args.get('start') == True:
-        main(args)
+    arguments = docopt(__doc__, version='1.0.0')
+    if arguments.get('start') is True:
+        main(arguments)
     else:
         print('Server CLI')
         print()

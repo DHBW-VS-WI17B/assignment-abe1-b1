@@ -5,22 +5,22 @@ from app.enums.events_actor_action import EventsActorAction
 class EventsActor(Actor):
     events = []
 
-    def receiveMessage(self, message, sender):
-        if message.action == EventsActorAction.EVENTS_LIST:
+    def receiveMessage(self, msg, sender):
+        if msg.action == EventsActorAction.EVENTS_LIST:
             self.send(sender, self.events)
-        if message.action == EventsActorAction.EVENTS_ADD:
-            event = message.payload.get('event')
+        if msg.action == EventsActorAction.EVENTS_ADD:
+            event = msg.payload.get('event')
             self.events.append(event)
-        if message.action == EventsActorAction.EVENTS_GET:
+        if msg.action == EventsActorAction.EVENTS_GET:
             ret_value = None
             for event in self.events:
-                if event.id == message.payload.get('event_id'):
+                if event.id == msg.payload.get('event_id'):
                     ret_value = event
                     break
             self.send(sender, ret_value)
-        if message.action == EventsActorAction.EVENTS_TICKETS:
+        if msg.action == EventsActorAction.EVENTS_TICKETS:
             # TODO
             print('TODO')
-        if message.action == EventsActorAction.EVENTS_PURCHASE:
+        if msg.action == EventsActorAction.EVENTS_PURCHASE:
             # TODO
             print('TODO')

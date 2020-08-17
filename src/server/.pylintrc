@@ -6,8 +6,8 @@ disable=
     C0116, # missing-function-docstring
 
 [DESIGN]
-max-args=9
-max-attributes=9
+max-args=10
+max-attributes=10
 
 [BASIC]
 good-names=id,ex
