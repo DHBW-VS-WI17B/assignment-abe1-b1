@@ -38,9 +38,9 @@ jobs:
       - name: Install python dependencies
         working-directory: src/server
         run: |
-          python3 -m pip install --upgrade pip
-          pip3 install pylint pyinstaller
-          pip3 install -r requirements.txt
+          python -m pip install --upgrade pip
+          pip install pylint pyinstaller
+          pip install -r requirements.txt
       - name: Lint with pylint
         working-directory: src/server
         run: pylint app --exit-zero
