@@ -13,8 +13,6 @@ entity "Event" as event {
     price: number
     max_tickets: number
     max_tickets_per_customer: number
-    sale_start_date: number
-    sale_period: number
 }   
 entity "Ticket" as ticket {
     id: number
@@ -23,7 +21,6 @@ entity "Ticket" as ticket {
 entity "Customer" as customer {
     id: number
     name: string
-    address: Address
     budget: number
 }
 entity "Sale" as sale {
@@ -38,15 +35,11 @@ entity "Address" as address {
     city: string
     street_number: string
 }
-entity "Admin" as admin {
-    id: number
-    name: string
-}
 
 event ||--o{ ticket
 event }o--|| address
 event ||--|| sale
 customer ||--o{ ticket
-admin ||--o{ event
+customer }o--|| address
 
 @enduml
