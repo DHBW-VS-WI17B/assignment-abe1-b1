@@ -5,18 +5,18 @@ on:
     paths:
       - '.github/workflows/**'
       - 'src/server/**'
-      - '!src/app/.devcontainer/**'
-      - '!src/app/.vscode/**'
-      - '!src/app/.gitignore'
+      - '!src/server/.devcontainer/**'
+      - '!src/server/.vscode/**'
+      - '!src/server/.gitignore'
     branches:
       - master
   pull_request:
     paths:
       - '.github/workflows/**'
       - 'src/server/**'
-      - '!src/app/.devcontainer/**'
-      - '!src/app/.vscode/**'
-      - '!src/app/.gitignore'
+      - '!src/server/.devcontainer/**'
+      - '!src/server/.vscode/**'
+      - '!src/server/.gitignore'
   workflow_dispatch:
 
 jobs:

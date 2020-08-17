@@ -13,6 +13,13 @@ on:
       - '!src/documentation/.vscode/**'
       - '!src/documentation/.gitignore'
   pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'src/documentation/**'
+      - '!src/documentation/.devcontainer/**'
+      - '!src/documentation/.vscode/**'
+      - '!src/documentation/.gitignore'
+  workflow_dispatch:
 
 jobs:
   build-documentation:
