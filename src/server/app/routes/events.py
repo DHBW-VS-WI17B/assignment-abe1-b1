@@ -15,7 +15,7 @@ bp = Blueprint('events', __name__, url_prefix='/api/events')
 def index():
     try:
         asys = ActorSystem()
-        actor = asys.createActor(EventsActor, None, ActorName.EVENT_ACTOR)
+        actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
         message = ActorMessage(EventsActorAction.EVENTS_LIST, None)
         events_dict = []
         events = asys.ask(actor, message)
@@ -30,7 +30,7 @@ def index():
 def add():
     try:
         asys = ActorSystem()
-        actor = asys.createActor(EventsActor, None, ActorName.EVENT_ACTOR)
+        actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
         event = Event.from_json(request.get_json())
         payload = {
             'event': event
@@ -46,7 +46,7 @@ def add():
 def get(event_id):
     try:
         asys = ActorSystem()
-        actor = asys.createActor(EventsActor, None, ActorName.EVENT_ACTOR)
+        actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
         payload = {
             'event_id': int(event_id)
         }
@@ -61,7 +61,7 @@ def get(event_id):
 def get_tickets(event_id):
     try:
         asys = ActorSystem()
-        actor = asys.createActor(EventsActor, None, ActorName.EVENT_ACTOR)
+        actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
         payload = {
             'event_id': int(event_id),
             'order_date': request.args.get('order_date', default=None, type=int),
@@ -82,7 +82,7 @@ def get_tickets(event_id):
 def purchase(event_id):
     try:
         asys = ActorSystem()
-        actor = asys.createActor(EventsActor, None, ActorName.EVENT_ACTOR)
+        actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
         payload = {
             'event_id': int(event_id),
             'quantity': request.get_json().get('quantity')

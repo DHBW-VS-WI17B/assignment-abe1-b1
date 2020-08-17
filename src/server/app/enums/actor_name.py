@@ -3,4 +3,4 @@ from enum import Enum, unique
 
 @unique
 class ActorName(Enum):
-    EVENT_ACTOR = 1
+    EVENTS_ACTOR = 1
