@@ -1,0 +1,57 @@
+name: ci-server
+
+on:
+  push:
+    paths:
+      - '.github/workflows/**'
+      - 'src/server/**'
+      - '!src/app/.devcontainer/**'
+      - '!src/app/.vscode/**'
+      - '!src/app/.gitignore'
+    branches:
+      - master
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'src/server/**'
+      - '!src/app/.devcontainer/**'
+      - '!src/app/.vscode/**'
+      - '!src/app/.gitignore'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, windows-2019, macos-10.15]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - name: Install python dependencies
+        working-directory: src/server
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint pyinstaller
+          pip install -r requirements.txt
+      - name: Lint with pylint
+        working-directory: src/server
+        run: pylint app --exit-zero
+      - name: Create executables
+        working-directory: src/server
+        run: pyinstaller app/__main__.py --onefile -n server --hidden-import thespian.system.multiprocTCPBase 
+      - name: Run executable with --help command
+        working-directory: src/server/dist
+        run: ./server --help 
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: server-${{ matrix.os }}
+          path: src/server/dist/*
