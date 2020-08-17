@@ -1,10 +1,13 @@
 import itertools
+from dataclasses import dataclass
 
 
+@dataclass
 class Event:
     id_iter = itertools.count()
 
-    def __init__(self, name, date, location, price, max_tickets, max_tickets_per_customer, sale_start_date, sale_period):
+    def __init__(self, name, date, location, price, max_tickets,
+                 max_tickets_per_customer, sale_start_date, sale_period):
         self.id = next(self.id_iter)
         self.name = name
         self.date = date

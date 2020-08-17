@@ -13,6 +13,7 @@ bp = Blueprint('events', __name__, url_prefix='/api/events')
 
 @bp.route('/', methods=['GET'])
 def index():
+    """Get event list."""
     try:
         asys = ActorSystem()
         actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
@@ -22,12 +23,13 @@ def index():
         for event in events:
             events_dict.append(event.__dict__)
         return jsonify(events)
-    except Exception as e:
-        return jsonify({'error': str(e)})
+    except Exception as ex:
+        return jsonify({'error': str(ex)})
 
 
 @bp.route('/', methods=['POST'])
 def add():
+    """Add new event."""
     try:
         asys = ActorSystem()
         actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
@@ -38,12 +40,13 @@ def add():
         message = ActorMessage(EventsActorAction.EVENTS_ADD, payload)
         asys.tell(actor, message)
         return '', 204
-    except Exception as e:
-        return jsonify({'error': str(e)})
+    except Exception as ex:
+        return jsonify({'error': str(ex)})
 
 
 @bp.route('/<event_id>', methods=['GET'])
 def get(event_id):
+    """Get event by ID."""
     try:
         asys = ActorSystem()
         actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
@@ -53,12 +56,13 @@ def get(event_id):
         message = ActorMessage(EventsActorAction.EVENTS_GET, payload)
         event = asys.ask(actor, message)
         return jsonify(event.__dict__)
-    except Exception as e:
-        return jsonify({'error': str(e)})
+    except Exception as ex:
+        return jsonify({'error': str(ex)})
 
 
 @bp.route('/<event_id>/tickets', methods=['GET'])
 def get_tickets(event_id):
+    """Get tickets for event by event ID."""
     try:
         asys = ActorSystem()
         actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
@@ -74,12 +78,13 @@ def get_tickets(event_id):
         for event in events:
             events_dict.append(event.__dict__)
         return jsonify(events)
-    except Exception as e:
-        return jsonify({'error': str(e)})
+    except Exception as ex:
+        return jsonify({'error': str(ex)})
 
 
 @bp.route('/<event_id>/purchase', methods=['POST'])
 def purchase(event_id):
+    """Purchase tickets for the event."""
     try:
         asys = ActorSystem()
         actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
@@ -90,5 +95,5 @@ def purchase(event_id):
         message = ActorMessage(EventsActorAction.EVENTS_PURCHASE, payload)
         asys.tell(actor, message)
         return '', 204
-    except Exception as e:
-        return jsonify({'error': str(e)})
+    except Exception as ex:
+        return jsonify({'error': str(ex)})

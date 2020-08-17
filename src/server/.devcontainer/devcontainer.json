@@ -12,7 +12,8 @@
 		"python.pythonPath": "/usr/local/bin/python"
 	},
 	"extensions": [
-		"ms-python.python"
+		"ms-python.python",
+		"njpwerner.autodocstring"
 	],
 	"forwardPorts": [
 		8080

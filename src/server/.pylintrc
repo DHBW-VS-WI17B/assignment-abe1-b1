@@ -1,0 +1,13 @@
+[MASTER]
+disable=
+    W0703, # broad-except
+    C0114, # missing-module-docstring
+    C0115, # missing-class-docstring
+    C0116, # missing-function-docstring
+
+[DESIGN]
+max-args=9
+max-attributes=9
+
+[BASIC]
+good-names=id,ex
