@@ -21,81 +21,34 @@ on:
 
 jobs:
   build-ubuntu:
-    name: Build on ubuntu-18.04
-    runs-on: ubuntu-18.04
-    container:
-      image: mcr.microsoft.com/vscode/devcontainers/python:0-3
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, windows-2019, macos-10.15]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
       - name: Install python dependencies
         working-directory: src/server
         run: |
-          python3 --version
           python3 -m pip install --upgrade pip
           pip3 install pylint pyinstaller
           pip3 install -r requirements.txt
       - name: Lint with pylint
         working-directory: src/server
-        run: pylint app --exit-zero
+        run: pylint app
       - name: Create executables
         working-directory: src/server
         run: pyinstaller app/__main__.py --onefile -n server --hidden-import thespian.system.multiprocTCPBase 
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
-          name: server-ubuntu-18.04
-          path: src/server/dist/*
-  build-windows:
-    name: Build on windows-2019
-    runs-on: windows-2019
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install python dependencies
-        working-directory: src/server
-        run: |
-          python3 --version
-          python3 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
-          python3 -m pip install --upgrade pip
-          pip3 install pylint pyinstaller
-          pip3 show -f pylint
-          echo "::add-path::/usr/local/bin"
-          pip3 install -r requirements.txt
-      - name: Lint with pylint
-        working-directory: src/server
-        run: pylint app --exit-zero
-      - name: Create executables
-        working-directory: src/server
-        run: pyinstaller app/__main__.py --onefile -n server --hidden-import thespian.system.multiprocTCPBase 
-      - name: Upload
-        uses: actions/upload-artifact@v2
-        with:
-          name: server-windows-2019
-          path: src/server/dist/*
-  build-macos:
-    name: Build on macos-10.15
-    runs-on: macos-10.15
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install python dependencies
-        working-directory: src/server
-        run: |
-          python3 --version
-          python3 -m pip install --upgrade pip
-          pip3 install pylint pyinstaller
-          pip3 show -f pylint
-          echo "::add-path::/usr/local/bin"
-          pip3 install -r requirements.txt
-      - name: Lint with pylint
-        working-directory: src/server
-        run: pylint app --exit-zero
-      - name: Create executables
-        working-directory: src/server
-        run: pyinstaller app/__main__.py --onefile -n server --hidden-import thespian.system.multiprocTCPBase 
-      - name: Upload
-        uses: actions/upload-artifact@v2
-        with:
-          name: server-macos-10.15
+          name: server-${{ matrix.os }}
           path: src/server/dist/*
