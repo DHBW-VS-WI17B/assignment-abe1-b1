@@ -26,16 +26,15 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-18.04, windows-2019, macos-10.15]
-    container:
-      image: mcr.microsoft.com/vscode/devcontainers/python:0-3
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install dependencies
         working-directory: src/server
         run: |
+          python3 --version
           python3 -m pip install --upgrade pip
-          pip install pylint pyinstaller
+          pip3 install pylint pyinstaller
           if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
       - name: Lint with pylint
         working-directory: src/server
