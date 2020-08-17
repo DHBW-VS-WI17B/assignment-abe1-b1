@@ -3,41 +3,72 @@ from flask import request
 from flask import jsonify
 from thespian.actors import ActorSystem
 from app.enums.actor_name import ActorName
-from app.enums.events_actor_action import EventsActorAction
-from app.actors.events_actor import EventsActor
+from app.enums.customers_actor_action import CustomersActorAction
+from app.actors.customers_actor import CustomersActor
+from app.classes.customer import Customer
+from app.classes.actor_message import ActorMessage
 
 bp = Blueprint("customers", __name__, url_prefix='/api/customers')
 
-
 @bp.route("/", methods=["POST"])
-def index():
-    asys = ActorSystem()
-    actor = asys.createActor(CustomersActor, None, ActorName.CUSTOMER_ACTOR)
-    message = {
-        "action": EventsActorAction.CUSTOMERS_ADD
-        "payload": request.get_json()
-    }
-    asys.tell(actor, message)
-    return '', 204
+def add(customer_id):
+    try: 
+        asys = ActorSystem()
+        actor = asys.createActor(CustomersActor, None, ActorName.CUSTOMER_ACTOR)
+        customer = Customer.from_json(request.get_json())
+        payload = {
+            'customer': customer
+        }
+        message = ActorMessage(CustomersActorAction.CUSTOMERS_ADD, payload)
+        customer = asys.ask(actor, message)
+        return "", 204
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+@bp.route("/<customer_id>", methods=["GET"])
+def get(customer_id):
+    try: 
+        asys = ActorSystem()
+        actor = asys.createActor(CustomersActor, None, ActorName.CUSTOMER_ACTOR)
+        payload = {
+            'customer_id': int(customer_id)
+        }
+        message = ActorMessage(CustomersActorAction.CUSTOMERS_GET, payload)
+        customer = asys.ask(actor, message)
+        return jsonify(customer)
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 
 @bp.route("/<customer_id>/budget", methods=["POST"])
-def add():
-    asys = ActorSystem()
-    actor = asys.createActor(CustomersActor, None, ActorName.CUSTOMER_ACTOR)
-    message = {
-        "action": EventsActorAction.CUSTOMERS_BUDGET
-    }
-    budget = asys.ask(actor, message, 2)
-    return budget
+def get_budget(customer_id):
+    try: 
+        asys = ActorSystem()
+        actor = asys.createActor(CustomersActor, None, ActorName.CUSTOMER_ACTOR)
+        payload = {
+            'customer_id': int(customer_id)
+        }
+        message = ActorMessage(CustomersActorAction.CUSTOMERS_BUDGET, payload)
+        budget = asys.ask(actor, message)
+        return jsonify(budget)
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
-@bp.route("/<customer_id>/tickets?order_date=&event_date", methods=["POST"])
-def add():
-    asys = ActorSystem()
-    actor = asys.createActor(CustomersActor, None, ActorName.CUSTOMER_ACTOR)
-    message = {
-        "action": EventsActorAction.CUSTOMERS_TICKETS,
-        "payload": request.get_json()
-    }
-    tickets = asys.ask(actor, message, 2)
-    return jsonify(tickets)
+@bp.route("/<customer_id>/tickets", methods=["POST"])
+def get_tickets(customer_id):
+    try:
+        asys = ActorSystem()
+        actor = asys.createActor(CustomersActor, None, ActorName.CUSTOMER_ACTOR)
+        payload = {
+            'customer_id': int(customer_id),
+            'order_date': request.args.get('order_date', default=None, type=int),
+            'event_date': request.args.get('event_date', default=None, type=int)
+        }
+        message = ActorMessage(CustomersActorAction.CUSTOMERS_TICKETS, payload)
+        tickets_dict = []
+        tickets = asys.ask(actor, message)
+        for ticket in tickets:
+            tickets_dict.append(ticket.__dict__)
+        return jsonify(tickets)
+    except Exception as e:
+        return jsonify({'error': str(e)})

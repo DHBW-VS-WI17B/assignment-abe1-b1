@@ -3,6 +3,7 @@ from enum import Enum, unique
 
 @unique
 class CustomersActorAction(Enum):
-    CUSTOMERS_ADD = 1
-    CUSTOMERS_BUDGET = 2
-    CUSTOMERS_TICKETS = 3
+    CUSTOMERS_GET = 1
+    CUSTOMERS_ADD = 2
+    CUSTOMERS_BUDGET = 3
+    CUSTOMERS_TICKETS = 4
