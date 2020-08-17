@@ -43,3 +43,8 @@ if __name__ == '__main__':
     args = docopt(__doc__, version='1.0.0')
     if args.get('start') == True:
         main(args)
+    else:
+        print('Server CLI')
+        print()
+        print('No command provided.')
+        print('Run `server --help` to access the command documentation.')
