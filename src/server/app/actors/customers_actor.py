@@ -1,11 +1,24 @@
+"""CustomerActor
+"""
 from thespian.actors import Actor
 from app.enums.customers_actor_action import CustomersActorAction
 
 
 class CustomersActor(Actor):
+    """Customers Actor
+
+    Args:
+        Actor (Actor)
+    """
     customers = []
 
     def receiveMessage(self, message, sender):
+        """ Message handler
+
+        Args:
+            message (ActorMessage): message from client
+            sender (): sender
+        """
         if message.action == CustomersActorAction.CUSTOMERS_GET:
             ret_value = None
             for customer in self.customers:

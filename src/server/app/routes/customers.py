@@ -1,13 +1,14 @@
-""" Customer Actor """
+"""Customers 
+"""
 from flask import Blueprint
 from flask import request
 from flask import jsonify
 from thespian.actors import ActorSystem
-from server.app.enums.actor_name import ActorName
-from server.app.enums.customers_actor_action import CustomersActorAction
-from server.app.actors.customers_actor import CustomersActor
-from server.app.classes.customer import Customer
-from server.app.classes.actor_message import ActorMessage
+from app.enums.actor_name import ActorName
+from app.enums.customers_actor_action import CustomersActorAction
+from app.actors.customers_actor import CustomersActor
+from app.classes.customer import Customer
+from app.classes.actor_message import ActorMessage
 
 bp = Blueprint("customers", __name__, url_prefix='/api/customers')
 
@@ -52,7 +53,7 @@ def get(customer_id):
 
 @bp.route("/<customer_id>/budget", methods=["POST"])
 def get_budget(customer_id):
-    """[summary]
+    """ get budget of specific customer
 
     Args:
         customer_id (int): customer Id
