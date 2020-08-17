@@ -20,7 +20,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-ubuntu:
+  build:
     name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -47,6 +47,9 @@ jobs:
       - name: Create executables
         working-directory: src/server
         run: pyinstaller app/__main__.py --onefile -n server --hidden-import thespian.system.multiprocTCPBase 
+      - name: Run executable with --help command
+        working-directory: src/server/dist
+        run: server --help 
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
