@@ -14,7 +14,7 @@ class EventsActor(Actor):
         if message.action == EventsActorAction.EVENTS_GET:
             ret_value = None
             for event in self.events:
-                if event.get('id') == message.payload.get('event_id'):
+                if event.id == message.payload.get('event_id'):
                     ret_value = event
                     break
             self.send(sender, ret_value)
