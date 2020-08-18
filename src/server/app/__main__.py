@@ -18,6 +18,7 @@ from flask import Flask
 from thespian.actors import ActorSystem
 from docopt import docopt
 from gevent import pywsgi
+from app.routes import events
 
 
 def signal_handler(signalnum, frame):
@@ -29,7 +30,7 @@ def signal_handler(signalnum, frame):
 def main(args):
     signal.signal(signal.SIGINT, signal_handler)
     app = Flask(__name__)
-    # app.register_blueprint(events.bp)
+    app.register_blueprint(events.bp)
     ActorSystem('multiprocTCPBase')
     msg = "\033[92mServer is listening on {}:{} ...\033[0m"
     print(msg.format(args.get('--host'), args.get('--port')))
@@ -43,3 +44,8 @@ if __name__ == '__main__':
     arguments = docopt(__doc__, version='1.0.0')
     if arguments.get('start') is True:
         main(arguments)
+    else:
+        print('Server CLI')
+        print()
+        print('No command provided.')
+        print('Run `server --help` to access the command documentation.')
