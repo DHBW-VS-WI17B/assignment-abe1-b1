@@ -40,6 +40,6 @@ def main(args):
 
 
 if __name__ == '__main__':
-    arguments  = docopt(__doc__, version='1.0.0')
+    arguments = docopt(__doc__, version='1.0.0')
     if arguments.get('start') is True:
-        main(arguments )
+        main(arguments)

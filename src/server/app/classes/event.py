@@ -6,7 +6,8 @@ from dataclasses import dataclass
 class Event:
     id_iter = itertools.count()
 
-    def __init__(self, name, date, location, price, max_tickets, max_tickets_per_customer, sale_id, address_id):
+    def __init__(self, name, date, location, price, max_tickets,
+                 max_tickets_per_customer, sale_id, address_id):
         self.id = next(self.id_iter)
         self.name = name
         self.date = date
