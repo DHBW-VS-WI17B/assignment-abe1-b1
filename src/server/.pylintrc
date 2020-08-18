@@ -5,9 +5,12 @@ disable=
     C0115, # missing-class-docstring
     C0116, # missing-function-docstring
 
-[DESIGN]
-max-args=10
-max-attributes=10
+[SIMILARITIES]
+ignore-imports=yes
 
 [BASIC]
 good-names=id,ex
+
+[DESIGN]
+max-args=10
+max-attributes=10
