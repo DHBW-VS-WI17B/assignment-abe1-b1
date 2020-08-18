@@ -1,5 +1,3 @@
-"""CustomersActorAction
-"""
 from enum import Enum, unique
 
 

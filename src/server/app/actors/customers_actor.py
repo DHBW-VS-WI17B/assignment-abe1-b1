@@ -1,5 +1,3 @@
-"""CustomerActor
-"""
 from thespian.actors import Actor
 from app.enums.customers_actor_action import CustomersActorAction
 
@@ -12,32 +10,32 @@ class CustomersActor(Actor):
     """
     customers = []
 
-    def receiveMessage(self, message, sender):
+    def receiveMessage(self, msg, sender):
         """ Message handler
 
         Args:
-            message (ActorMessage): message from client
+            msg (ActorMessage): message from client
             sender (): sender
         """
-        if message.action == CustomersActorAction.CUSTOMERS_GET:
+        if msg.action == CustomersActorAction.CUSTOMERS_GET:
             ret_value = None
             for customer in self.customers:
-                if customer.id == message.payload.get('customer_id'):
+                if customer.id == msg.payload.get('customer_id'):
                     ret_value = customer
                     break
             self.send(sender, ret_value)
-        if message.action == CustomersActorAction.CUSTOMERS_ADD:
-            customer = message.get('customer')
+        if msg.action == CustomersActorAction.CUSTOMERS_ADD:
+            customer = msg.get('customer')
             self.customers.append(customer)
-        if message.get("action") == CustomersActorAction.CUSTOMERS_BUDGET:
+        if msg.get("action") == CustomersActorAction.CUSTOMERS_BUDGET:
             ret_value = None
             for customer in self.customers:
-                if customer.id == message.payload.get('customer_id'):
+                if customer.id == msg.payload.get('customer_id'):
                     ret_value = customer.budget
                     break
             self.send(sender, ret_value)
-        if message.get("action") == CustomersActorAction.CUSTOMERS_TICKETS:
+        if msg.get("action") == CustomersActorAction.CUSTOMERS_TICKETS:
             ret_value = None
             for customer in self.customers:
-                if customer.id == message.payload.get('customer_id'):
+                if customer.id == msg.payload.get('customer_id'):
                     print('TODO')
