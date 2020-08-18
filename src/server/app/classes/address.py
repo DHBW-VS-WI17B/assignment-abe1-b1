@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass
 class Address:
     def __init__(self, name, street, zip, city, street_number):
         self.name = name
