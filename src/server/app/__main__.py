@@ -18,6 +18,7 @@ from flask import Flask
 from thespian.actors import ActorSystem
 from docopt import docopt
 from gevent import pywsgi
+from app.routes import customers
 
 
 def signal_handler(signalnum, frame):
@@ -29,7 +30,7 @@ def signal_handler(signalnum, frame):
 def main(args):
     signal.signal(signal.SIGINT, signal_handler)
     app = Flask(__name__)
-    # app.register_blueprint(events.bp)
+    app.register_blueprint(customers.bp)
     ActorSystem('multiprocTCPBase')
     msg = "\033[92mServer is listening on {}:{} ...\033[0m"
     print(msg.format(args.get('--host'), args.get('--port')))

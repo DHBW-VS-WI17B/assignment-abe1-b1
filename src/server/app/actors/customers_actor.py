@@ -40,5 +40,4 @@ class CustomersActor(Actor):
             ret_value = None
             for customer in self.customers:
                 if customer.id == message.payload.get('customer_id'):
-                    # TODO
                     print('TODO')
