@@ -1,10 +1,11 @@
-"""Customer
-"""
+"""Customer"""
 import itertools
+from dataclasses import dataclass
 
+
+@dataclass
 class Customer:
-    """Customer
-    """
+    """Customer"""
     id_iter = itertools.count()
 
     def __init__(self, name, budget, address):
@@ -15,7 +16,7 @@ class Customer:
             budget ([int]): budget of the customer for tickets
             address ([string]): address of the customer
         """
-        self.customer_id = next(self.id_iter)
+        self.id = next(self.id_iter)
         self.name = name
         self.budget = budget
         self.address = address
@@ -29,9 +30,9 @@ class Customer:
         Returns:
             [Customer]: deserialized customer object
         """
-        customer_id = json.get('customer_id')
+        # customer_id = json.get('customer_id')
         budget = json.get('budget')
         name = json.get('name')
         address = json.get('address')
-        customer = Customer(customer_id, name, budget, address)
+        customer = Customer(name, budget, address)
         return customer

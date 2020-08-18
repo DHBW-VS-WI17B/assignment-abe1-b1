@@ -43,7 +43,7 @@ jobs:
           pip install -r requirements.txt
       - name: Lint with pylint
         working-directory: src/server
-        run: pylint app --exit-zero
+        run: pylint app --rcfile=.pylintrc
       - name: Create executables
         working-directory: src/server
         run: pyinstaller app/__main__.py --onefile -n server --hidden-import thespian.system.multiprocTCPBase 
