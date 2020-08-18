@@ -10,5 +10,5 @@ class ActorName(Enum):
     Args:
         Enum ([Enum])
     """
-    EVENT_ACTOR = 1
-    CUSTOMER_ACTOR = 2
+    EVENTS_ACTOR = 1
+    CUSTOMERS_ACTOR = 2

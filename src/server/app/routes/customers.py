@@ -12,12 +12,14 @@ from app.classes.actor_message import ActorMessage
 
 bp = Blueprint("customers", __name__, url_prefix='/api/customers')
 
+
 @bp.route("/", methods=["POST"])
 def add():
     """ add Customer """
     try:
         asys = ActorSystem()
-        actor = asys.createActor(CustomersActor, None, ActorName.CUSTOMER_ACTOR)
+        actor = asys.createActor(CustomersActor, None,
+                                 ActorName.CUSTOMERS_ACTOR)
         customer = Customer.from_json(request.get_json())
         payload = {
             'customer': customer
@@ -27,6 +29,7 @@ def add():
         return "", 204
     except Exception as ex:
         return jsonify({'error': str(ex)})
+
 
 @bp.route("/<customer_id>", methods=["GET"])
 def get(customer_id):
@@ -40,7 +43,8 @@ def get(customer_id):
     """
     try:
         asys = ActorSystem()
-        actor = asys.createActor(CustomersActor, None, ActorName.CUSTOMER_ACTOR)
+        actor = asys.createActor(CustomersActor, None,
+                                 ActorName.CUSTOMERS_ACTOR)
         payload = {
             'customer_id': int(customer_id)
         }
@@ -63,7 +67,8 @@ def get_budget(customer_id):
     """
     try:
         asys = ActorSystem()
-        actor = asys.createActor(CustomersActor, None, ActorName.CUSTOMER_ACTOR)
+        actor = asys.createActor(CustomersActor, None,
+                                 ActorName.CUSTOMERS_ACTOR)
         payload = {
             'customer_id': int(customer_id)
         }
@@ -72,6 +77,7 @@ def get_budget(customer_id):
         return jsonify(budget)
     except Exception as ex:
         return jsonify({'error': str(ex)})
+
 
 @bp.route("/<customer_id>/tickets", methods=["POST"])
 def get_tickets(customer_id):
@@ -85,7 +91,8 @@ def get_tickets(customer_id):
     """
     try:
         asys = ActorSystem()
-        actor = asys.createActor(CustomersActor, None, ActorName.CUSTOMER_ACTOR)
+        actor = asys.createActor(CustomersActor, None,
+                                 ActorName.CUSTOMERS_ACTOR)
         payload = {
             'customer_id': int(customer_id),
             'order_date': request.args.get('order_date', default=None, type=int),
