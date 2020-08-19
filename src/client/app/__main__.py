@@ -28,6 +28,8 @@ Options:
     --max-tickets-per-customer=<number> The maximum number of tickets per customer (e.g. 3).
     --sale-start-date=<date>            The sale start date (e.g. 01.01.2020).
     --sale-period=<number>              The sale period in days (e.g. 5).
+    --budget=<budget>                   The customer budget in € (e.g. 100).
+    --address=<address>                 The customer address (e.g. "Friedrich-Ebert-Straße 30, 78054 Villingen-Schwenningen").
     -h, --help                          Show this screen.
     -v, --version                       Show version.
 """
