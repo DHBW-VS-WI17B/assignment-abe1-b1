@@ -8,8 +8,8 @@ Usage:
 Options:
     --host=<ip>     IP address [default: 0.0.0.0].
     --port=<port>   Port [default: 8080].
-    -h --help       Show this screen.
-    -v --version    Show version.
+    -h, --help      Show this screen.
+    -v, --version   Show version.
 """
 
 import signal
