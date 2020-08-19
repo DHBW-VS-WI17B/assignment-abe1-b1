@@ -1,0 +1,22 @@
+{
+	"name": "Python 3",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "..",
+		"args": {
+			"VARIANT": "3"
+		}
+	},
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"python.pythonPath": "/usr/local/bin/python"
+	},
+	"extensions": [
+		"ms-python.python",
+		"njpwerner.autodocstring"
+	],
+	"forwardPorts": [
+		8080
+	],
+	"postCreateCommand": "pip3 install -r requirements.txt"
+}
