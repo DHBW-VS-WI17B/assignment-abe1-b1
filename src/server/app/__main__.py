@@ -6,7 +6,7 @@ Usage:
     server -v|--version
 
 Options:
-    --host=<ip>     IP address [default: 0.0.0.0].
+    --host=<ip>     IP address [default: 127.0.0.1].
     --port=<port>   Port [default: 8080].
     -h, --help      Show this screen.
     -v, --version   Show version.

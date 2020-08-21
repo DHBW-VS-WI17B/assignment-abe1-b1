@@ -2,7 +2,7 @@
 Usage:
     client
     client [--ip=<ip>] [--port=<port>] customer <customer-id> event list
-    client [--ip=<ip>] [--port=<port>] customer <customer-id> event info
+    client [--ip=<ip>] [--port=<port>] customer <customer-id> event <event-id> info
     client [--ip=<ip>] [--port=<port>] customer <customer-id> ticket list [--order-date=<date>] [--event-date=<date>]
     client [--ip=<ip>] [--port=<port>] customer <customer-id> ticket purchase [--quantity=<number>]
     client [--ip=<ip>] [--port=<port>] customer <customer-id> budget
@@ -35,13 +35,32 @@ Options:
 """
 
 from docopt import docopt
-
+from app.classes.arguments import Arguments
+from app.api.events import Events
 
 def main(args):
-    print('TODO')
-    print(args)
+    if args.customer:
+        if args.event:
+            if args.list:
+                Events.get_events(args)
+                exit
+            if args.info:
+                Events.get_event(args)
+                exit
+            if args.ticket:
+                if args.list:
+                    Events.get_tickets(args)
+                    exit
+                if args.purchase:
+                    Events.purchase_tickets(args)
+                    exit
+    if args.admin:
+        if args.event:
+            if args.add:
+                Events.add_event(args)
+                exit
 
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='1.0.0')
-    main(arguments)
+    params = docopt(__doc__, version='1.0.0')
+    main(Arguments(params))
