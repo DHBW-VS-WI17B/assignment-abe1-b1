@@ -4,12 +4,12 @@ on:
   schedule:
     # Every day at 1am
     - cron: '0 1 * * *'
+  workflow_dispatch:
 
 jobs:
   remove-artifacts:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     steps:
     - name: Remove old artifacts
       uses: c-hive/gha-remove-artifacts@v1
