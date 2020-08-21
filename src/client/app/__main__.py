@@ -37,6 +37,7 @@ Options:
 from docopt import docopt
 from app.classes.arguments import Arguments
 from app.api.events import Events
+from app.api.customers import Customers
 
 def main(args):
     if args.customer:
@@ -55,10 +56,23 @@ def main(args):
                     Events.purchase_tickets(args)
                     exit
     if args.admin:
+        if args.customer:
+            Customers.add_customer(args)
+            exit
         if args.event:
             if args.add:
                 Events.add_event(args)
                 exit
+            if args.list:
+                Events.get_events(args)
+                exit
+            if args.info:
+                Events.get_event(args)
+                exit
+            if args.sales:
+                Events.get_sales(args)
+                exit
+            
 
 
 if __name__ == '__main__':

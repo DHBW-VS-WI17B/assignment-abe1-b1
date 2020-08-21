@@ -6,7 +6,6 @@ class Events():
     def add_event(args):
         event = Event(args)
         payload = json.dumps(event.__dict__)
-        print(payload)
         # server_addr = ip + port
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.post(server_addr + '/api/events', json=payload)
@@ -31,10 +30,9 @@ class Events():
         print(req.json())
 
     def get_tickets(args):
-        payload = {'order_date': args.order_date, 'event_date': args.event_date}
         # server_addr = ip + port
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.get(server_addr + '/api/events/' + args.event_id + '/tickets', params=payload)
+        req = requests.get(server_addr + '/api/events/' + args.event_id + '/tickets')
         # req.json() -> dataclass
         # return array of events
         print(req.json())
@@ -52,7 +50,7 @@ class Events():
         print(req.json())
     
     def get_sales(args):
-        events = self.get_events(args)
+        events = Events.get_events(args)
         sales = {}
         for event in events:
             print(event)
