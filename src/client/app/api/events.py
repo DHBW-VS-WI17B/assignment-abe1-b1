@@ -1,13 +1,58 @@
 import requests
+import json
+from app.classes.event import Event
 
+class Events():
+    def add_event(args):
+        event = Event(args)
+        payload = json.dumps(event.__dict__)
+        print(payload)
+        # server_addr = ip + port
+        server_addr = 'http://' + args.ip + ":" + args.port
+        req = requests.post(server_addr + '/api/events', json=payload)
+        # req.json() -> dataclass
+        # return array of events
+        print(req.json())
 
-def get_events(args):
-    headers = {}
-    if args.get('<customer-id>') is not None:
-        headers['Client-ID'] = args.get('<customer-id>')
-    # server_addr = ip + port
-    server_addr = args.get('--ip') + ":" + args.get('--port')
-    req = requests.get(server_addr + '/api/events', headers=headers)
-    # req.json() -> dataclass
-    # return array of events
-    print('TODO')
+    def get_events(args):
+        # server_addr = ip + port
+        server_addr = 'http://' + args.ip + ":" + args.port
+        req = requests.get(server_addr + '/api/events')
+        # req.json() -> dataclass
+        # return array of events
+        print(req.json())
+
+    def get_event(args):
+        # server_addr = ip + port
+        server_addr = 'http://' + args.ip + ":" + args.port
+        req = requests.get(server_addr + '/api/events/' + args.event_id)
+        # req.json() -> dataclass
+        # return array of events
+        print(req.json())
+
+    def get_tickets(args):
+        payload = {'order_date': args.order_date, 'event_date': args.event_date}
+        # server_addr = ip + port
+        server_addr = 'http://' + args.ip + ":" + args.port
+        req = requests.get(server_addr + '/api/events/' + args.event_id + '/tickets', params=payload)
+        # req.json() -> dataclass
+        # return array of events
+        print(req.json())
+
+    def purchase_tickets(args):
+        headers = {}
+        if args.customer_id is not None:
+            headers['Customer-ID'] = args.customer_id
+        payload = {'quantity': args.quantity}
+        # server_addr = ip + port
+        server_addr = 'http://' + args.ip + ":" + args.port
+        req = requests.post(server_addr + '/api/events/' + args.event_id + '/purchase', params=payload, header=headers)
+        # req.json() -> dataclass
+        # return array of events
+        print(req.json())
+    
+    def get_sales(args):
+        events = self.get_events(args)
+        sales = {}
+        for event in events:
+            print(event)
