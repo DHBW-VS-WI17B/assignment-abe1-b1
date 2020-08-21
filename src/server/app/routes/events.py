@@ -67,9 +67,7 @@ def get_tickets(event_id):
         asys = ActorSystem()
         actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
         payload = {
-            'event_id': int(event_id),
-            'order_date': request.args.get('order_date', default=None, type=int),
-            'event_date': request.args.get('event_date', default=None, type=int)
+            'event_id': int(event_id)
         }
         message = ActorMessage(EventsActorAction.EVENTS_TICKETS, payload)
         events = asys.ask(actor, message)
