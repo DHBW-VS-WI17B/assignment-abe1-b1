@@ -18,7 +18,7 @@ class DbActor(Actor):
             print('TODO')
         if msg.action == EventsActorAction.EVENTS_LIST:
             print('TODO')
-        if msg.action == EventsActorAction.EVENTS_PURCHASE_TICKET:
+        if msg.action == EventsActorAction.EVENTS_PURCHASE:
             print('TODO')
-        if msg.action == EventsActorAction.EVENTS_SALES:
+        if msg.action == EventsActorAction.EVENTS_TICKETS:
             print('TODO')
