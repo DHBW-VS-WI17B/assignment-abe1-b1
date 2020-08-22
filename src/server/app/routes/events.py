@@ -3,7 +3,7 @@ from flask import request
 from flask import jsonify
 from thespian.actors import ActorSystem, ActorExitRequest
 from app.enums.events_action import EventsActorAction
-from app.actors.client_actor import ClientActor
+from app.actors.events_actor import EventsActor
 from app.classes.event import Event
 from app.classes.actor_message import ActorMessage
 
@@ -15,7 +15,7 @@ def index():
     """Get event list."""
     try:
         asys = ActorSystem()
-        actor = asys.createActor(actorClass=ClientActor)
+        actor = asys.createActor(actorClass=EventsActor)
         customer_id = request.headers.get('Customer-ID')
         message = ActorMessage(
             action=EventsActorAction.EVENTS_LIST, customer_id=customer_id)
@@ -34,7 +34,7 @@ def add():
     """Add a new event."""
     try:
         asys = ActorSystem()
-        actor = asys.createActor(actorClass=ClientActor)
+        actor = asys.createActor(actorClass=EventsActor)
         event = Event.from_json(request.get_json())
         payload = {
             'event': event
@@ -53,7 +53,7 @@ def get(event_id):
     """Get event by ID."""
     try:
         asys = ActorSystem()
-        actor = asys.createActor(actorClass=ClientActor)
+        actor = asys.createActor(actorClass=EventsActor)
         customer_id = request.headers.get('Customer-ID')
         payload = {
             'event_id': int(event_id)
@@ -72,7 +72,7 @@ def get_tickets(event_id):
     """Get the tickets of a specific event."""
     try:
         asys = ActorSystem()
-        actor = asys.createActor(actorClass=ClientActor)
+        actor = asys.createActor(actorClass=EventsActor)
         payload = {
             'event_id': int(event_id)
         }
@@ -94,7 +94,7 @@ def purchase(event_id):
     """Purchase tickets for a specific event."""
     try:
         asys = ActorSystem()
-        actor = asys.createActor(actorClass=ClientActor)
+        actor = asys.createActor(actorClass=EventsActor)
         customer_id = request.headers.get('Customer-ID')
         payload = {
             'event_id': int(event_id),

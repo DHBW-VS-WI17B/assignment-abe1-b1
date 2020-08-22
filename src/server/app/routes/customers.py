@@ -3,7 +3,7 @@ from flask import request
 from flask import jsonify
 from thespian.actors import ActorSystem, ActorExitRequest
 from app.enums.customers_action import CustomersActorAction
-from app.actors.client_actor import ClientActor
+from app.actors.customers_actor import CustomersActor
 from app.classes.customer import Customer
 from app.classes.actor_message import ActorMessage
 
@@ -15,7 +15,7 @@ def add():
     """Add a new customer."""
     try:
         asys = ActorSystem()
-        actor = asys.createActor(actorClass=ClientActor)
+        actor = asys.createActor(actorClass=CustomersActor)
         customer_id = request.headers.get('Customer-ID')
         customer = Customer.from_json(request.get_json())
         payload = {
@@ -35,7 +35,7 @@ def get_budget(customer_id):
     """Get the budget of a specific customer."""
     try:
         asys = ActorSystem()
-        actor = asys.createActor(actorClass=ClientActor)
+        actor = asys.createActor(actorClass=CustomersActor)
         customer_id = request.headers.get('Customer-ID')
         payload = {
             'customer_id': int(customer_id)
@@ -54,7 +54,7 @@ def get_tickets(customer_id):
     """Get the tickets of a specific customer."""
     try:
         asys = ActorSystem()
-        actor = asys.createActor(actorClass=ClientActor)
+        actor = asys.createActor(actorClass=CustomersActor)
         customer_id = request.headers.get('Customer-ID')
         payload = {
             'customer_id': int(customer_id),
