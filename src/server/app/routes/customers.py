@@ -3,7 +3,7 @@ from flask import request
 from flask import jsonify
 from thespian.actors import ActorSystem
 from app.enums.actor_name import ActorName
-from app.enums.customers_actor_action import CustomersActorAction
+from app.enums.customers_action import CustomersActorAction
 from app.actors.customers_actor import CustomersActor
 from app.classes.customer import Customer
 from app.classes.actor_message import ActorMessage
@@ -13,7 +13,7 @@ bp = Blueprint("customers", __name__, url_prefix='/api/customers')
 
 @bp.route("/", methods=["POST"])
 def add():
-    """ add Customer """
+    """Add a new customer."""
     try:
         asys = ActorSystem()
         actor = asys.createActor(CustomersActor, None,
@@ -31,14 +31,7 @@ def add():
 
 @bp.route("/<customer_id>", methods=["GET"])
 def get(customer_id):
-    """ get customer by id
-
-    Args:
-        customer_id (int): customer Id
-
-    Returns:
-        Customer: Customer that has specific id
-    """
+    """Get customer by ID."""
     try:
         asys = ActorSystem()
         actor = asys.createActor(CustomersActor, None,
@@ -53,16 +46,9 @@ def get(customer_id):
         return jsonify({'error': str(ex)})
 
 
-@bp.route("/<customer_id>/budget", methods=["POST"])
+@bp.route("/<customer_id>/budget", methods=["GET"])
 def get_budget(customer_id):
-    """ get budget of specific customer
-
-    Args:
-        customer_id (int): customer Id
-
-    Returns:
-        int: budget of the customer
-    """
+    """Get the budget of a specific customer."""
     try:
         asys = ActorSystem()
         actor = asys.createActor(CustomersActor, None,
@@ -79,14 +65,7 @@ def get_budget(customer_id):
 
 @bp.route("/<customer_id>/tickets", methods=["POST"])
 def get_tickets(customer_id):
-    """ get tickets of the customer
-
-    Args:
-        customer_id (int): customer id
-
-    Returns:
-        Ticket(): List of ticket filtered by order date or event date
-    """
+    """Get the tickets of a specific customer."""
     try:
         asys = ActorSystem()
         actor = asys.createActor(CustomersActor, None,

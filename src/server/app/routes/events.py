@@ -3,7 +3,7 @@ from flask import request
 from flask import jsonify
 from thespian.actors import ActorSystem
 from app.enums.actor_name import ActorName
-from app.enums.events_actor_action import EventsActorAction
+from app.enums.events_action import EventsActorAction
 from app.actors.events_actor import EventsActor
 from app.classes.event import Event
 from app.classes.actor_message import ActorMessage
@@ -29,7 +29,7 @@ def index():
 
 @bp.route('/', methods=['POST'])
 def add():
-    """Add new event."""
+    """Add a new event."""
     try:
         asys = ActorSystem()
         actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
@@ -62,14 +62,12 @@ def get(event_id):
 
 @bp.route('/<event_id>/tickets', methods=['GET'])
 def get_tickets(event_id):
-    """Get tickets for event by event ID."""
+    """Get the tickets of a specific event."""
     try:
         asys = ActorSystem()
         actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
         payload = {
-            'event_id': int(event_id),
-            'order_date': request.args.get('order_date', default=None, type=int),
-            'event_date': request.args.get('event_date', default=None, type=int)
+            'event_id': int(event_id)
         }
         message = ActorMessage(EventsActorAction.EVENTS_TICKETS, payload)
         events = asys.ask(actor, message)
@@ -84,7 +82,7 @@ def get_tickets(event_id):
 
 @bp.route('/<event_id>/purchase', methods=['POST'])
 def purchase(event_id):
-    """Purchase tickets for the event."""
+    """Purchase tickets for a specific event."""
     try:
         asys = ActorSystem()
         actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
