@@ -18,8 +18,13 @@ from flask import Flask
 from thespian.actors import ActorSystem
 from docopt import docopt
 from gevent import pywsgi
+from peewee import SqliteDatabase
+from app.config.config import Config
 from app.routes import customers
 from app.routes import events
+from app.models.customer import Customer
+from app.models.event import Event
+from app.models.ticket import Ticket
 
 
 def signal_handler(signalnum, frame):
@@ -28,24 +33,46 @@ def signal_handler(signalnum, frame):
     sys.exit(0)
 
 
-def main(args):
+def init_db():
+    print("Initializing database...")
+    db = SqliteDatabase(Config.get('SQLITE_DATABASE'))
+    db.connect()
+    db.create_tables([Customer, Event, Ticket])
+    db.close()
+
+
+def init_actor_system():
+    print("Initializing actor system...")
+    ActorSystem('multiprocTCPBase')
     signal.signal(signal.SIGINT, signal_handler)
+
+
+def init_web_server(host, port):
+    print("Initializing web server...")
     app = Flask(__name__)
     app.register_blueprint(customers.bp)
     app.register_blueprint(events.bp)
-    ActorSystem('multiprocTCPBase')
-    msg = "\033[92mServer is listening on {}:{} ...\033[0m"
-    print(msg.format(args.get('--host'), args.get('--port')))
-    print("\033[93mUse Ctrl+C to quit this process.\033[0m")
     server = pywsgi.WSGIServer(
-        (args.get('--host'), int(args.get('--port'))), app)
+        (host, port), app)
+    msg = "\033[92mServer is listening on {}:{} ...\033[0m"
+    print(msg.format(Config.get('HOST'), Config.get('PORT')))
+    print("\033[93mUse Ctrl+C to quit this process.\033[0m")
     server.serve_forever()
 
 
+def main():
+    print("Start server...")
+    init_db()
+    init_actor_system()
+    init_web_server(Config.get('HOST'), Config.get('PORT'))
+
+
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='1.0.0')
-    if arguments.get('start') is True:
-        main(arguments)
+    args = docopt(__doc__, version='1.0.0')
+    Config.set('HOST', args.get('--host'))
+    Config.set('PORT', int(args.get('--port')))
+    if args.get('start') is True:
+        main()
     else:
         print('Server CLI')
         print()

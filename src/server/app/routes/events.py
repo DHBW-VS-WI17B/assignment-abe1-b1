@@ -20,7 +20,7 @@ def index():
         message = ActorMessage(
             action=EventsActorAction.EVENTS_LIST, customer_id=customer_id)
         events = asys.ask(actor, message)
-        # asys.tell(actor, ActorExitRequest())
+        asys.tell(actor, ActorExitRequest())
         events_dict = []
         for event in events:
             events_dict.append(event.__dict__)
@@ -42,7 +42,7 @@ def add():
         message = ActorMessage(
             action=EventsActorAction.EVENTS_ADD, payload=payload)
         asys.tell(actor, message)
-        # asys.tell(actor, ActorExitRequest())
+        asys.tell(actor, ActorExitRequest())
         return '', 204
     except Exception as ex:
         return jsonify({'error': str(ex)})
@@ -61,7 +61,7 @@ def get(event_id):
         message = ActorMessage(
             action=EventsActorAction.EVENTS_GET, payload=payload, customer_id=customer_id)
         event = asys.ask(actor, message)
-        # asys.tell(actor, ActorExitRequest())
+        asys.tell(actor, ActorExitRequest())
         return jsonify(event.__dict__)
     except Exception as ex:
         return jsonify({'error': str(ex)})
@@ -81,7 +81,7 @@ def get_tickets(event_id):
         events = asys.ask(actor, message)
         events_dict = []
         events = asys.ask(actor, message)
-        # asys.tell(actor, ActorExitRequest())
+        asys.tell(actor, ActorExitRequest())
         for event in events:
             events_dict.append(event.__dict__)
         return jsonify(events)
@@ -103,7 +103,7 @@ def purchase(event_id):
         message = ActorMessage(
             action=EventsActorAction.EVENTS_PURCHASE, payload=payload, customer_id=customer_id)
         asys.tell(actor, message)
-        # asys.tell(actor, ActorExitRequest())
+        asys.tell(actor, ActorExitRequest())
         return '', 204
     except Exception as ex:
         return jsonify({'error': str(ex)})

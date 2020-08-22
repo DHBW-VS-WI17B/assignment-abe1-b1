@@ -1,7 +1,8 @@
 from peewee import SqliteDatabase, Model
+from app.config.config import Config
 
 
-db = SqliteDatabase('file::memory:?cache=shared')
+db = SqliteDatabase(Config.get('SQLITE_DATABASE'))
 
 
 class BaseModel(Model):

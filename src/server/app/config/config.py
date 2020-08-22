@@ -1,11 +1,10 @@
 class Config:
-    # TODO
     __conf = {
         'HOST': '',
         'PORT': '',
         'SQLITE_DATABASE': 'file::memory:?cache=shared',
     }
-    __setters = ['host', 'port']
+    __setters = ['HOST', 'PORT']
 
     @staticmethod
     def get(name):
