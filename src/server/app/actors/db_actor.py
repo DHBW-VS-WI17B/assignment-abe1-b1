@@ -31,22 +31,19 @@ class DbActor(Actor):
             self.db.close()
         if msg.action == EventsActorAction.EVENTS_ADD:
             event = payload.get('event')
-            event_model = EventModel(name=event.name, date=event.date, location=event.location,
-                                     ticket_price=event.ticket_price, max_tickets=event.max_tickets,
-                                     max_tickets_per_customer=event.max_tickets_per_customer,
-                                     sale_start_date=event.sale_start_date, sale_period=event.sale_period)
+            event_model = Event.to_model(event)
             event_model.save()
             print(event_model)
         if msg.action == EventsActorAction.EVENTS_GET:
             try:
-                print(payload.get('event_id'))
                 event_model = EventModel.get(
                     EventModel.id == payload.get('event_id'))
                 event = Event.from_model(event_model)
-                self.send(response_to, event)
-                print(event_model)
+                message = ActorMessage(payload={'event': event})
+                self.send(response_to, message)
             except DoesNotExist:
-                raise Exception("Not found.")
+                message = ActorMessage(error="Not found.")
+                self.send(response_to, message)
             self.db.close()
         if msg.action == EventsActorAction.EVENTS_LIST:
             events = []

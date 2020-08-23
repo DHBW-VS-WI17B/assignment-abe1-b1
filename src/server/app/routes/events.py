@@ -60,9 +60,11 @@ def get(event_id):
         }
         message = ActorMessage(
             action=EventsActorAction.EVENTS_GET, payload=payload, customer_id=customer_id)
-        event = asys.ask(actor, message)
+        response = asys.ask(actor, message)
+        if response.error:
+            return jsonify({'error': str(response.error)})
         # asys.tell(actor, ActorExitRequest())
-        return jsonify(event.__dict__)
+        return jsonify(response.payload.get('event').__dict__)
     except Exception as ex:
         return jsonify({'error': str(ex)})
 
@@ -78,7 +80,6 @@ def get_tickets(event_id):
         }
         message = ActorMessage(
             action=EventsActorAction.EVENTS_TICKETS, payload=payload)
-        events = asys.ask(actor, message)
         events_dict = []
         events = asys.ask(actor, message)
         # asys.tell(actor, ActorExitRequest())

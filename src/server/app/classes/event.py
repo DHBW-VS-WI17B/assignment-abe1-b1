@@ -22,13 +22,13 @@ class Event:
     def from_json(json):
         _id = json.get('id')
         name = json.get('name')
-        date = datetime.strptime(json.get('date'), '%d.%m.%Y')
+        date = datetime.fromtimestamp(int(json.get('date')))
         location = json.get('location')
         ticket_price = json.get('ticket_price')
         max_tickets = json.get('max_tickets')
         max_tickets_per_customer = json.get('max_tickets_per_customer')
-        sale_start_date = datetime.strptime(
-            json.get('sale_start_date'), '%d.%m.%Y')
+        sale_start_date = datetime.fromtimestamp(
+            int(json.get('sale_start_date')))
         sale_period = json.get('sale_period')
         event = Event(_id=_id, name=name, date=date, location=location, ticket_price=ticket_price,
                       max_tickets=max_tickets, max_tickets_per_customer=max_tickets_per_customer,
@@ -50,21 +50,18 @@ class Event:
                       max_tickets_per_customer, sale_start_date, sale_period)
         return event
 
-    # @staticmethod
-    # def to_model(event):
-    #     print(event)
-    #     name = event.name
-    #     date = datetime.strptime(event.date, '%d.%m.%Y')
-    #     print(date)
-    #     location = event.location
-    #     ticket_price = event.ticket_price
-    #     max_tickets = event.max_tickets
-    #     max_tickets_per_customer = event.max_tickets_per_customer
-    #     sale_start_date = datetime.strptime(event.sale_start_date, '%d.%m.%Y')
-    #     sale_period = event.sale_period
-    #     event_model = EventModel(name=name, date=date, location=location,
-    #                              ticket_price=ticket_price, max_tickets=max_tickets,
-    #                              max_tickets_per_customer=max_tickets_per_customer,
-    #                              sale_start_date=sale_start_date, sale_period=sale_period)
-    #     print(event_model)
-    #     return event_model
+    @staticmethod
+    def to_model(event):
+        name = event.name
+        date = event.date
+        location = event.location
+        ticket_price = event.ticket_price
+        max_tickets = event.max_tickets
+        max_tickets_per_customer = event.max_tickets_per_customer
+        sale_start_date = event.sale_start_date
+        sale_period = event.sale_period
+        event_model = EventModel(name=name, date=date, location=location,
+                                 ticket_price=ticket_price, max_tickets=max_tickets,
+                                 max_tickets_per_customer=max_tickets_per_customer,
+                                 sale_start_date=sale_start_date, sale_period=sale_period)
+        return event_model
