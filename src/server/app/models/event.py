@@ -1,6 +1,5 @@
 from peewee import CharField, IntegerField, DateField, AutoField
 from app.models.base_model import BaseModel
-from app.models.sale import Sale
 
 
 class Event(BaseModel):

@@ -1,5 +1,4 @@
 from thespian.actors import Actor
-from peewee import SqliteDatabase
 from app.enums.events_action import EventsActorAction
 from app.actors.db_actor import DbActor
 from app.enums.actor_name import ActorName

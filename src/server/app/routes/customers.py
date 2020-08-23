@@ -24,7 +24,7 @@ def add():
         message = ActorMessage(
             action=CustomersActorAction.CUSTOMERS_ADD, payload=payload, customer_id=customer_id)
         customer = asys.ask(actor, message)
-        asys.tell(actor, ActorExitRequest())
+        # asys.tell(actor, ActorExitRequest())
         return "", 204
     except Exception as ex:
         return jsonify({'error': str(ex)})
@@ -43,7 +43,7 @@ def get_budget(customer_id):
         message = ActorMessage(
             action=CustomersActorAction.CUSTOMERS_BUDGET, payload=payload, customer_id=customer_id)
         budget = asys.ask(actor, message)
-        asys.tell(actor, ActorExitRequest())
+        # asys.tell(actor, ActorExitRequest())
         return jsonify(budget)
     except Exception as ex:
         return jsonify({'error': str(ex)})
@@ -65,7 +65,7 @@ def get_tickets(customer_id):
             action=CustomersActorAction.CUSTOMERS_TICKETS, payload=payload, customer_id=customer_id)
         tickets_dict = []
         tickets = asys.ask(actor, message)
-        asys.tell(actor, ActorExitRequest())
+        # asys.tell(actor, ActorExitRequest())
         for ticket in tickets:
             tickets_dict.append(ticket.__dict__)
         return jsonify(tickets)

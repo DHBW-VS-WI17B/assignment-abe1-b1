@@ -15,18 +15,13 @@ Options:
 
 import signal
 import sys
-from os import path
+import os
 from flask import Flask
 from thespian.actors import ActorSystem
 from docopt import docopt
 from gevent import pywsgi
 from peewee import SqliteDatabase
 from app.config.config import Config
-from app.routes import customers
-from app.routes import events
-from app.models.customer import Customer
-from app.models.event import Event
-from app.models.ticket import Ticket
 
 
 def signal_handler(signalnum, frame):
@@ -42,10 +37,13 @@ def init_config(args):
 
 
 def init_db():
+    from app.models.customer import Customer
+    from app.models.event import Event
+    from app.models.ticket import Ticket
     print("Initializing database...")
     db = SqliteDatabase(Config.get('SQLITE_DATABASE'))
     db.connect()
-    db.create_tables([Customer, Event, Ticket])
+    db.create_tables([Customer, Event, Ticket], safe=True)
     db.close()
 
 
@@ -56,6 +54,8 @@ def init_actor_system():
 
 
 def init_web_server(host, port):
+    from app.routes import customers
+    from app.routes import events
     print("Initializing web server...")
     app = Flask(__name__)
     app.register_blueprint(customers.bp)
@@ -69,7 +69,7 @@ def init_web_server(host, port):
 
 
 def check_db_path(db_path):
-    path_exists = path.exists(db_path)
+    path_exists = os.path.exists(db_path)
     if not path_exists:
         print('Server CLI')
         print()

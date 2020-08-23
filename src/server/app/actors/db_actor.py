@@ -1,5 +1,5 @@
 from thespian.actors import Actor
-from peewee import SqliteDatabase
+from peewee import SqliteDatabase, DoesNotExist
 from app.config.config import Config
 from app.enums.customers_action import CustomersActorAction
 from app.enums.events_action import EventsActorAction
@@ -43,11 +43,10 @@ class DbActor(Actor):
                 event_model = EventModel.get(
                     EventModel.id == payload.get('event_id'))
                 event = Event.from_model(event_model)
+                self.send(response_to, event)
                 print(event_model)
-            except Exception as ex:
-                print('error')
-                print(ex)
-            self.send(response_to, None)
+            except DoesNotExist:
+                raise Exception("Not found.")
             self.db.close()
         if msg.action == EventsActorAction.EVENTS_LIST:
             events = []
