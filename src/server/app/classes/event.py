@@ -22,13 +22,13 @@ class Event:
     def from_json(json):
         id = json.get('id')
         name = json.get('name')
-        date = datetime.fromtimestamp(int(json.get('date')))
+        date = datetime.fromtimestamp(int(json.get('date'))).date()
         location = json.get('location')
         ticket_price = json.get('ticket_price')
         max_tickets = json.get('max_tickets')
         max_tickets_per_customer = json.get('max_tickets_per_customer')
         sale_start_date = datetime.fromtimestamp(
-            int(json.get('sale_start_date')))
+            int(json.get('sale_start_date'))).date()
         sale_period = json.get('sale_period')
         event = Event(id=id, name=name, date=date, location=location, ticket_price=ticket_price,
                       max_tickets=max_tickets, max_tickets_per_customer=max_tickets_per_customer,
@@ -39,12 +39,14 @@ class Event:
     def to_dict(event):
         id = event.id
         name = event.name
-        date = event.date
+        date = datetime.timestamp(datetime(
+            event.date.year, event.date.month, event.date.day))
         location = event.location
         ticket_price = event.ticket_price
         max_tickets = event.max_tickets
         max_tickets_per_customer = event.max_tickets_per_customer
-        sale_start_date = event.sale_start_date
+        sale_start_date = datetime.timestamp(datetime(
+            event.sale_start_date.year, event.sale_start_date.month, event.sale_start_date.day))
         sale_period = event.sale_period
         event_dict = {'id': id, 'name': name, 'date': date, 'location': location,
                       'ticket_price': ticket_price, 'max_tickets': max_tickets,

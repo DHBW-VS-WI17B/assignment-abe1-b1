@@ -11,7 +11,7 @@ from app.classes.event import Event
 from app.classes.ticket import Ticket
 from app.classes.customer import Customer
 from app.classes.actor_message import ActorMessage
-from datetime import datetime
+from datetime import date, timedelta
 
 # TODO: transactions
 # TODO: Custom exception class
@@ -132,16 +132,16 @@ class DbActor(Actor):
         if event_model.max_tickets < len(event_ticket_models) + quantity:
             raise Exception(("With this purchase the maximum number of "
                              "tickets for this event would be exceeded."))
-        sale_not_started = event_model.sale_start_date > datetime.now()
+        sale_not_started = event_model.sale_start_date > date.today()
         sale_end_date = event_model.sale_start_date + \
-            datetime.timedelta(days=event_model.sale_period)
-        sale_over = sale_end_date < datetime.now()
+            timedelta(days=event_model.sale_period)
+        sale_over = sale_end_date < date.today()
         if sale_not_started or sale_over:
             raise Exception(
                 "Currently no tickets can be purchased for this event.")
         CustomerModel.update(budget=budget_after_purchase).where(
             CustomerModel.id == customer_model.id)
-        ticket = Ticket(id=None, order_date=datetime.now(),
+        ticket = Ticket(id=None, order_date=date.today(),
                         customer_id=customer_model.id, event_id=event_model.id)
         for _ in range(quantity):
             ticket_model = Ticket.to_model(ticket)

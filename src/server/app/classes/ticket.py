@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 from app.models.ticket import Ticket as TicketModel
 
 
@@ -13,7 +14,8 @@ class Ticket:
     @staticmethod
     def to_dict(ticket):
         id = ticket.id
-        order_date = ticket.order_date
+        order_date = datetime.timestamp(datetime(
+            ticket.order_date.year, ticket.order_date.month, ticket.order_date.day))
         customer_id = ticket.customer_id
         event_id = ticket.event_id
         ticket_dict = {'id': id, 'order_date': order_date,
