@@ -75,8 +75,18 @@ class DbActor(Actor):
             tickets = []
             customer_model = CustomerModel.get(
                 CustomerModel.id == msg.customer_id)
-            ticket_models = TicketModel.select().where(
-                TicketModel.customer_id == customer_model.id)
+            order_date = msg.payload.get('order_date')
+            event_date = msg.payload.get('event_date')
+            if order_date:
+                ticket_models = TicketModel.select().where(
+                    TicketModel.customer_id == customer_model.id, TicketModel.order_date == order_date)
+            elif event_date:
+                # TODO
+                ticket_models = TicketModel.select().where(
+                    TicketModel.customer_id == customer_model.id)
+            else:
+                ticket_models = TicketModel.select().where(
+                    TicketModel.customer_id == customer_model.id)
             for ticket_model in ticket_models:
                 ticket = Ticket.from_model(ticket_model)
                 tickets.append(ticket)

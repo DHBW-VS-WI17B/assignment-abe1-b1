@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint
 from flask import request
 from flask import jsonify
@@ -68,11 +69,12 @@ def get_tickets(customer_id):
         asys = ActorSystem()
         actor = asys.createActor(actorClass=CustomersActor)
         customer_id = request.headers.get('Customer-ID')
+        order_date = request.args.get('order_date', default=None, type=int)
+        event_date = request.args.get('event_date', default=None, type=int)
         payload = {
             'customer_id': int(customer_id),
-            # TODO
-            'order_date': request.args.get('order_date', default=None, type=int),
-            'event_date': request.args.get('event_date', default=None, type=int)
+            'order_date': datetime.fromtimestamp(order_date).date() if order_date else None,
+            'event_date': datetime.fromtimestamp(event_date).date() if event_date else None
         }
         message = ActorMessage(
             action=CustomersActorAction.CUSTOMERS_TICKETS, payload=payload, customer_id=customer_id)
