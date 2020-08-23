@@ -19,10 +19,10 @@ class CustomersActor(Actor):
         if msg.action == CustomersActorAction.CUSTOMERS_BUDGET:
             db_actor = self.createActor(actorClass=DbActor)
             message = ActorMessage(action=msg.action, payload=msg.payload,
-                                   customer_id=msg.customer_id, response_to=msg.sender)
+                                   customer_id=msg.customer_id, response_to=sender)
             self.send(db_actor, message)
         if msg.action == CustomersActorAction.CUSTOMERS_TICKETS:
             db_actor = self.createActor(actorClass=DbActor)
             message = ActorMessage(action=msg.action, payload=msg.payload,
-                                   customer_id=msg.customer_id, response_to=msg.sender)
+                                   customer_id=msg.customer_id, response_to=sender)
             self.send(db_actor, message)
