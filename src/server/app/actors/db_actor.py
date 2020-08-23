@@ -80,7 +80,6 @@ class DbActor(Actor):
         event_id = msg.payload.get('event_id')
         quantity = msg.payload.get('quantity')
         # try:
-        tickets = []
         event_model = EventModel.get(EventModel.id == event_id)
         ticket = Ticket(id=None, order_date=datetime.now(),
                         customer_id=msg.customer_id, event_id=event_model.id)
@@ -96,7 +95,7 @@ class DbActor(Actor):
         try:
             tickets = []
             event_model = EventModel.get(EventModel.id == event_id)
-            ticket_models = EventModel.select().where(
+            ticket_models = TicketModel.select().where(
                 TicketModel.event_id == event_model.id)
             for ticket_model in ticket_models:
                 ticket = Ticket.from_model(ticket_model)

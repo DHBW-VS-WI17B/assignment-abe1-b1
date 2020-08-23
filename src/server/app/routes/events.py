@@ -18,8 +18,8 @@ def index():
         asys = ActorSystem()
         actor = asys.createActor(actorClass=EventsActor)
         customer_id = request.headers.get('Customer-ID')
-        message = ActorMessage(
-            action=EventsActorAction.EVENTS_LIST, customer_id=customer_id)
+        message = ActorMessage(action=EventsActorAction.EVENTS_LIST,
+                               customer_id=customer_id)
         response = asys.ask(actor, message)
         events = response.payload.get('events')
         events_dict = []
@@ -43,8 +43,8 @@ def add():
         payload = {
             'event': event
         }
-        message = ActorMessage(
-            action=EventsActorAction.EVENTS_ADD, payload=payload)
+        message = ActorMessage(action=EventsActorAction.EVENTS_ADD,
+                               payload=payload)
         asys.tell(actor, message)
         return '', 204
     except Exception as ex:
@@ -61,8 +61,8 @@ def get(event_id):
         payload = {
             'event_id': int(event_id)
         }
-        message = ActorMessage(
-            action=EventsActorAction.EVENTS_GET, payload=payload, customer_id=customer_id)
+        message = ActorMessage(action=EventsActorAction.EVENTS_GET,
+                               payload=payload, customer_id=customer_id)
         response = asys.ask(actor, message)
         if response.error:
             return jsonify({'error': str(response.error)})
@@ -83,8 +83,8 @@ def get_tickets(event_id):
         payload = {
             'event_id': int(event_id)
         }
-        message = ActorMessage(
-            action=EventsActorAction.EVENTS_TICKETS, payload=payload)
+        message = ActorMessage(action=EventsActorAction.EVENTS_TICKETS,
+                               payload=payload)
         tickets_dict = []
         response = asys.ask(actor, message)
         for ticket in response.payload.get('tickets'):
@@ -108,8 +108,8 @@ def purchase(event_id):
             'event_id': int(event_id),
             'quantity': request.get_json().get('quantity')
         }
-        message = ActorMessage(
-            action=EventsActorAction.EVENTS_PURCHASE, payload=payload, customer_id=customer_id)
+        message = ActorMessage(action=EventsActorAction.EVENTS_PURCHASE,
+                               payload=payload, customer_id=customer_id)
         asys.tell(actor, message)
         return '', 204
     except Exception as ex:
