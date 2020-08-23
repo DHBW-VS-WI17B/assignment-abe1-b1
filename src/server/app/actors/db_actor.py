@@ -7,7 +7,9 @@ from app.models.customer import Customer as CustomerModel
 from app.models.event import Event as EventModel
 from app.models.ticket import Ticket as TicketModel
 from app.classes.event import Event
+from app.classes.ticket import Ticket
 from app.classes.actor_message import ActorMessage
+from datetime import datetime
 
 
 class DbActor(Actor):
@@ -21,31 +23,30 @@ class DbActor(Actor):
         payload = msg.payload
         customer_id = msg.customer_id
         response_to = msg.response_to
-        if msg.action == CustomersActorAction.CUSTOMERS_ADD:
+        if customer_id:
+            # TODO: check if customer exists
             print('TODO')
-        if msg.action == CustomersActorAction.CUSTOMERS_BUDGET:
+        if action == CustomersActorAction.CUSTOMERS_ADD:
             print('TODO')
-            self.db.close()
-        if msg.action == CustomersActorAction.CUSTOMERS_TICKETS:
+        if action == CustomersActorAction.CUSTOMERS_BUDGET:
             print('TODO')
-            self.db.close()
-        if msg.action == EventsActorAction.EVENTS_ADD:
-            event = payload.get('event')
+        if action == CustomersActorAction.CUSTOMERS_TICKETS:
+            print('TODO')
+        if action == EventsActorAction.EVENTS_ADD:
+            event = msg.payload.get('event')
             event_model = Event.to_model(event)
             event_model.save()
-            print(event_model)
-        if msg.action == EventsActorAction.EVENTS_GET:
+        if action == EventsActorAction.EVENTS_GET:
+            event_id = msg.payload.get('event_id')
             try:
-                event_model = EventModel.get(
-                    EventModel.id == payload.get('event_id'))
+                event_model = EventModel.get(EventModel.id == event_id)
                 event = Event.from_model(event_model)
                 message = ActorMessage(payload={'event': event})
                 self.send(response_to, message)
             except DoesNotExist:
-                message = ActorMessage(error="Not found.")
+                message = ActorMessage(error="Event not found.")
                 self.send(response_to, message)
-            self.db.close()
-        if msg.action == EventsActorAction.EVENTS_LIST:
+        if action == EventsActorAction.EVENTS_LIST:
             events = []
             event_models = EventModel.select()
             for event_model in event_models:
@@ -53,9 +54,35 @@ class DbActor(Actor):
                 events.append(event)
             message = ActorMessage(payload={'events': events})
             self.send(response_to, message)
-            self.db.close()
-        if msg.action == EventsActorAction.EVENTS_PURCHASE:
-            print('TODO')
-        if msg.action == EventsActorAction.EVENTS_TICKETS:
-            print('TODO')
+        if action == EventsActorAction.EVENTS_PURCHASE:
+            # TODO: check customer budget + try catch
+            event_id = msg.payload.get('event_id')
+            quantity = msg.payload.get('quantity')
+            # try:
+            tickets = []
+            event_model = EventModel.get(EventModel.id == event_id)
+            ticket = Ticket(id=None, order_date=datetime.now(),
+                            customer_id=customer_id, event_id=event_model.id)
+            for i in range(quantity):
+                ticket_model = Ticket.to_model(ticket)
+                ticket_model.save()
+            # except DoesNotExist:
+            #     message = ActorMessage(error="Event not found.")
+            #     self.send(response_to, message)
+        if action == EventsActorAction.EVENTS_TICKETS:
+            event_id = msg.payload.get('event_id')
+            try:
+                tickets = []
+                event_model = EventModel.get(EventModel.id == event_id)
+                ticket_models = EventModel.select().where(
+                    TicketModel.event_id == event_model.id)
+                for ticket_model in ticket_models:
+                    ticket = Ticket.from_model(ticket_model)
+                    tickets.append(ticket)
+                message = ActorMessage(payload={'tickets': tickets})
+                self.send(response_to, message)
+            except DoesNotExist:
+                message = ActorMessage(error="Event not found.")
+                self.send(response_to, message)
+        if not self.globalName:
             self.db.close()

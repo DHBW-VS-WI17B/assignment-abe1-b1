@@ -6,9 +6,9 @@ from app.models.event import Event as EventModel
 @dataclass
 class Event:
 
-    def __init__(self, _id, name, date, location, ticket_price, max_tickets,
+    def __init__(self, id, name, date, location, ticket_price, max_tickets,
                  max_tickets_per_customer, sale_start_date, sale_period):
-        self.id = _id
+        self.id = id
         self.name = name
         self.date = date
         self.location = location
@@ -20,7 +20,7 @@ class Event:
 
     @staticmethod
     def from_json(json):
-        _id = json.get('id')
+        id = json.get('id')
         name = json.get('name')
         date = datetime.fromtimestamp(int(json.get('date')))
         location = json.get('location')
@@ -30,14 +30,13 @@ class Event:
         sale_start_date = datetime.fromtimestamp(
             int(json.get('sale_start_date')))
         sale_period = json.get('sale_period')
-        event = Event(_id=_id, name=name, date=date, location=location, ticket_price=ticket_price,
+        event = Event(id=id, name=name, date=date, location=location, ticket_price=ticket_price,
                       max_tickets=max_tickets, max_tickets_per_customer=max_tickets_per_customer,
                       sale_start_date=sale_start_date, sale_period=sale_period)
         return event
 
     @staticmethod
     def to_dict(event):
-        # pylint: disable=redefined-builtin
         id = event.id
         name = event.name
         date = event.date
@@ -55,7 +54,7 @@ class Event:
 
     @staticmethod
     def from_model(model):
-        _id = model.id
+        id = model.id
         name = model.name
         date = model.date
         location = model.location
@@ -64,12 +63,15 @@ class Event:
         max_tickets_per_customer = model.max_tickets_per_customer
         sale_start_date = model.sale_start_date
         sale_period = model.sale_period
-        event = Event(_id, name, date, location, ticket_price, max_tickets,
-                      max_tickets_per_customer, sale_start_date, sale_period)
+        event = Event(id=id, name=name, date=date, location=location,
+                      ticket_price=ticket_price, max_tickets=max_tickets,
+                      max_tickets_per_customer=max_tickets_per_customer,
+                      sale_start_date=sale_start_date, sale_period=sale_period)
         return event
 
     @staticmethod
     def to_model(event):
+        id = event.id
         name = event.name
         date = event.date
         location = event.location
@@ -78,7 +80,7 @@ class Event:
         max_tickets_per_customer = event.max_tickets_per_customer
         sale_start_date = event.sale_start_date
         sale_period = event.sale_period
-        event_model = EventModel(name=name, date=date, location=location,
+        event_model = EventModel(id=id, name=name, date=date, location=location,
                                  ticket_price=ticket_price, max_tickets=max_tickets,
                                  max_tickets_per_customer=max_tickets_per_customer,
                                  sale_start_date=sale_start_date, sale_period=sale_period)

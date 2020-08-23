@@ -23,18 +23,23 @@ class EventsActor(Actor):
                 action=action, payload=payload, customer_id=customer_id)
             self.send(db_actor, message)
         if action == EventsActorAction.EVENTS_GET:
-            db_actor = self.createActor(
-                actorClass=DbActor)
+            db_actor = self.createActor(actorClass=DbActor)
             message = ActorMessage(
                 action=action, payload=payload, customer_id=customer_id, response_to=sender)
             self.send(db_actor, message)
         if action == EventsActorAction.EVENTS_LIST:
-            db_actor = self.createActor(
-                actorClass=DbActor)
+            db_actor = self.createActor(actorClass=DbActor)
             message = ActorMessage(
                 action=action, payload=payload, customer_id=customer_id, response_to=sender)
             self.send(db_actor, message)
         if action == EventsActorAction.EVENTS_PURCHASE:
-            print('TODO')
+            db_actor = self.createActor(
+                actorClass=DbActor, globalName=ActorName.DB_ACTOR)
+            message = ActorMessage(
+                action=action, payload=payload, customer_id=customer_id)
+            self.send(db_actor, message)
         if action == EventsActorAction.EVENTS_TICKETS:
-            print('TODO')
+            db_actor = self.createActor(actorClass=DbActor)
+            message = ActorMessage(
+                action=action, payload=payload, customer_id=customer_id, response_to=sender)
+            self.send(db_actor, message)

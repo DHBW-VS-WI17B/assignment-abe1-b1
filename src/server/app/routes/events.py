@@ -5,6 +5,7 @@ from thespian.actors import ActorSystem
 from app.enums.events_action import EventsActorAction
 from app.actors.events_actor import EventsActor
 from app.classes.event import Event
+from app.classes.ticket import Ticket
 from app.classes.actor_message import ActorMessage
 
 bp = Blueprint('events', __name__, url_prefix='/api/events')
@@ -33,6 +34,9 @@ def index():
 def add():
     """Add a new event."""
     try:
+        customer_id = request.headers.get('Customer-ID')
+        if customer_id:
+            return jsonify({'error': "You are not authorized."})
         asys = ActorSystem()
         actor = asys.createActor(actorClass=EventsActor)
         event = Event.from_json(request.get_json())
@@ -71,6 +75,9 @@ def get(event_id):
 def get_tickets(event_id):
     """Get the tickets of a specific event."""
     try:
+        customer_id = request.headers.get('Customer-ID')
+        if customer_id:
+            return jsonify({'error': "You are not authorized."})
         asys = ActorSystem()
         actor = asys.createActor(actorClass=EventsActor)
         payload = {
@@ -78,11 +85,11 @@ def get_tickets(event_id):
         }
         message = ActorMessage(
             action=EventsActorAction.EVENTS_TICKETS, payload=payload)
-        events_dict = []
-        events = asys.ask(actor, message)
-        for event in events:
-            events_dict.append(Event.to_dict(event))
-        return jsonify(events)
+        tickets_dict = []
+        response = asys.ask(actor, message)
+        for ticket in response.payload.get('tickets'):
+            tickets_dict.append(Ticket.to_dict(ticket))
+        return jsonify(tickets_dict)
     except Exception as ex:
         return jsonify({'error': str(ex)})
 
@@ -91,6 +98,9 @@ def get_tickets(event_id):
 def purchase(event_id):
     """Purchase tickets for a specific event."""
     try:
+        customer_id = request.headers.get('Customer-ID')
+        if not customer_id:
+            return jsonify({'error': "You are not authorized."})
         asys = ActorSystem()
         actor = asys.createActor(actorClass=EventsActor)
         customer_id = request.headers.get('Customer-ID')
