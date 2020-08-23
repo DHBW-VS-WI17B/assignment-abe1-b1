@@ -2,9 +2,9 @@ class Config:
     __conf = {
         'HOST': '',
         'PORT': '',
-        'SQLITE_DATABASE': 'file::memory:?cache=shared',
+        'SQLITE_DATABASE': '',
     }
-    __setters = ['HOST', 'PORT']
+    __setters = ['HOST', 'PORT', 'SQLITE_DATABASE']
 
     @staticmethod
     def get(name):

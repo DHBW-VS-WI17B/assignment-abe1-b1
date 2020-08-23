@@ -1,19 +1,21 @@
 """Server CLI
 Usage:
     server
-    server start [--host=<ip>] [--port=<port>]
+    server start [--host=<ip>] [--port=<port>] [--db-path=<path>]
     server -h|--help
     server -v|--version
 
 Options:
-    --host=<ip>     IP address [default: 0.0.0.0].
-    --port=<port>   Port [default: 8080].
-    -h, --help      Show this screen.
-    -v, --version   Show version.
+    --host=<ip>         IP address [default: 0.0.0.0].
+    --port=<port>       Port [default: 8080].
+    --db-path=<path>    Path to database file. [default: server.db].
+    -h, --help          Show this screen.
+    -v, --version       Show version.
 """
 
 import signal
 import sys
+from os import path
 from flask import Flask
 from thespian.actors import ActorSystem
 from docopt import docopt
@@ -31,6 +33,12 @@ def signal_handler(signalnum, frame):
     # pylint: disable=unused-argument
     ActorSystem().shutdown()
     sys.exit(0)
+
+
+def init_config(args):
+    Config.set('HOST', args.get('--host'))
+    Config.set('PORT', int(args.get('--port')))
+    Config.set('SQLITE_DATABASE', args.get('--db-path'))
 
 
 def init_db():
@@ -60,6 +68,15 @@ def init_web_server(host, port):
     server.serve_forever()
 
 
+def check_db_path(db_path):
+    path_exists = path.exists(db_path)
+    if not path_exists:
+        print('Server CLI')
+        print()
+        print('\033[91mDatabase file not found.\033[0m')
+        sys.exit(0)
+
+
 def main():
     print("Start server...")
     init_db()
@@ -68,10 +85,10 @@ def main():
 
 
 if __name__ == '__main__':
-    args = docopt(__doc__, version='1.0.0')
-    Config.set('HOST', args.get('--host'))
-    Config.set('PORT', int(args.get('--port')))
-    if args.get('start') is True:
+    arguments = docopt(__doc__, version='1.0.0')
+    init_config(arguments)
+    if arguments.get('start') is True:
+        check_db_path(arguments.get('--db-path'))
         main()
     else:
         print('Server CLI')
