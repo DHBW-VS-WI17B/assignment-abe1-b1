@@ -48,12 +48,11 @@ class DbActor(Actor):
         if msg.action == EventsActorAction.EVENTS_LIST:
             events = []
             event_models = EventModel.select()
-            print(event_models)
             for event_model in event_models:
-                print(event_model)
                 event = Event.from_model(event_model)
                 events.append(event)
-            self.send(response_to, events)
+            message = ActorMessage(payload={'events': events})
+            self.send(response_to, message)
             self.db.close()
         if msg.action == EventsActorAction.EVENTS_PURCHASE:
             print('TODO')

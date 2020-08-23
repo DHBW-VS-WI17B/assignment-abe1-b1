@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask import request
 from flask import jsonify
-from thespian.actors import ActorSystem, ActorExitRequest
+from thespian.actors import ActorSystem
 from app.enums.events_action import EventsActorAction
 from app.actors.events_actor import EventsActor
 from app.classes.event import Event
@@ -19,12 +19,12 @@ def index():
         customer_id = request.headers.get('Customer-ID')
         message = ActorMessage(
             action=EventsActorAction.EVENTS_LIST, customer_id=customer_id)
-        events = asys.ask(actor, message)
-        # asys.tell(actor, ActorExitRequest())
+        response = asys.ask(actor, message)
+        events = response.payload.get('events')
         events_dict = []
         for event in events:
             events_dict.append(Event.to_dict(event))
-        return jsonify(events)
+        return jsonify(events_dict)
     except Exception as ex:
         return jsonify({'error': str(ex)})
 
@@ -42,7 +42,6 @@ def add():
         message = ActorMessage(
             action=EventsActorAction.EVENTS_ADD, payload=payload)
         asys.tell(actor, message)
-        # asys.tell(actor, ActorExitRequest())
         return '', 204
     except Exception as ex:
         return jsonify({'error': str(ex)})
@@ -63,7 +62,6 @@ def get(event_id):
         response = asys.ask(actor, message)
         if response.error:
             return jsonify({'error': str(response.error)})
-        # asys.tell(actor, ActorExitRequest())
         return jsonify(Event.to_dict(response.payload.get('event')))
     except Exception as ex:
         return jsonify({'error': str(ex)})
@@ -82,7 +80,6 @@ def get_tickets(event_id):
             action=EventsActorAction.EVENTS_TICKETS, payload=payload)
         events_dict = []
         events = asys.ask(actor, message)
-        # asys.tell(actor, ActorExitRequest())
         for event in events:
             events_dict.append(Event.to_dict(event))
         return jsonify(events)
@@ -104,7 +101,6 @@ def purchase(event_id):
         message = ActorMessage(
             action=EventsActorAction.EVENTS_PURCHASE, payload=payload, customer_id=customer_id)
         asys.tell(actor, message)
-        # asys.tell(actor, ActorExitRequest())
         return '', 204
     except Exception as ex:
         return jsonify({'error': str(ex)})
