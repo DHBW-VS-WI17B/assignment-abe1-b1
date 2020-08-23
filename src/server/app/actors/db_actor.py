@@ -139,8 +139,8 @@ class DbActor(Actor):
         if sale_not_started or sale_over:
             raise Exception(
                 "Currently no tickets can be purchased for this event.")
-        CustomerModel.update(budget=budget_after_purchase).where(
-            CustomerModel.id == customer_model.id)
+        customer_model.budget = budget_after_purchase
+        customer_model.save()
         ticket = Ticket(id=None, order_date=date.today(),
                         customer_id=customer_model.id, event_id=event_model.id)
         for _ in range(quantity):
