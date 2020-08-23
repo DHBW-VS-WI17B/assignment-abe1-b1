@@ -36,6 +36,24 @@ class Event:
         return event
 
     @staticmethod
+    def to_dict(event):
+        # pylint: disable=redefined-builtin
+        id = event.id
+        name = event.name
+        date = event.date
+        location = event.location
+        ticket_price = event.ticket_price
+        max_tickets = event.max_tickets
+        max_tickets_per_customer = event.max_tickets_per_customer
+        sale_start_date = event.sale_start_date
+        sale_period = event.sale_period
+        event_dict = {'id': id, 'name': name, 'date': date, 'location': location,
+                      'ticket_price': ticket_price, 'max_tickets': max_tickets,
+                      'max_tickets_per_customer': max_tickets_per_customer,
+                      'sale_start_date': sale_start_date, 'sale_period': sale_period}
+        return event_dict
+
+    @staticmethod
     def from_model(model):
         _id = model.id
         name = model.name

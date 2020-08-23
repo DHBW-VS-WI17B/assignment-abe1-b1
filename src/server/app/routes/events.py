@@ -23,7 +23,7 @@ def index():
         # asys.tell(actor, ActorExitRequest())
         events_dict = []
         for event in events:
-            events_dict.append(event.__dict__)
+            events_dict.append(Event.to_dict(event))
         return jsonify(events)
     except Exception as ex:
         return jsonify({'error': str(ex)})
@@ -64,7 +64,7 @@ def get(event_id):
         if response.error:
             return jsonify({'error': str(response.error)})
         # asys.tell(actor, ActorExitRequest())
-        return jsonify(response.payload.get('event').__dict__)
+        return jsonify(Event.to_dict(response.payload.get('event')))
     except Exception as ex:
         return jsonify({'error': str(ex)})
 
@@ -84,7 +84,7 @@ def get_tickets(event_id):
         events = asys.ask(actor, message)
         # asys.tell(actor, ActorExitRequest())
         for event in events:
-            events_dict.append(event.__dict__)
+            events_dict.append(Event.to_dict(event))
         return jsonify(events)
     except Exception as ex:
         return jsonify({'error': str(ex)})
