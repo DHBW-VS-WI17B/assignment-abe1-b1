@@ -14,9 +14,11 @@ bp = Blueprint("customers", __name__, url_prefix='/api/customers')
 def add():
     """Add a new customer."""
     try:
+        customer_id = request.headers.get('Customer-ID')
+        if customer_id:
+            return jsonify({'error': "You are not authorized."}), 403
         asys = ActorSystem()
         actor = asys.createActor(actorClass=CustomersActor)
-        customer_id = request.headers.get('Customer-ID')
         customer = Customer.from_json(request.get_json())
         payload = {
             'customer': customer
@@ -26,13 +28,16 @@ def add():
         customer = asys.ask(actor, message)
         return "", 204
     except Exception as ex:
-        return jsonify({'error': str(ex)})
+        return jsonify({'error': str(ex)}), 500
 
 
 @bp.route("/<customer_id>/budget", methods=["GET"])
 def get_budget(customer_id):
     """Get the budget of a specific customer."""
     try:
+        customer_id = request.headers.get('Customer-ID')
+        if not customer_id:
+            return jsonify({'error': "You are not authorized."}), 403
         asys = ActorSystem()
         actor = asys.createActor(actorClass=CustomersActor)
         customer_id = request.headers.get('Customer-ID')
@@ -44,13 +49,16 @@ def get_budget(customer_id):
         budget = asys.ask(actor, message)
         return jsonify(budget)
     except Exception as ex:
-        return jsonify({'error': str(ex)})
+        return jsonify({'error': str(ex)}), 500
 
 
 @bp.route("/<customer_id>/tickets", methods=["POST"])
 def get_tickets(customer_id):
     """Get the tickets of a specific customer."""
     try:
+        customer_id = request.headers.get('Customer-ID')
+        if not customer_id:
+            return jsonify({'error': "You are not authorized."}), 403
         asys = ActorSystem()
         actor = asys.createActor(actorClass=CustomersActor)
         customer_id = request.headers.get('Customer-ID')
@@ -67,4 +75,4 @@ def get_tickets(customer_id):
             tickets_dict.append(ticket.__dict__)
         return jsonify(tickets)
     except Exception as ex:
-        return jsonify({'error': str(ex)})
+        return jsonify({'error': str(ex)}), 500
