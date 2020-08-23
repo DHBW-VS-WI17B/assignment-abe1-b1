@@ -14,7 +14,7 @@ class EventsActor(Actor):
             db_actor = self.createActor(actorClass=DbActor,
                                         globalName=ActorName.DB_ACTOR)
             message = ActorMessage(action=msg.action, payload=msg.payload,
-                                   customer_id=msg.customer_id)
+                                   customer_id=msg.customer_id, response_to=sender)
             self.send(db_actor, message)
         if msg.action == EventsActorAction.EVENTS_GET:
             db_actor = self.createActor(actorClass=DbActor)
@@ -30,7 +30,7 @@ class EventsActor(Actor):
             db_actor = self.createActor(actorClass=DbActor,
                                         globalName=ActorName.DB_ACTOR)
             message = ActorMessage(action=msg.action, payload=msg.payload,
-                                   customer_id=msg.customer_id)
+                                   customer_id=msg.customer_id, response_to=sender)
             self.send(db_actor, message)
         if msg.action == EventsActorAction.EVENTS_TICKETS:
             db_actor = self.createActor(actorClass=DbActor)

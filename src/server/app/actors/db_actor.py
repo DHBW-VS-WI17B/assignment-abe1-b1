@@ -6,8 +6,10 @@ from app.enums.events_action import EventsActorAction
 from app.models.customer import Customer as CustomerModel
 from app.models.event import Event as EventModel
 from app.models.ticket import Ticket as TicketModel
+from app.models.customer import Customer as CustomerModel
 from app.classes.event import Event
 from app.classes.ticket import Ticket
+from app.classes.customer import Customer
 from app.classes.actor_message import ActorMessage
 from datetime import datetime
 
@@ -20,8 +22,7 @@ class DbActor(Actor):
             return
         self.db.connect(reuse_if_open=True)
         if msg.customer_id:
-            # TODO: check if customer exists
-            print('TODO')
+            self.__check_customer_id(msg, sender)
         if msg.action == CustomersActorAction.CUSTOMERS_ADD:
             self.__add_customer(msg, sender)
         elif msg.action == CustomersActorAction.CUSTOMERS_BUDGET:
@@ -41,6 +42,15 @@ class DbActor(Actor):
         if not self.globalName:
             self.db.close()
 
+    def __check_customer_id(self, msg, sender):
+        try:
+            CustomerModel.get(CustomerModel.id == msg.customer_id)
+        except DoesNotExist:
+            # TODO: http status code
+            message = ActorMessage(error="Customer not found.")
+            self.send(msg.response_to, message)
+            return
+
     def __add_customer(self, msg, sender):
         print('TODO')
 
@@ -54,6 +64,7 @@ class DbActor(Actor):
         event = msg.payload.get('event')
         event_model = Event.to_model(event)
         event_model.save()
+        self.send(msg.response_to, ActorMessage())
 
     def __get_event(self, msg, sender):
         event_id = msg.payload.get('event_id')
@@ -86,6 +97,7 @@ class DbActor(Actor):
         for i in range(quantity):
             ticket_model = Ticket.to_model(ticket)
             ticket_model.save()
+        self.send(msg.response_to, ActorMessage())
         # except DoesNotExist:
         #     message = ActorMessage(error="Event not found.")
         #     self.send(response_to, message)

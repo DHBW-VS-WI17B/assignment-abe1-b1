@@ -45,7 +45,9 @@ def add():
         }
         message = ActorMessage(action=EventsActorAction.EVENTS_ADD,
                                payload=payload)
-        asys.tell(actor, message)
+        response = asys.ask(actor, message)
+        if response.error:
+            return jsonify({'error': str(response.error)}), 400
         return '', 204
     except Exception as ex:
         return jsonify({'error': str(ex)}), 500
@@ -110,7 +112,9 @@ def purchase(event_id):
         }
         message = ActorMessage(action=EventsActorAction.EVENTS_PURCHASE,
                                payload=payload, customer_id=customer_id)
-        asys.tell(actor, message)
+        response = asys.ask(actor, message)
+        if response.error:
+            return jsonify({'error': str(response.error)}), 400
         return '', 204
     except Exception as ex:
         return jsonify({'error': str(ex)}), 500
