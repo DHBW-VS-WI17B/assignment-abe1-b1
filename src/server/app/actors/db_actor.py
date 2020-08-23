@@ -13,6 +13,8 @@ from app.classes.customer import Customer
 from app.classes.actor_message import ActorMessage
 from datetime import datetime
 
+# TODO: transactions
+
 
 class DbActor(Actor):
     db = SqliteDatabase(Config.get('SQLITE_DATABASE'))
@@ -22,27 +24,27 @@ class DbActor(Actor):
             return
         self.db.connect(reuse_if_open=True)
         if msg.customer_id:
-            self.__check_customer_id(msg, sender)
+            self.__check_customer_id(msg)
         if msg.action == CustomersActorAction.CUSTOMERS_ADD:
-            self.__add_customer(msg, sender)
+            self.__add_customer(msg)
         elif msg.action == CustomersActorAction.CUSTOMERS_BUDGET:
-            self.__get_customer_budget(msg, sender)
+            self.__get_customer_budget(msg)
         elif msg.action == CustomersActorAction.CUSTOMERS_TICKETS:
-            self.__get_customer_tickets(msg, sender)
+            self.__get_customer_tickets(msg)
         elif msg.action == EventsActorAction.EVENTS_ADD:
-            self.__add_event(msg, sender)
+            self.__add_event(msg)
         elif msg.action == EventsActorAction.EVENTS_GET:
-            self.__get_event(msg, sender)
+            self.__get_event(msg)
         elif msg.action == EventsActorAction.EVENTS_LIST:
-            self.__list_event(msg, sender)
+            self.__list_event(msg)
         elif msg.action == EventsActorAction.EVENTS_PURCHASE:
-            self.__purchase_event_ticket(msg, sender)
+            self.__purchase_event_ticket(msg)
         elif msg.action == EventsActorAction.EVENTS_TICKETS:
-            self.__get_event_tickets(msg, sender)
+            self.__get_event_tickets(msg)
         if not self.globalName:
             self.db.close()
 
-    def __check_customer_id(self, msg, sender):
+    def __check_customer_id(self, msg):
         try:
             CustomerModel.get(CustomerModel.id == msg.customer_id)
         except DoesNotExist:
@@ -51,22 +53,46 @@ class DbActor(Actor):
             self.send(msg.response_to, message)
             return
 
-    def __add_customer(self, msg, sender):
-        print('TODO')
+    def __add_customer(self, msg):
+        customer = msg.payload.get('customer')
+        customer_model = Customer.to_model(customer)
+        customer_model.save()
+        self.send(msg.response_to, ActorMessage())
 
-    def __get_customer_budget(self, msg, sender):
-        print('TODO')
+    def __get_customer_budget(self, msg):
+        customer_id = msg.payload.get('customer_id')
+        try:
+            customer_model = CustomerModel.get(CustomerModel.id == customer_id)
+            customer = Customer.from_model(customer_model)
+            message = ActorMessage(payload={'budget': customer.budget})
+            self.send(msg.response_to, message)
+        except DoesNotExist:
+            message = ActorMessage(error="Customer not found.")
+            self.send(msg.response_to, message)
 
-    def __get_customer_tickets(self, msg, sender):
-        print('TODO')
+    def __get_customer_tickets(self, msg):
+        try:
+            tickets = []
+            customer_model = CustomerModel.get(
+                CustomerModel.id == msg.customer_id)
+            ticket_models = TicketModel.select().where(
+                TicketModel.customer_id == customer_model.id)
+            for ticket_model in ticket_models:
+                ticket = Ticket.from_model(ticket_model)
+                tickets.append(ticket)
+            message = ActorMessage(payload={'tickets': tickets})
+            self.send(msg.response_to, message)
+        except DoesNotExist:
+            message = ActorMessage(error="Customer not found.")
+            self.send(msg.response_to, message)
 
-    def __add_event(self, msg, sender):
+    def __add_event(self, msg):
         event = msg.payload.get('event')
         event_model = Event.to_model(event)
         event_model.save()
         self.send(msg.response_to, ActorMessage())
 
-    def __get_event(self, msg, sender):
+    def __get_event(self, msg):
         event_id = msg.payload.get('event_id')
         try:
             event_model = EventModel.get(EventModel.id == event_id)
@@ -77,7 +103,7 @@ class DbActor(Actor):
             message = ActorMessage(error="Event not found.")
             self.send(msg.response_to, message)
 
-    def __list_event(self, msg, sender):
+    def __list_event(self, msg):
         events = []
         event_models = EventModel.select()
         for event_model in event_models:
@@ -86,15 +112,40 @@ class DbActor(Actor):
         message = ActorMessage(payload={'events': events})
         self.send(msg.response_to, message)
 
-    def __purchase_event_ticket(self, msg, sender):
+    def __purchase_event_ticket(self, msg):
         # TODO: check customer budget + try catch
         event_id = msg.payload.get('event_id')
         quantity = msg.payload.get('quantity')
         # try:
         event_model = EventModel.get(EventModel.id == event_id)
+        customer_model = CustomerModel.get(CustomerModel.id == msg.customer_id)
+        event_customer_ticket_models = TicketModel.select().where(
+            TicketModel.customer_id == customer_model.id, TicketModel.event_id == event_model.id)
+        event_ticket_models = TicketModel.select().where(
+            TicketModel.event_id == event_model.id)
+        total_price = event_model.ticket_price * quantity
+        budget_after_purchase = customer_model.budget - total_price
+        if budget_after_purchase < 0:
+            self.send(msg.response_to, ActorMessage(
+                error="The budget of the customer is not sufficient."))
+            return
+        if event_model.max_tickets_per_customer < len(event_customer_ticket_models) + quantity:
+            self.send(msg.response_to, ActorMessage(
+                error="With this purchase the maximum number of tickets per customer for this event would be exceeded."))
+            return
+        if event_model.max_tickets < len(event_ticket_models) + quantity:
+            self.send(msg.response_to, ActorMessage(
+                error="With this purchase the maximum number of tickets for this event would be exceeded."))
+            return
+        if event_model.sale_start_date > datetime.now() or event_model.sale_start_date + datetime.timedelta(days=event_model.sale_period) < datetime.now():
+            self.send(msg.response_to, ActorMessage(
+                error="Currently no tickets can be purchased for this event."))
+            return
+        CustomerModel.update(budget=budget_after_purchase).where(
+            CustomerModel.id == customer_model.id)
         ticket = Ticket(id=None, order_date=datetime.now(),
-                        customer_id=msg.customer_id, event_id=event_model.id)
-        for i in range(quantity):
+                        customer_id=customer_model.id, event_id=event_model.id)
+        for _ in range(quantity):
             ticket_model = Ticket.to_model(ticket)
             ticket_model.save()
         self.send(msg.response_to, ActorMessage())
@@ -102,7 +153,7 @@ class DbActor(Actor):
         #     message = ActorMessage(error="Event not found.")
         #     self.send(response_to, message)
 
-    def __get_event_tickets(self, msg, sender):
+    def __get_event_tickets(self, msg):
         event_id = msg.payload.get('event_id')
         try:
             tickets = []

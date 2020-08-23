@@ -64,6 +64,7 @@ def get_tickets(customer_id):
         customer_id = request.headers.get('Customer-ID')
         payload = {
             'customer_id': int(customer_id),
+            # TODO
             'order_date': request.args.get('order_date', default=None, type=int),
             'event_date': request.args.get('event_date', default=None, type=int)
         }
