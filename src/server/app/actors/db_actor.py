@@ -3,7 +3,6 @@ from peewee import SqliteDatabase, DoesNotExist
 from app.config.config import Config
 from app.enums.customers_action import CustomersActorAction
 from app.enums.events_action import EventsActorAction
-from app.models.customer import Customer as CustomerModel
 from app.models.event import Event as EventModel
 from app.models.ticket import Ticket as TicketModel
 from app.models.customer import Customer as CustomerModel
