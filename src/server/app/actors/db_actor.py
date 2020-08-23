@@ -24,19 +24,19 @@ class DbActor(Actor):
             print('TODO')
         if msg.action == CustomersActorAction.CUSTOMERS_ADD:
             self.__add_customer(msg, sender)
-        if msg.action == CustomersActorAction.CUSTOMERS_BUDGET:
+        elif msg.action == CustomersActorAction.CUSTOMERS_BUDGET:
             self.__get_customer_budget(msg, sender)
-        if msg.action == CustomersActorAction.CUSTOMERS_TICKETS:
+        elif msg.action == CustomersActorAction.CUSTOMERS_TICKETS:
             self.__get_customer_tickets(msg, sender)
-        if msg.action == EventsActorAction.EVENTS_ADD:
+        elif msg.action == EventsActorAction.EVENTS_ADD:
             self.__add_event(msg, sender)
-        if msg.action == EventsActorAction.EVENTS_GET:
+        elif msg.action == EventsActorAction.EVENTS_GET:
             self.__get_event(msg, sender)
-        if msg.action == EventsActorAction.EVENTS_LIST:
+        elif msg.action == EventsActorAction.EVENTS_LIST:
             self.__list_event(msg, sender)
-        if msg.action == EventsActorAction.EVENTS_PURCHASE:
+        elif msg.action == EventsActorAction.EVENTS_PURCHASE:
             self.__purchase_event_ticket(msg, sender)
-        if msg.action == EventsActorAction.EVENTS_TICKETS:
+        elif msg.action == EventsActorAction.EVENTS_TICKETS:
             self.__get_event_tickets(msg, sender)
         if not self.globalName:
             self.db.close()
