@@ -5,6 +5,7 @@ from thespian.actors import ActorSystem
 from app.enums.customers_action import CustomersActorAction
 from app.actors.customers_actor import CustomersActor
 from app.classes.customer import Customer
+from app.classes.ticket import Ticket
 from app.classes.actor_message import ActorMessage
 
 bp = Blueprint("customers", __name__, url_prefix='/api/customers')
@@ -16,7 +17,7 @@ def add():
     try:
         customer_id = request.headers.get('Customer-ID')
         if customer_id:
-            return jsonify({'error': "You are not authorized."}), 403
+            return jsonify({'error': "You do not have permissions."}), 403
         asys = ActorSystem()
         actor = asys.createActor(actorClass=CustomersActor)
         customer = Customer.from_json(request.get_json())
@@ -25,7 +26,9 @@ def add():
         }
         message = ActorMessage(
             action=CustomersActorAction.CUSTOMERS_ADD, payload=payload, customer_id=customer_id)
-        customer = asys.ask(actor, message)
+        response = asys.ask(actor, message)
+        if response.error:
+            return jsonify({'error': str(response.error)}), 400
         return "", 204
     except Exception as ex:
         return jsonify({'error': str(ex)}), 500
@@ -35,9 +38,10 @@ def add():
 def get_budget(customer_id):
     """Get the budget of a specific customer."""
     try:
-        customer_id = request.headers.get('Customer-ID')
         if not customer_id:
-            return jsonify({'error': "You are not authorized."}), 403
+            return jsonify({'error': "You do not have permissions."}), 403
+        if not customer_id == request.headers.get('Customer-ID'):
+            return jsonify({'error': "You do not have permissions."}), 403
         asys = ActorSystem()
         actor = asys.createActor(actorClass=CustomersActor)
         customer_id = request.headers.get('Customer-ID')
@@ -46,19 +50,21 @@ def get_budget(customer_id):
         }
         message = ActorMessage(
             action=CustomersActorAction.CUSTOMERS_BUDGET, payload=payload, customer_id=customer_id)
-        budget = asys.ask(actor, message)
-        return jsonify(budget)
+        response = asys.ask(actor, message)
+        if response.error:
+            return jsonify({'error': str(response.error)}), 400
+        return jsonify(response.payload)
     except Exception as ex:
         return jsonify({'error': str(ex)}), 500
 
 
-@bp.route("/<customer_id>/tickets", methods=["POST"])
+@bp.route("/<customer_id>/tickets", methods=["GET"])
 def get_tickets(customer_id):
     """Get the tickets of a specific customer."""
     try:
         customer_id = request.headers.get('Customer-ID')
         if not customer_id:
-            return jsonify({'error': "You are not authorized."}), 403
+            return jsonify({'error': "You do not have permissions."}), 403
         asys = ActorSystem()
         actor = asys.createActor(actorClass=CustomersActor)
         customer_id = request.headers.get('Customer-ID')
@@ -71,9 +77,11 @@ def get_tickets(customer_id):
         message = ActorMessage(
             action=CustomersActorAction.CUSTOMERS_TICKETS, payload=payload, customer_id=customer_id)
         tickets_dict = []
-        tickets = asys.ask(actor, message)
-        for ticket in tickets:
-            tickets_dict.append(ticket.__dict__)
-        return jsonify(tickets)
+        response = asys.ask(actor, message)
+        if response.error:
+            return jsonify({'error': str(response.error)}), 400
+        for ticket in response.payload.get('tickets'):
+            tickets_dict.append(Ticket.to_dict(ticket))
+        return jsonify(tickets_dict)
     except Exception as ex:
         return jsonify({'error': str(ex)}), 500

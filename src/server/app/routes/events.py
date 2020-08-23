@@ -21,6 +21,8 @@ def index():
         message = ActorMessage(action=EventsActorAction.EVENTS_LIST,
                                customer_id=customer_id)
         response = asys.ask(actor, message)
+        if response.error:
+            return jsonify({'error': str(response.error)}), 400
         events = response.payload.get('events')
         events_dict = []
         for event in events:
@@ -36,7 +38,7 @@ def add():
     try:
         customer_id = request.headers.get('Customer-ID')
         if customer_id:
-            return jsonify({'error': "You are not authorized."}), 403
+            return jsonify({'error': "You do not have permissions."}), 403
         asys = ActorSystem()
         actor = asys.createActor(actorClass=EventsActor)
         event = Event.from_json(request.get_json())
@@ -79,7 +81,7 @@ def get_tickets(event_id):
     try:
         customer_id = request.headers.get('Customer-ID')
         if customer_id:
-            return jsonify({'error': "You are not authorized."}), 403
+            return jsonify({'error': "You do not have permissions."}), 403
         asys = ActorSystem()
         actor = asys.createActor(actorClass=EventsActor)
         payload = {
@@ -89,6 +91,8 @@ def get_tickets(event_id):
                                payload=payload)
         tickets_dict = []
         response = asys.ask(actor, message)
+        if response.error:
+            return jsonify({'error': str(response.error)}), 400
         for ticket in response.payload.get('tickets'):
             tickets_dict.append(Ticket.to_dict(ticket))
         return jsonify(tickets_dict)
@@ -102,7 +106,7 @@ def purchase(event_id):
     try:
         customer_id = request.headers.get('Customer-ID')
         if not customer_id:
-            return jsonify({'error': "You are not authorized."}), 403
+            return jsonify({'error': "You do not have permissions."}), 403
         asys = ActorSystem()
         actor = asys.createActor(actorClass=EventsActor)
         customer_id = request.headers.get('Customer-ID')
