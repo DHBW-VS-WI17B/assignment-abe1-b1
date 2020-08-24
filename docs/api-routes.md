@@ -8,7 +8,7 @@ GET `/api/events/:event_id` - Fetch a specific event
 PATCH `/api/events/:event_id` - Update an existing event  
 DELETE `/api/events/:event_id` - Delete a event  
 
-GET `/api/events/:event_id/tickets` - Fetch tickets of a specific event  
+GET `/api/events/sales` - Fetch the number of tickets sold per event  
 POST `/api/events/:event_id/purchase` - Purchase a certain number of tickets  
 
 ## Customers
