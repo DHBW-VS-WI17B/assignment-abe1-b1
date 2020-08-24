@@ -22,13 +22,13 @@ class Event:
     def from_json(json):
         id = json.get('id')
         name = json.get('name')
-        date = datetime.fromtimestamp(int(json.get('date'))).date()
+        date = datetime.fromtimestamp(json.get('date')).date()
         location = json.get('location')
         ticket_price = json.get('ticket_price')
         max_tickets = json.get('max_tickets')
         max_tickets_per_customer = json.get('max_tickets_per_customer')
         sale_start_date = datetime.fromtimestamp(
-            int(json.get('sale_start_date'))).date()
+            json.get('sale_start_date')).date()
         sale_period = json.get('sale_period')
         event = Event(id=id, name=name, date=date, location=location, ticket_price=ticket_price,
                       max_tickets=max_tickets, max_tickets_per_customer=max_tickets_per_customer,
