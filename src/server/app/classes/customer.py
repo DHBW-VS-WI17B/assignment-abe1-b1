@@ -1,38 +1,50 @@
-"""Customer"""
-import itertools
 from dataclasses import dataclass
+from app.models.customer import Customer as CustomerModel
 
 
 @dataclass
 class Customer:
-    """Customer"""
-    id_iter = itertools.count()
 
-    def __init__(self, name, budget, address):
-        """ initialize object
-
-        Args:
-            name ([string]): name of the customer
-            budget ([int]): budget of the customer for tickets
-            address ([string]): address of the customer
-        """
-        self.id = next(self.id_iter)
+    def __init__(self, id, name, budget, address):
+        self.id = id
         self.name = name
         self.budget = budget
         self.address = address
 
     @staticmethod
     def from_json(json):
-        """ deserialize customer from json
-
-        Args:
-            json ([json]): customer json
-        Returns:
-            [Customer]: deserialized customer object
-        """
-        # customer_id = json.get('customer_id')
-        budget = json.get('budget')
+        id = json.get('id')
         name = json.get('name')
+        budget = json.get('budget')
         address = json.get('address')
-        customer = Customer(name, budget, address)
+        customer = Customer(id=id, name=name, budget=budget, address=address)
         return customer
+
+    @staticmethod
+    def to_dict(customer):
+        id = customer.id
+        name = customer.name
+        budget = customer.budget
+        address = customer.address
+        customer_dict = {'id': id, 'name': name,
+                         'budget': budget, 'address': address}
+        return customer_dict
+
+    @staticmethod
+    def from_model(model):
+        id = model.id
+        name = model.name
+        budget = model.budget
+        address = model.address
+        customer = Customer(id=id, name=name, budget=budget, address=address)
+        return customer
+
+    @staticmethod
+    def to_model(customer):
+        id = customer.id
+        name = customer.name
+        budget = customer.budget
+        address = customer.address
+        customer_model = CustomerModel(id=id, name=name,
+                                       budget=budget, address=address)
+        return customer_model
