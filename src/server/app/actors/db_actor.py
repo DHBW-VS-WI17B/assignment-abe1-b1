@@ -130,8 +130,10 @@ class DbActor(Actor):
         # TODO: try catch
         event_id = msg.payload.get('event_id')
         quantity = msg.payload.get('quantity')
-        # try:
-        event_model = EventModel.get(EventModel.id == event_id)
+        try:
+            event_model = EventModel.get(EventModel.id == event_id)
+        except DoesNotExist:
+            raise Exception("Event not found.")
         customer_model = CustomerModel.get(CustomerModel.id == msg.customer_id)
         event_customer_ticket_models = (TicketModel
                                         .select()
@@ -168,8 +170,6 @@ class DbActor(Actor):
                                        customer=customer_model, event=event_model)
             ticket_model.save()
         self.send(msg.response_to, ActorMessage())
-        # except DoesNotExist:
-        #     raise Exception("Event not found.")
 
     def __get_event_tickets(self, msg):
         event_id = msg.payload.get('event_id')
