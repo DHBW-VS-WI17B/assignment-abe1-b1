@@ -13,9 +13,6 @@ from app.classes.customer import Customer
 from app.classes.actor_message import ActorMessage
 from app.classes.actor_message_error import ActorMessageError
 
-# TODO: transactions
-# TODO: Custom exception class
-
 
 class DbActorError(Exception):
     def __init__(self, message, http_code):
@@ -151,7 +148,6 @@ class DbActor(Actor):
     def __purchase_event_ticket(self, msg):
         event_id = msg.payload.get('event_id')
         quantity = msg.payload.get('quantity')
-        # TODO
         try:
             event_model = EventModel.get(EventModel.id == event_id)
         except DoesNotExist:
