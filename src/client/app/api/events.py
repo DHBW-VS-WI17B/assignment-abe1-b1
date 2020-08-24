@@ -5,10 +5,9 @@ from app.classes.event import Event
 class Events():
     def add_event(args):
         event = Event(args)
-        payload = json.dumps(event.__dict__)
         # server_addr = ip + port
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.post(server_addr + '/api/events', json=payload)
+        req = requests.post(server_addr + '/api/events', json=event.__dict__)
         # req.json() -> dataclass
         # return array of events
         b = json.dumps(req.json()) 
