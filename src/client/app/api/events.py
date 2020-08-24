@@ -11,7 +11,8 @@ class Events():
         req = requests.post(server_addr + '/api/events', json=payload)
         # req.json() -> dataclass
         # return array of events
-        print(req.json())
+        b = json.dumps(req.json()) 
+        print(b)
 
     def get_events(args):
         # server_addr = ip + port
@@ -19,7 +20,8 @@ class Events():
         req = requests.get(server_addr + '/api/events')
         # req.json() -> dataclass
         # return array of events
-        print(req.json())
+        data = req.json()
+        Event.get_table(data)
 
     def get_event(args):
         # server_addr = ip + port

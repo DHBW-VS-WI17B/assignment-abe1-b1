@@ -1,4 +1,5 @@
 import requests
+import json
 from app.classes.customer import Customer
 
 class Customers():

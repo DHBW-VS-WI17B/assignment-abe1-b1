@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from tabulate import tabulate
 
 @dataclass
 class Event:
@@ -12,3 +13,6 @@ class Event:
         self.sale_start_date = args.sale_start_date
         self.price = args.ticket_price
         
+    def get_table(self, data):
+        headers = ["Name","Date0", "Location", "Price", "Max Tickets", "Max Tickets per Customer", "Sales Period", "Sale Startdate"]
+        print(tabulate(data.items(), headers=headers, floatfmt=".4f"))
