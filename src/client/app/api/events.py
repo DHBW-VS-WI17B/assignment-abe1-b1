@@ -3,41 +3,44 @@ import json
 from app.classes.event import Event
 
 class Events():
+    @staticmethod
     def add_event(args):
         event = Event(args)
         # server_addr = ip + port
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.post(server_addr + '/api/events', json=event.__dict__)
-        # req.json() -> dataclass
-        # return array of events
-        b = json.dumps(req.json()) 
-        print(b)
+        print(req)
 
+    @staticmethod
     def get_events(args):
         # server_addr = ip + port
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.get(server_addr + '/api/events')
-        # req.json() -> dataclass
-        # return array of events
         data = req.json()
-        Event.get_table(data)
+        if data == []:
+            print("No Events available!")
+        else:
+            Event.print_table(data)
 
+    @staticmethod
     def get_event(args):
         # server_addr = ip + port
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.get(server_addr + '/api/events/' + args.event_id)
-        # req.json() -> dataclass
-        # return array of events
-        print(req.json())
+        data = req.json()
+        if data == []:
+            print("No Events available!")
+        else:
+            Event.print_table(data)
 
+    @staticmethod
     def get_tickets(args):
         # server_addr = ip + port
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.get(server_addr + '/api/events/' + args.event_id + '/tickets')
-        # req.json() -> dataclass
-        # return array of events
         print(req.json())
 
+    @staticmethod
     def purchase_tickets(args):
         headers = {}
         if args.customer_id is not None:
@@ -46,10 +49,9 @@ class Events():
         # server_addr = ip + port
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.post(server_addr + '/api/events/' + args.event_id + '/purchase', params=payload, header=headers)
-        # req.json() -> dataclass
-        # return array of events
         print(req.json())
     
+    @staticmethod
     def get_sales(args):
         events = Events.get_events(args)
         sales = {}
