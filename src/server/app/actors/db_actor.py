@@ -1,5 +1,5 @@
 from thespian.actors import Actor
-from peewee import SqliteDatabase, DoesNotExist
+from peewee import SqliteDatabase, DoesNotExist, fn
 from app.config.config import Config
 from app.enums.customers_action import CustomersActorAction
 from app.enums.events_action import EventsActorAction
@@ -64,10 +64,19 @@ class DbActor(Actor):
         customer_id = msg.payload.get('customer_id')
         year = msg.payload.get('year')
         try:
-            customer_model = CustomerModel.get(CustomerModel.id == customer_id)
-            # TODO
-            budget = 100
-            message = ActorMessage(payload={'budget': budget})
+            customer_model = CustomerModel.get(
+                CustomerModel.id == msg.customer_id)
+            events = (EventModel
+                      .select(EventModel.id, fn.COUNT(TicketModel.id).alias('count'), EventModel.ticket_price, (fn.COUNT(TicketModel.id)*EventModel.ticket_price).alias('total_costs'))
+                      .join(TicketModel)
+                      .join(CustomerModel)
+                      .where(CustomerModel.id == customer_id, EventModel.date.year == year)
+                      .group_by(EventModel.id))
+            costs = 0
+            for event in events:
+                costs = costs + event.total_costs
+            message = ActorMessage(
+                payload={'budget': customer_model.budget - costs})
             self.send(msg.response_to, message)
         except DoesNotExist:
             raise Exception("Customer not found.")
@@ -127,7 +136,6 @@ class DbActor(Actor):
         self.send(msg.response_to, message)
 
     def __purchase_event_ticket(self, msg):
-        # TODO: try catch
         event_id = msg.payload.get('event_id')
         quantity = msg.payload.get('quantity')
         try:
@@ -146,8 +154,7 @@ class DbActor(Actor):
                                .join(EventModel)
                                .where(EventModel.id == event_id))
         total_price = event_model.ticket_price * quantity
-        budget_after_purchase = customer_model.budget - total_price
-        if budget_after_purchase < 0:
+        if customer_model.budget - total_price < 0:
             raise Exception("The budget of the customer is not sufficient.")
         if event_model.max_tickets_per_customer < len(event_customer_ticket_models) + quantity:
             raise Exception(("With this purchase the maximum number of tickets per "
@@ -162,8 +169,6 @@ class DbActor(Actor):
         if sale_not_started or sale_over:
             raise Exception(
                 "Currently no tickets can be purchased for this event.")
-        customer_model.budget = budget_after_purchase
-        customer_model.save()
         date_today = date.today()
         for _ in range(quantity):
             ticket_model = TicketModel(order_date=date_today,
