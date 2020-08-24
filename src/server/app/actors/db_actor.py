@@ -1,3 +1,4 @@
+from datetime import date, timedelta
 from thespian.actors import Actor
 from peewee import SqliteDatabase, DoesNotExist, fn, JOIN
 from app.config.config import Config
@@ -10,10 +11,16 @@ from app.classes.event import Event
 from app.classes.ticket import Ticket
 from app.classes.customer import Customer
 from app.classes.actor_message import ActorMessage
-from datetime import date, timedelta
+from app.classes.actor_message_error import ActorMessageError
 
 # TODO: transactions
 # TODO: Custom exception class
+
+
+class DbActorError(Exception):
+    def __init__(self, message, http_code):
+        super().__init__(message)
+        self.http_code = http_code
 
 
 class DbActor(Actor):
@@ -42,17 +49,23 @@ class DbActor(Actor):
                 self.__purchase_event_ticket(msg)
             elif msg.action == EventsActorAction.EVENTS_SALES:
                 self.__get_sales_per_event(msg)
+        except DbActorError as ex:
+            err = ActorMessageError(message=str(ex), http_code=ex.http_code)
+            self.send(msg.response_to,
+                      ActorMessage(error=err))
         except Exception as ex:
-            self.send(msg.response_to, ActorMessage(error=str(ex)))
-        if not self.globalName:
-            self.db.close()
+            print(ex)
+            error = ActorMessageError(message=str(ex), http_code=500)
+            self.send(msg.response_to, ActorMessage(error=error))
+        finally:
+            if not self.globalName:
+                self.db.close()
 
     def __check_customer_id(self, msg):
         try:
             CustomerModel.get(CustomerModel.id == msg.customer_id)
         except DoesNotExist:
-            # TODO: http status code
-            raise Exception("Customer not found.")
+            raise DbActorError("Customer not found.", 404)
 
     def __add_customer(self, msg):
         customer = msg.payload.get('customer')
@@ -79,7 +92,7 @@ class DbActor(Actor):
                 payload={'budget': customer_model.budget - costs})
             self.send(msg.response_to, message)
         except DoesNotExist:
-            raise Exception("Customer not found.")
+            raise DbActorError("Customer not found.", 404)
 
     def __get_customer_tickets(self, msg):
         try:
@@ -108,7 +121,7 @@ class DbActor(Actor):
             message = ActorMessage(payload={'tickets': tickets})
             self.send(msg.response_to, message)
         except DoesNotExist:
-            raise Exception("Customer not found.")
+            raise DbActorError("Customer not found.", 404)
 
     def __add_event(self, msg):
         event = msg.payload.get('event')
@@ -124,7 +137,7 @@ class DbActor(Actor):
             message = ActorMessage(payload={'event': event})
             self.send(msg.response_to, message)
         except DoesNotExist:
-            raise Exception("Event not found.")
+            raise DbActorError("Event not found.", 404)
 
     def __list_event(self, msg):
         events = []
@@ -138,10 +151,11 @@ class DbActor(Actor):
     def __purchase_event_ticket(self, msg):
         event_id = msg.payload.get('event_id')
         quantity = msg.payload.get('quantity')
+        # TODO
         try:
             event_model = EventModel.get(EventModel.id == event_id)
         except DoesNotExist:
-            raise Exception("Event not found.")
+            raise DbActorError("Event not found.", 404)
         customer_model = CustomerModel.get(CustomerModel.id == msg.customer_id)
         event_customer_ticket_models = (TicketModel
                                         .select()
@@ -155,20 +169,21 @@ class DbActor(Actor):
                                .where(EventModel.id == event_id))
         total_price = event_model.ticket_price * quantity
         if customer_model.budget - total_price < 0:
-            raise Exception("The budget of the customer is not sufficient.")
+            raise DbActorError("The budget of the customer is not sufficient.",
+                               400)
         if event_model.max_tickets_per_customer < len(event_customer_ticket_models) + quantity:
-            raise Exception(("With this purchase the maximum number of tickets per "
-                             "customer for this event would be exceeded."))
+            raise DbActorError(("With this purchase the maximum number of tickets per "
+                                "customer for this event would be exceeded."), 400)
         if event_model.max_tickets < len(event_ticket_models) + quantity:
-            raise Exception(("With this purchase the maximum number of "
-                             "tickets for this event would be exceeded."))
+            raise DbActorError(("With this purchase the maximum number of "
+                                "tickets for this event would be exceeded."), 400)
         sale_not_started = event_model.sale_start_date > date.today()
         sale_end_date = event_model.sale_start_date + \
             timedelta(days=event_model.sale_period)
         sale_over = sale_end_date < date.today()
         if sale_not_started or sale_over:
-            raise Exception(
-                "Currently no tickets can be purchased for this event.")
+            raise DbActorError("Currently no tickets can be purchased for this event.",
+                               400)
         date_today = date.today()
         for _ in range(quantity):
             ticket_model = TicketModel(order_date=date_today,

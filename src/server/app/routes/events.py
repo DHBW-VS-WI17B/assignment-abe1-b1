@@ -5,7 +5,6 @@ from thespian.actors import ActorSystem
 from app.enums.events_action import EventsActorAction
 from app.actors.events_actor import EventsActor
 from app.classes.event import Event
-from app.classes.ticket import Ticket
 from app.classes.actor_message import ActorMessage
 
 bp = Blueprint('events', __name__, url_prefix='/api/events')
@@ -22,7 +21,7 @@ def index():
                                customer_id=customer_id)
         response = asys.ask(actor, message)
         if response.error:
-            return jsonify({'error': str(response.error)}), 400
+            return jsonify({'error': str(response.error.message)}), response.error.http_code
         events = response.payload.get('events')
         events_dict = []
         for event in events:
@@ -49,7 +48,7 @@ def add():
                                payload=payload)
         response = asys.ask(actor, message)
         if response.error:
-            return jsonify({'error': str(response.error)}), 400
+            return jsonify({'error': str(response.error.message)}), response.error.http_code
         return '', 204
     except Exception as ex:
         return jsonify({'error': str(ex)}), 500
@@ -69,7 +68,7 @@ def get(event_id):
                                payload=payload, customer_id=customer_id)
         response = asys.ask(actor, message)
         if response.error:
-            return jsonify({'error': str(response.error)}), 400
+            return jsonify({'error': str(response.error.message)}), response.error.http_code
         return jsonify(Event.to_dict(response.payload.get('event')))
     except Exception as ex:
         return jsonify({'error': str(ex)}), 500
@@ -87,7 +86,7 @@ def get_sales():
         message = ActorMessage(action=EventsActorAction.EVENTS_SALES)
         response = asys.ask(actor, message)
         if response.error:
-            return jsonify({'error': str(response.error)}), 400
+            return jsonify({'error': str(response.error.message)}), response.error.http_code
         return jsonify(response.payload.get('sales_dict'))
     except Exception as ex:
         return jsonify({'error': str(ex)}), 500
@@ -111,7 +110,7 @@ def purchase(event_id):
                                payload=payload, customer_id=customer_id)
         response = asys.ask(actor, message)
         if response.error:
-            return jsonify({'error': str(response.error)}), 400
+            return jsonify({'error': str(response.error.message)}), response.error.http_code
         return '', 204
     except Exception as ex:
         return jsonify({'error': str(ex)}), 500

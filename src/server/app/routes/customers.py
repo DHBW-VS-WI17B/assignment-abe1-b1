@@ -29,7 +29,7 @@ def add():
             action=CustomersActorAction.CUSTOMERS_ADD, payload=payload, customer_id=customer_id)
         response = asys.ask(actor, message)
         if response.error:
-            return jsonify({'error': str(response.error)}), 400
+            return jsonify({'error': str(response.error.message)}), response.error.http_code
         return "", 204
     except Exception as ex:
         return jsonify({'error': str(ex)}), 500
@@ -54,7 +54,7 @@ def get_budget(customer_id):
             action=CustomersActorAction.CUSTOMERS_BUDGET, payload=payload, customer_id=customer_id)
         response = asys.ask(actor, message)
         if response.error:
-            return jsonify({'error': str(response.error)}), 400
+            return jsonify({'error': str(response.error.message)}), response.error.http_code
         return jsonify(response.payload)
     except Exception as ex:
         return jsonify({'error': str(ex)}), 500
@@ -82,7 +82,7 @@ def get_tickets(customer_id):
         tickets_dict = []
         response = asys.ask(actor, message)
         if response.error:
-            return jsonify({'error': str(response.error)}), 400
+            return jsonify({'error': str(response.error.message)}), response.error.http_code
         for ticket in response.payload.get('tickets'):
             tickets_dict.append(Ticket.to_dict(ticket))
         return jsonify(tickets_dict)
