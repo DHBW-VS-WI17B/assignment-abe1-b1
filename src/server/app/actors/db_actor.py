@@ -121,7 +121,7 @@ class DbActor(Actor):
         self.send(msg.response_to, message)
 
     def __purchase_event_ticket(self, msg):
-        # TODO: check customer budget + try catch
+        # TODO: ctry catch
         event_id = msg.payload.get('event_id')
         quantity = msg.payload.get('quantity')
         # try:
