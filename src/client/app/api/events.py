@@ -60,7 +60,9 @@ class Events():
         sales =  []
         for event in events:
             print(event['id'])
-            event_tickets = Events.get_tickets(args, event['id'])
-            sales.append(event_tickets)
+            event_tickets = Events.get_tickets(args, str(event['id']))
+            for ticket in event_tickets:
+                sales.append(ticket)  
+        print(sales)
         Ticket.print_table(sales)
         
