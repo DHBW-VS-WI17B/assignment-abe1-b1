@@ -4,7 +4,7 @@ Usage:
     client [--ip=<ip>] [--port=<port>] customer <customer-id> event list
     client [--ip=<ip>] [--port=<port>] customer <customer-id> event <event-id> info
     client [--ip=<ip>] [--port=<port>] customer <customer-id> ticket list [--order-date=<date>] [--event-date=<date>]
-    client [--ip=<ip>] [--port=<port>] customer <customer-id> ticket purchase [--quantity=<number>]
+    client [--ip=<ip>] [--port=<port>] customer <customer-id> event <event-id> ticket purchase [--quantity=<number>]
     client [--ip=<ip>] [--port=<port>] customer <customer-id> budget
     client [--ip=<ip>] [--port=<port>] admin event list
     client [--ip=<ip>] [--port=<port>] admin event add --name=<name> --date=<date> --location=<location> --ticket-price=<number> --max-tickets=<number> --max-tickets-per-customer=<number> --sale-start-date=<date> --sale-period=<days>
@@ -41,6 +41,12 @@ from app.api.customers import Customers
 
 def main(args):
     if args.customer:
+        if args.get_budget:
+            Customers.get_budget(args)
+        if args.ticket:
+            if args.list:
+                Customers.get_tickets(args)
+                exit
         if args.event:
             if args.list:
                 Events.get_events(args)
@@ -49,9 +55,6 @@ def main(args):
                 Events.get_event(args)
                 exit
             if args.ticket:
-                if args.list:
-                    Events.get_tickets(args)
-                    exit
                 if args.purchase:
                     Events.purchase_tickets(args)
                     exit

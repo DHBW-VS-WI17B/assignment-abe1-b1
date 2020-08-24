@@ -19,6 +19,7 @@ def add():
         actor = asys.createActor(CustomersActor, None,
                                  ActorName.CUSTOMERS_ACTOR)
         customer = Customer.from_json(request.get_json())
+        print(customer.__dict__)
         payload = {
             'customer': customer
         }

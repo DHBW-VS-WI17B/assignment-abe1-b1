@@ -88,7 +88,7 @@ def purchase(event_id):
         actor = asys.createActor(EventsActor, None, ActorName.EVENTS_ACTOR)
         payload = {
             'event_id': int(event_id),
-            'quantity': request.get_json().get('quantity')
+            'quantity': int(request.get_json().get('quantity'))
         }
         message = ActorMessage(EventsActorAction.EVENTS_PURCHASE, payload)
         asys.tell(actor, message)
