@@ -32,7 +32,7 @@ class EventsActor(Actor):
             message = ActorMessage(action=msg.action, payload=msg.payload,
                                    customer_id=msg.customer_id, response_to=sender)
             self.send(db_actor, message)
-        if msg.action == EventsActorAction.EVENTS_TICKETS:
+        if msg.action == EventsActorAction.EVENTS_SALES:
             db_actor = self.createActor(actorClass=DbActor)
             message = ActorMessage(action=msg.action, payload=msg.payload,
                                    customer_id=msg.customer_id, response_to=sender)

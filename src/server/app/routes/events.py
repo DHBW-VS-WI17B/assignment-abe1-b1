@@ -75,27 +75,20 @@ def get(event_id):
         return jsonify({'error': str(ex)}), 500
 
 
-@bp.route('/<event_id>/tickets', methods=['GET'])
-def get_tickets(event_id):
-    """Get the tickets of a specific event."""
+@bp.route('/sales', methods=['GET'])
+def get_sales():
+    """Get the number of tickets sold per event."""
     try:
         customer_id = request.headers.get('Customer-ID')
         if customer_id:
             return jsonify({'error': "You do not have permissions."}), 403
         asys = ActorSystem()
         actor = asys.createActor(actorClass=EventsActor)
-        payload = {
-            'event_id': int(event_id)
-        }
-        message = ActorMessage(action=EventsActorAction.EVENTS_TICKETS,
-                               payload=payload)
-        tickets_dict = []
+        message = ActorMessage(action=EventsActorAction.EVENTS_SALES)
         response = asys.ask(actor, message)
         if response.error:
             return jsonify({'error': str(response.error)}), 400
-        for ticket in response.payload.get('tickets'):
-            tickets_dict.append(Ticket.to_dict(ticket))
-        return jsonify(tickets_dict)
+        return jsonify(response.payload.get('sales_dict'))
     except Exception as ex:
         return jsonify({'error': str(ex)}), 500
 

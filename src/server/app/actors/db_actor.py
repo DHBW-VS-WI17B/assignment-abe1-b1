@@ -1,5 +1,5 @@
 from thespian.actors import Actor
-from peewee import SqliteDatabase, DoesNotExist, fn
+from peewee import SqliteDatabase, DoesNotExist, fn, JOIN
 from app.config.config import Config
 from app.enums.customers_action import CustomersActorAction
 from app.enums.events_action import EventsActorAction
@@ -40,8 +40,8 @@ class DbActor(Actor):
                 self.__list_event(msg)
             elif msg.action == EventsActorAction.EVENTS_PURCHASE:
                 self.__purchase_event_ticket(msg)
-            elif msg.action == EventsActorAction.EVENTS_TICKETS:
-                self.__get_event_tickets(msg)
+            elif msg.action == EventsActorAction.EVENTS_SALES:
+                self.__get_sales_per_event(msg)
         except Exception as ex:
             self.send(msg.response_to, ActorMessage(error=str(ex)))
         if not self.globalName:
@@ -67,7 +67,7 @@ class DbActor(Actor):
             customer_model = CustomerModel.get(
                 CustomerModel.id == msg.customer_id)
             events = (EventModel
-                      .select(EventModel.id, fn.COUNT(TicketModel.id).alias('count'), EventModel.ticket_price, (fn.COUNT(TicketModel.id)*EventModel.ticket_price).alias('total_costs'))
+                      .select(EventModel.id, EventModel.ticket_price, (fn.COUNT(TicketModel.id)*EventModel.ticket_price).alias('total_costs'))
                       .join(TicketModel)
                       .join(CustomerModel)
                       .where(CustomerModel.id == customer_id, EventModel.date.year == year)
@@ -176,18 +176,14 @@ class DbActor(Actor):
             ticket_model.save()
         self.send(msg.response_to, ActorMessage())
 
-    def __get_event_tickets(self, msg):
-        event_id = msg.payload.get('event_id')
-        try:
-            tickets = []
-            ticket_models = (TicketModel
-                             .select()
-                             .join(EventModel)
-                             .where(EventModel.id == event_id))
-            for ticket_model in ticket_models:
-                ticket = Ticket.from_model(ticket_model)
-                tickets.append(ticket)
-            message = ActorMessage(payload={'tickets': tickets})
-            self.send(msg.response_to, message)
-        except DoesNotExist:
-            raise Exception("Event not found.")
+    def __get_sales_per_event(self, msg):
+        sales_dict = []
+        events = (EventModel
+                  .select(EventModel.id, fn.COUNT(TicketModel.id).alias('sales'))
+                  .join(TicketModel, JOIN.LEFT_OUTER)
+                  .group_by(EventModel.id))
+        for event in events:
+            sales_dict.append({'event_id': event.id,
+                               'sales': event.sales})
+        message = ActorMessage(payload={'sales_dict': sales_dict})
+        self.send(msg.response_to, message)
