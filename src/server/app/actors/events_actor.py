@@ -1,7 +1,7 @@
 from thespian.actors import Actor
 from app.enums.events_action import EventsActorAction
 from app.actors.db_actor import DbActor
-from app.enums.actor_name import ActorName
+from app.enums.actor_global_name import ActorGlobalName
 from app.classes.actor_message import ActorMessage
 
 
@@ -12,7 +12,7 @@ class EventsActor(Actor):
             return
         if msg.action == EventsActorAction.EVENTS_ADD:
             db_actor = self.createActor(actorClass=DbActor,
-                                        globalName=ActorName.DB_ACTOR)
+                                        globalName=ActorGlobalName.DB_ACTOR)
             message = ActorMessage(action=msg.action, payload=msg.payload,
                                    customer_id=msg.customer_id, response_to=sender)
             self.send(db_actor, message)
@@ -28,7 +28,7 @@ class EventsActor(Actor):
             self.send(db_actor, message)
         if msg.action == EventsActorAction.EVENTS_PURCHASE:
             db_actor = self.createActor(actorClass=DbActor,
-                                        globalName=ActorName.DB_ACTOR)
+                                        globalName=ActorGlobalName.DB_ACTOR)
             message = ActorMessage(action=msg.action, payload=msg.payload,
                                    customer_id=msg.customer_id, response_to=sender)
             self.send(db_actor, message)

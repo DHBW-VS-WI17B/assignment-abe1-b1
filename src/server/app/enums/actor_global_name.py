@@ -2,6 +2,6 @@ from enum import Enum, unique
 
 
 @unique
-class ActorName(Enum):
+class ActorGlobalName(Enum):
     """Global actor names."""
     DB_ACTOR = 'DB_ACTOR'
