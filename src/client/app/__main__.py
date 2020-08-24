@@ -38,7 +38,7 @@ from docopt import docopt
 from app.classes.arguments import Arguments
 from app.api.events import Events
 from app.api.customers import Customers
-from schema import Schema, And, Or, Use, SchemaError, Regex
+from schema import Schema, And, Or, Use, SchemaWrongKeyError, SchemaError, Regex
 from datetime import datetime
 
 def main(args):
@@ -83,24 +83,28 @@ def main(args):
 if __name__ == '__main__':
     args = docopt(__doc__, version='1.0.0')
     schema = Schema({
-        '--ip': And(str, Regex(r'^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$')),
-        #'--port': And(And(Or(int, str), lambda x: x == 4)),
-        '--date': Or(None, And(str, Regex(r'^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$'))),
-        '--order-date': Or(None, And(str, Regex(r'^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$'))),
-        '--event-date': Or(None, And(str, Regex(r'^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$'))),
-        '--quantity': Or(None, And(Use(int))),
-        '--name': Or(None, And(str, Regex(r'^[A-Za-z]+((\s)?((\'|\-|\.)?([A-Za-z])+))*$'))),
-        '--location': Or(None, And(str, Regex(r'^([^0-9]+) ([0-9]+.*?) ([0-9]{5}) (.*)$'))),
-        '--address': Or(None, And(str, Regex(r'^([^0-9]+) ([0-9]+.*?) ([0-9]{5}) (.*)$'))),
-        '--ticket-price': Or(None, And(Use(int))),
-        '--max-tickets': Or(None, And(Use(int))),
-        '--max-tickets-per-customer': Or(None, And(Use(int))),
-        '--sale-start-date': Or(None, And(str, Regex(r'^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$'))),
-        '--sale-period': Or(None, And(Use(int))),
-        '--budget': Or(None, And(Use(int))),
+        '--ip': And(str, Regex(r'^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$'), error='Invalid ip address'),
+        '--port': And(Use(int), lambda x: 1000 <= x <= 9999, error='Invalid port'),
+        '--date': Or(None, And(str, Regex(r'^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$')), error='Invalid date format (e.g. 01.01.2020)'),
+        '--order-date': Or(None, And(str, Regex(r'^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$')), error='Invalid date format (e.g. 01.01.2020)'),
+        '--event-date': Or(None, And(str, Regex(r'^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$')), error='Invalid date format (e.g. 01.01.2020)'),
+        '--quantity': Or(None, And(Use(int)), error='Quantity has to be a number'),
+        '--name': Or(None, And(str, Regex(r'^[A-Za-z]+((\s)?((\'|\-|\.)?([A-Za-z])+))*$')), error='Invalid name'),
+        '--location': Or(None, And(str, Regex(r'^([^0-9]+) ([0-9]+.*?) ([0-9]{5}) (.*)$')), error='Invalid location (e.g. "Friedrich-Ebert-Straße 30 78054 Villingen-Schwenningen")'),
+        '--address': Or(None, And(str, Regex(r'^([^0-9]+) ([0-9]+.*?) ([0-9]{5}) (.*)$')), error='Invalid address (e.g. "Friedrich-Ebert-Straße 30 78054 Villingen-Schwenningen")'),
+        '--ticket-price': Or(None, And(Use(int)), error='Invalid price, only number'),
+        '--max-tickets': Or(None, And(Use(int)), error='Invalid max tickets, only number'),
+        '--max-tickets-per-customer': Or(None, And(Use(int)), error='Invalid max tickets per customer, only number'),
+        '--sale-start-date': Or(None, And(str, Regex(r'^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$')), error='Invalid date format (e.g. 01.01.2020)'),
+        '--sale-period': Or(None, And(Use(int)), error='Invalid sale period, only number'),
+        '--budget': Or(None, And(Use(int)), error='Invalid budget, only number'),
+        '<event-id>': Or(None, And(Use(int)), error='Invalid event id, only number'),
+        '<customer-id>': Or(None, And(Use(int)), error='Invalid customer id, only number'),
         })
     try:
-        args = schema.validate(args)
+        schema.validate(args)
+    except SchemaWrongKeyError as e:
+        pass
     except SchemaError as e:
         exit(e)
     main(Arguments(args))
