@@ -3,19 +3,16 @@ from tabulate import tabulate
 from app.classes.date import DateHelper
 
 @dataclass
-class Customer:
-    def __init__(self, args):
-        self.name = args.name
-        self.budget = args.budget
-        self.address = args.address
-    
+class Ticket:
     @staticmethod
-    def print_table_budget(data):
+    def print_table(data):
         table = []
         for item in data:
             table.append([
-                item['budget']
+                item['id'],
+                DateHelper.timestamp_to_date(item['order_date']), 
+                item['customer_id'], 
+                item['event_id']
             ])
-        headers = ["Budget"]
+        headers = ["ID", "Order Date", "Customer ID", "Event ID"]
         print(tabulate(table, headers=headers, floatfmt=".4f"))
-        

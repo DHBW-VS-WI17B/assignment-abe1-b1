@@ -24,7 +24,7 @@ class Arguments:
         self.event_id = args.get('<event-id>')
         self.add = args.get('add')
         self.admin = args.get('admin')
-        self.budget = args.get('budget')
+        self.get_budget = args.get('budget')
         self.customer = args.get('customer')
         self.event = args.get('event')
         self.info = args.get('info')

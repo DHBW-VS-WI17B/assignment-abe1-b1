@@ -109,10 +109,9 @@ def purchase(event_id):
             return jsonify({'error': "You do not have permissions."}), 403
         asys = ActorSystem()
         actor = asys.createActor(actorClass=EventsActor)
-        customer_id = request.headers.get('Customer-ID')
         payload = {
             'event_id': int(event_id),
-            'quantity': request.get_json().get('quantity')
+            'quantity': int(request.get_json().get('quantity'))
         }
         message = ActorMessage(action=EventsActorAction.EVENTS_PURCHASE,
                                payload=payload, customer_id=customer_id)

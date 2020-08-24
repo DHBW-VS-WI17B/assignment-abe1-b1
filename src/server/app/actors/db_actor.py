@@ -17,7 +17,7 @@ from datetime import date, timedelta
 
 
 class DbActor(Actor):
-    db = SqliteDatabase(Config.get('SQLITE_DATABASE'))
+    db = SqliteDatabase('server.db')
 
     def receiveMessage(self, msg, sender):
         if not isinstance(msg, ActorMessage):

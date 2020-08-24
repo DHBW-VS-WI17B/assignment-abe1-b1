@@ -1,7 +1,7 @@
 from peewee import SqliteDatabase, Model
 from app.config.config import Config
 
-db = SqliteDatabase(Config.get('SQLITE_DATABASE'))
+db = SqliteDatabase('server.db')
 
 
 class BaseModel(Model):

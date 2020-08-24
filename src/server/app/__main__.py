@@ -41,7 +41,7 @@ def init_db():
     from app.models.event import Event
     from app.models.ticket import Ticket
     print("Initializing database...")
-    db = SqliteDatabase(Config.get('SQLITE_DATABASE'))
+    db = SqliteDatabase('server.db')
     db.connect()
     db.create_tables([Customer, Event, Ticket], safe=True)
     db.close()
