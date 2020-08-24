@@ -13,10 +13,9 @@ class Customers():
 
     def add_customer(args):
         customer = Customer(args)
-        payload = json.dumps(customer.__dict__)
         # server_addr = ip + port
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.post(server_addr + '/api/customers', json=payload)
+        req = requests.post(server_addr + '/api/customers', json=customer.__dict__)
         # req.json() -> dataclass
         # return array of events
         print(req.json())
