@@ -26,18 +26,8 @@ class Ticket:
     def from_model(model):
         id = model.id
         order_date = model.order_date
-        customer_id = model.customer_id
-        event_id = model.event_id
+        customer_id = model.customer.id
+        event_id = model.event.id
         ticket = Ticket(id=id, order_date=order_date,
                         customer_id=customer_id, event_id=event_id)
         return ticket
-
-    @staticmethod
-    def to_model(ticket):
-        id = ticket.id
-        order_date = ticket.order_date
-        customer_id = ticket.customer_id
-        event_id = ticket.event_id
-        ticket_model = TicketModel(id=id, order_date=order_date,
-                                   customer_id=customer_id, event_id=event_id)
-        return ticket_model

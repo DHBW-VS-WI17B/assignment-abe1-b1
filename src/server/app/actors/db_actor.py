@@ -75,20 +75,24 @@ class DbActor(Actor):
     def __get_customer_tickets(self, msg):
         try:
             tickets = []
-            customer_model = CustomerModel.get(
-                CustomerModel.id == msg.customer_id)
             order_date = msg.payload.get('order_date')
             event_date = msg.payload.get('event_date')
             if order_date:
-                ticket_models = TicketModel.select().where(
-                    TicketModel.customer_id == customer_model.id, TicketModel.order_date == order_date)
+                ticket_models = (TicketModel
+                                 .select()
+                                 .join(CustomerModel)
+                                 .where(CustomerModel.id == msg.customer_id,
+                                        TicketModel.order_date == order_date))
             elif event_date:
-                # TODO
-                ticket_models = TicketModel.select().where(
-                    TicketModel.customer_id == customer_model.id)
+                ticket_models = (TicketModel
+                                 .select()
+                                 .join(CustomerModel)
+                                 .switch(TicketModel)
+                                 .join(EventModel)
+                                 .where(CustomerModel.id == msg.customer_id,
+                                        EventModel.date == event_date))
             else:
-                ticket_models = TicketModel.select().where(
-                    TicketModel.customer_id == customer_model.id)
+                ticket_models = TicketModel.select().join(CustomerModel)
             for ticket_model in ticket_models:
                 ticket = Ticket.from_model(ticket_model)
                 tickets.append(ticket)
@@ -123,16 +127,22 @@ class DbActor(Actor):
         self.send(msg.response_to, message)
 
     def __purchase_event_ticket(self, msg):
-        # TODO: ctry catch
+        # TODO: try catch
         event_id = msg.payload.get('event_id')
         quantity = msg.payload.get('quantity')
         # try:
         event_model = EventModel.get(EventModel.id == event_id)
         customer_model = CustomerModel.get(CustomerModel.id == msg.customer_id)
-        event_customer_ticket_models = TicketModel.select().where(
-            TicketModel.customer_id == customer_model.id, TicketModel.event_id == event_model.id)
-        event_ticket_models = TicketModel.select().where(
-            TicketModel.event_id == event_model.id)
+        event_customer_ticket_models = (TicketModel
+                                        .select()
+                                        .join(CustomerModel)
+                                        .switch(TicketModel)
+                                        .join(EventModel)
+                                        .where(CustomerModel.id == msg.customer_id, EventModel.id == event_id))
+        event_ticket_models = (TicketModel
+                               .select()
+                               .join(EventModel)
+                               .where(EventModel.id == event_id))
         total_price = event_model.ticket_price * quantity
         budget_after_purchase = customer_model.budget - total_price
         if budget_after_purchase < 0:
@@ -152,10 +162,10 @@ class DbActor(Actor):
                 "Currently no tickets can be purchased for this event.")
         customer_model.budget = budget_after_purchase
         customer_model.save()
-        ticket = Ticket(id=None, order_date=date.today(),
-                        customer_id=customer_model.id, event_id=event_model.id)
+        date_today = date.today()
         for _ in range(quantity):
-            ticket_model = Ticket.to_model(ticket)
+            ticket_model = TicketModel(order_date=date_today,
+                                       customer=customer_model, event=event_model)
             ticket_model.save()
         self.send(msg.response_to, ActorMessage())
         # except DoesNotExist:
@@ -165,9 +175,10 @@ class DbActor(Actor):
         event_id = msg.payload.get('event_id')
         try:
             tickets = []
-            event_model = EventModel.get(EventModel.id == event_id)
-            ticket_models = TicketModel.select().where(
-                TicketModel.event_id == event_model.id)
+            ticket_models = (TicketModel
+                             .select()
+                             .join(EventModel)
+                             .where(EventModel.id == event_id))
             for ticket_model in ticket_models:
                 ticket = Ticket.from_model(ticket_model)
                 tickets.append(ticket)
