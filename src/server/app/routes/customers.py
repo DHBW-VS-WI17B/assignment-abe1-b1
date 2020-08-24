@@ -47,7 +47,8 @@ def get_budget(customer_id):
         actor = asys.createActor(actorClass=CustomersActor)
         customer_id = request.headers.get('Customer-ID')
         payload = {
-            'customer_id': int(customer_id)
+            'customer_id': int(customer_id),
+            'year': request.args.get('year', default=None, type=int)
         }
         message = ActorMessage(
             action=CustomersActorAction.CUSTOMERS_BUDGET, payload=payload, customer_id=customer_id)

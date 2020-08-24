@@ -62,10 +62,12 @@ class DbActor(Actor):
 
     def __get_customer_budget(self, msg):
         customer_id = msg.payload.get('customer_id')
+        year = msg.payload.get('year')
         try:
             customer_model = CustomerModel.get(CustomerModel.id == customer_id)
-            customer = Customer.from_model(customer_model)
-            message = ActorMessage(payload={'budget': customer.budget})
+            # TODO
+            budget = 100
+            message = ActorMessage(payload={'budget': budget})
             self.send(msg.response_to, message)
         except DoesNotExist:
             raise Exception("Customer not found.")
