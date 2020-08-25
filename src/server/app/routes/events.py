@@ -104,7 +104,7 @@ def purchase(event_id):
         customer_id = request.headers.get('Customer-ID')
         payload = {
             'event_id': int(event_id),
-            'quantity': request.get_json().get('quantity')
+            'quantity': int(request.get_json().get('quantity'))
         }
         message = ActorMessage(action=EventsActorAction.EVENTS_PURCHASE,
                                payload=payload, customer_id=customer_id)
