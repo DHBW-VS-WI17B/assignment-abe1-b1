@@ -8,8 +8,8 @@ class Sales:
         table = []
         for item in data:
             table.append([
-                item['id'],
-                item['name'], 
+                item['event_id'],
+                item['event_name'], 
                 item['sales'] 
             ])
         headers = ["ID", "Name", "Sales"]
