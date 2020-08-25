@@ -38,7 +38,6 @@ jobs:
         with:
           name: documentation
           path: src/documentation/root.pdf
-
   build-server:
     name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -74,11 +73,49 @@ jobs:
         with:
           name: server-${{ matrix.os }}
           path: src/server/dist/*
+  build-client:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, windows-2019, macos-10.15]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - name: Install python dependencies
+        working-directory: src/client
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint pyinstaller
+          pip install -r requirements.txt
+      - name: Lint with pylint
+        working-directory: src/client
+        run: pylint app --rcfile=.pylintrc --exit-zero
+      - name: Create executables
+        working-directory: src/client
+        run: pyinstaller app/__main__.py --onefile -n client
+      - name: Run executable with --version command
+        working-directory: src/client/dist
+        run: ./client --version 
+      - name: Run executable with --help command
+        working-directory: src/client/dist
+        run: ./client --help 
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: client-${{ matrix.os }}
+          path: src/client/dist/*
 
   deploy:
     if: startsWith(github.ref, 'refs/tags/')
     name: Deploy to GitHub Releases
-    needs: [ build-documentation, build-server ]
+    needs: [ build-documentation, build-server, build-client ]
     runs-on: ubuntu-18.04
     steps:
       - name: Download
@@ -90,6 +127,7 @@ jobs:
           mkdir staging
           mv artifacts/documentation/root.pdf "staging/WWI17B_Seminararbeit_ABE1_Gruppe_B1-${GITHUB_REF##*/}.pdf"
           mv artifacts/server** staging
+          mv artifacts/client** staging
       - name: Deploy
         uses: softprops/action-gh-release@v1
         with:
