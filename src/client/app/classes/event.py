@@ -15,7 +15,7 @@ class Event:
         self.ticket_price = args.ticket_price
 
     @staticmethod
-    def print_table(data):
+    def print_table_admin(data):
         table = []
         for item in data:
             table.append([
@@ -30,4 +30,18 @@ class Event:
                 item['ticket_price']
             ])
         headers = ["ID", "Name", "Date", "Location", "Price in €", "Max Tickets", "Max Tickets per Customer", "Sales Startdate", "Sales Period in Days"]
+        print(tabulate(table, headers=headers, floatfmt=".4f"))
+    
+    @staticmethod
+    def print_table_customer(data):
+        table = []
+        for item in data:
+            table.append([
+                item['id'],
+                item['name'],
+                DateHelper.timestamp_to_date(item['date']), 
+                item['location'], 
+                item['ticket_price']
+            ])
+        headers = ["ID", "Name", "Date", "Location", "Price in €"]
         print(tabulate(table, headers=headers, floatfmt=".4f"))

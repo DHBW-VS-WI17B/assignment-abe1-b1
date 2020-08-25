@@ -48,14 +48,13 @@ def main(args):
         elif args.ticket:
             if args.list:
                 CustomersApi.get_tickets(args)
+            if args.purchase:
+                EventsApi.purchase_tickets(args)
         elif args.event:
             if args.list:
                 EventsApi.get_events(args)
             elif args.info:
                 EventsApi.get_event(args)
-            elif args.ticket:
-                if args.purchase:
-                    EventsApi.purchase_tickets(args)
     elif args.admin:
         if args.customer:
             CustomersApi.add_customer(args)

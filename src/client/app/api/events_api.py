@@ -25,7 +25,10 @@ class EventsApi():
             if data == []:
                 print("No events were found!")
             else:
-                Event.print_table(data)
+                if args.admin:
+                    Event.print_table_admin(data)
+                else:
+                    Event.print_table_customer(data)
         else:
             Response_Helper.handle_exception(req.status_code, req.json()['error'])
         
@@ -40,7 +43,10 @@ class EventsApi():
             if data == []:
                 print("No matching event was found!")
             else:
-                Event.print_table(data)
+                if args.admin:
+                    Event.print_table_admin(data)
+                else:
+                    Event.print_table_customer(data)
         else:
             Response_Helper.handle_exception(req.status_code, req.json()['error'])
 
@@ -51,6 +57,7 @@ class EventsApi():
             headers['Customer-ID'] = args.customer_id
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.post(server_addr + '/api/events/' + args.event_id + '/purchase', json={'quantity': args.quantity}, headers=headers, timeout=5)
+
         if(req.status_code == 204):
             Response_Helper.successfull()
         else:
