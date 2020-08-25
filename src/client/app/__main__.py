@@ -4,8 +4,8 @@ Usage:
     client [--ip=<ip>] [--port=<port>] customer <customer-id> event list
     client [--ip=<ip>] [--port=<port>] customer <customer-id> event <event-id> info
     client [--ip=<ip>] [--port=<port>] customer <customer-id> ticket list [--order-date=<date>] [--event-date=<date>]
-    client [--ip=<ip>] [--port=<port>] customer <customer-id> event <event-id> ticket purchase [--quantity=<number>]
-    client [--ip=<ip>] [--port=<port>] customer <customer-id> budget [--year=<number>]
+    client [--ip=<ip>] [--port=<port>] customer <customer-id> event <event-id> ticket purchase --quantity=<number>
+    client [--ip=<ip>] [--port=<port>] customer <customer-id> budget --year=<number>
     client [--ip=<ip>] [--port=<port>] admin event list
     client [--ip=<ip>] [--port=<port>] admin event add --name=<name> --date=<date> --location=<location> --ticket-price=<number> --max-tickets=<number> --max-tickets-per-customer=<number> --sale-start-date=<date> --sale-period=<days>
     client [--ip=<ip>] [--port=<port>] admin event <event-id> info
