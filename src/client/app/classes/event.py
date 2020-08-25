@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from tabulate import tabulate
-from app.classes.date import DateHelper
+from app.utils.date import DateHelper
 
 @dataclass
 class Event:
