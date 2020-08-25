@@ -27,7 +27,7 @@ class CustomersApi():
         if args.event_date is not None:
             params['event_date'] = DateHelper.date_to_timestamp(args.event_date)
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.get(server_addr + '/api/customers/' + args.customer_id + '/tickets', params=params, headers=headers, timeout=10)
+        req = requests.get(server_addr + '/api/customers/' + args.customer_id + '/tickets', params=params, headers=headers, timeout=5)
         if(req.status_code == 200):
             data = req.json()
             if data == []:
