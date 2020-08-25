@@ -4,7 +4,7 @@ from app.classes.customer import Customer
 from app.classes.ticket import Ticket
 from app.classes.response import Response_Helper
 
-class Customers():
+class CustomersApi():
     @staticmethod
     def add_customer(args):
         customer = Customer(args)

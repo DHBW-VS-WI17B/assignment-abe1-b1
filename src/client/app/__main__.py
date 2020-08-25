@@ -37,37 +37,37 @@ Options:
 
 from docopt import docopt
 from app.classes.arguments import Arguments
-from app.api.events import Events
-from app.api.customers import Customers
+from app.api.events_api import EventsApi
+from app.api.customers_api import CustomersApi
 from app.utils.validate_args import Validate_Args
 
 def main(args):
     if args.customer:
         if args.get_budget:
-            Customers.get_budget(args)
-        else if args.ticket:
+            CustomersApi.get_budget(args)
+        elif args.ticket:
             if args.list:
-                Customers.get_tickets(args)
-        else if args.event:
+                CustomersApi.get_tickets(args)
+        elif args.event:
             if args.list:
-                Events.get_events(args)
-            else if args.info:
-                Events.get_event(args)
-            else if args.ticket:
+                EventsApi.get_events(args)
+            elif args.info:
+                EventsApi.get_event(args)
+            elif args.ticket:
                 if args.purchase:
-                    Events.purchase_tickets(args)
-    else if args.admin:
+                    EventsApi.purchase_tickets(args)
+    elif args.admin:
         if args.customer:
-            Customers.add_customer(args)
-        else if args.event:
+            CustomersApi.add_customer(args)
+        elif args.event:
             if args.add:
-                Events.add_event(args)
-            else if args.list:
-                Events.get_events(args)
-            else if args.info:
-                Events.get_event(args)
-            else if args.sales:
-                Events.get_sales(args)
+                EventsApi.add_event(args)
+            elif args.list:
+                EventsApi.get_events(args)
+            elif args.info:
+                EventsApi.get_event(args)
+            elif args.sales:
+                EventsApi.get_sales(args)
             
 
 

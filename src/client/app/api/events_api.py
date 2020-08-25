@@ -5,7 +5,7 @@ from app.classes.ticket import Ticket
 from app.classes.response import Response_Helper
 from app.classes.sales import Sales
 
-class Events():
+class EventsApi():
     @staticmethod
     def add_event(args):
         event = Event(args)
