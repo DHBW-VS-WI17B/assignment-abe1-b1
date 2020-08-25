@@ -42,7 +42,19 @@ from app.api.customers_api import CustomersApi
 from app.utils.validate_args import Validate_Args
 
 def main(args):
-    if args.customer:
+    if args.admin:
+        if args.customer:
+            CustomersApi.add_customer(args)
+        elif args.event:
+            if args.add:
+                EventsApi.add_event(args)
+            elif args.list:
+                EventsApi.get_events(args)
+            elif args.info:
+                EventsApi.get_event(args)
+            elif args.sales:
+                EventsApi.get_sales(args)
+    elif args.customer:
         if args.get_budget:
             CustomersApi.get_budget(args)
         elif args.ticket:
@@ -55,18 +67,6 @@ def main(args):
                 EventsApi.get_events(args)
             elif args.info:
                 EventsApi.get_event(args)
-    elif args.admin:
-        if args.customer:
-            CustomersApi.add_customer(args)
-        elif args.event:
-            if args.add:
-                EventsApi.add_event(args)
-            elif args.list:
-                EventsApi.get_events(args)
-            elif args.info:
-                EventsApi.get_event(args)
-            elif args.sales:
-                EventsApi.get_sales(args)
     else:
         print('Client CLI')
         print()
