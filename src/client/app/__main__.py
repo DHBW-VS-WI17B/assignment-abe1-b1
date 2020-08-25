@@ -45,38 +45,29 @@ def main(args):
     if args.customer:
         if args.get_budget:
             Customers.get_budget(args)
-        if args.ticket:
+        else if args.ticket:
             if args.list:
                 Customers.get_tickets(args)
-                exit
-        if args.event:
+        else if args.event:
             if args.list:
                 Events.get_events(args)
-                exit
-            if args.info:
+            else if args.info:
                 Events.get_event(args)
-                exit
-            if args.ticket:
+            else if args.ticket:
                 if args.purchase:
                     Events.purchase_tickets(args)
-                    exit
-    if args.admin:
+    else if args.admin:
         if args.customer:
             Customers.add_customer(args)
-            exit
-        if args.event:
+        else if args.event:
             if args.add:
                 Events.add_event(args)
-                exit
-            if args.list:
+            else if args.list:
                 Events.get_events(args)
-                exit
-            if args.info:
+            else if args.info:
                 Events.get_event(args)
-                exit
-            if args.sales:
+            else if args.sales:
                 Events.get_sales(args)
-                exit
             
 
 
