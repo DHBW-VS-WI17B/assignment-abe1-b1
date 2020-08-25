@@ -61,8 +61,7 @@ class EventsApi():
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.get(server_addr + '/api/events/sales', timeout=5)
         if(req.status_code == 200):
-            sales =  []
-            sales.append(req.json())
+            sales = req.json()
             if sales == []:
                 print("No tickets have been sold yet!")
             else:
