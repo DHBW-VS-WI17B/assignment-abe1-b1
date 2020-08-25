@@ -19,10 +19,10 @@ Options:
     --port=<port>                       Port of the server [default: 8080].
     --order-date=<date>                 The order date of the ticket (e.g. 01.01.2020).
     --event-date=<date>                 The event date (e.g. 01.01.2020).
-    --quantity=<number>                 The number of tickets.
+    --quantity=<number>                 The number of tickets [default: 1].
     --name=<name>                       The name of the customer or event.
     --date=<date>                       The event date (e.g. 01.01.2020).
-    --location=<location>               The event location (e.g. "Friedrich-Ebert-Straße 30 78054 Villingen-Schwenningen").
+    --location=<location>               The event location (e.g. "Friedrich-Ebert-Straße 30, 78054 Villingen-Schwenningen").
     --ticket-price=<number>             The ticket price in € (e.g. 5).
     --max-tickets=<number>              The maximum number of tickets (e.g. 100).
     --max-tickets-per-customer=<number> The maximum number of tickets per customer (e.g. 3).
@@ -30,7 +30,7 @@ Options:
     --sale-period=<number>              The sale period in days (e.g. 5).
     --budget=<budget>                   The customer budget in € (e.g. 100).
     --year=<number>                     The year from which to request the budget (e.g. 2020).
-    --address=<address>                 The customer address (e.g. "Friedrich-Ebert-Straße 30 78054 Villingen-Schwenningen").
+    --address=<address>                 The customer address (e.g. "Friedrich-Ebert-Straße 30, 78054 Villingen-Schwenningen").
     -h, --help                          Show this screen.
     -v, --version                       Show version.
 """

@@ -53,4 +53,3 @@ class CustomersApi():
             Customer.print_table_budget(data)
         else:
             Response_Helper.handle_exception(req.status_code, req.json()['error'])
-        

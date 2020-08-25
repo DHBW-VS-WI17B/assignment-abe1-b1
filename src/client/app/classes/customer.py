@@ -18,4 +18,3 @@ class Customer:
             ])
         headers = ["Budget"]
         print(tabulate(table, headers=headers, floatfmt=".4f"))
-        
