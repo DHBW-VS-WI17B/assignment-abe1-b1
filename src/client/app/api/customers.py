@@ -40,10 +40,13 @@ class Customers():
     @staticmethod
     def get_budget(args):
         headers = {}
+        params = {}
+        if args.year is not None:
+            params['year'] = args.year 
         if args.customer_id is not None:
             headers['Customer-ID'] = args.customer_id
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.get(server_addr + '/api/customers/' + args.customer_id + '/budget', headers=headers, timeout=5)
+        req = requests.get(server_addr + '/api/customers/' + args.customer_id + '/budget', params=params, headers=headers, timeout=5)
         print(req.status_code)
         if(req.status_code == 200):
             data = []

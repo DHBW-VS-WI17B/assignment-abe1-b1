@@ -21,6 +21,7 @@ class Validate_Args():
             '--budget': Or(None, And(Use(int)), error='The customer budget can only be a number, please do not use currency symbols.'),
             '<event-id>': Or(None, And(Use(int)), error='The event id can only be a number. Please check your input.'),
             '<customer-id>': Or(None, And(Use(int)), error='The customer id can only be a number. Please check your input.'),
+            '--year': Or(None, And(Use(int)))
         })
         try:
             schema.validate(args)

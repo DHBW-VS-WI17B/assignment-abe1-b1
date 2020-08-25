@@ -57,7 +57,7 @@ class Events():
             Response_Helper.handle_exception(req.status_code, req.json()['error'])
     
     @staticmethod
-    def get_sales(args):
+    def get_sales(args):        
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.get(server_addr + '/api/events/sales', timeout=5)
         if(req.status_code == 200):

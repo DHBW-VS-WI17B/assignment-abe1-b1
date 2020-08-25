@@ -5,7 +5,7 @@ Usage:
     client [--ip=<ip>] [--port=<port>] customer <customer-id> event <event-id> info
     client [--ip=<ip>] [--port=<port>] customer <customer-id> ticket list [--order-date=<date>] [--event-date=<date>]
     client [--ip=<ip>] [--port=<port>] customer <customer-id> event <event-id> ticket purchase [--quantity=<number>]
-    client [--ip=<ip>] [--port=<port>] customer <customer-id> budget
+    client [--ip=<ip>] [--port=<port>] customer <customer-id> budget [--year=<number>]
     client [--ip=<ip>] [--port=<port>] admin event list
     client [--ip=<ip>] [--port=<port>] admin event add --name=<name> --date=<date> --location=<location> --ticket-price=<number> --max-tickets=<number> --max-tickets-per-customer=<number> --sale-start-date=<date> --sale-period=<days>
     client [--ip=<ip>] [--port=<port>] admin event <event-id> info
@@ -29,6 +29,7 @@ Options:
     --sale-start-date=<date>            The sale start date (e.g. 01.01.2020).
     --sale-period=<number>              The sale period in days (e.g. 5).
     --budget=<budget>                   The customer budget in € (e.g. 100).
+    --year=<number>                     The year from which to request the budget (e.g. 2020).
     --address=<address>                 The customer address (e.g. "Friedrich-Ebert-Straße 30 78054 Villingen-Schwenningen").
     -h, --help                          Show this screen.
     -v, --version                       Show version.

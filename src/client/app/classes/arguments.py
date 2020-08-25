@@ -5,6 +5,7 @@ class Arguments:
     def __init__(self, args):
         self.address = args.get('--address')
         self.budget = args.get('--budget')
+        self.year = args.get('--year')
         self.date = args.get('--date')
         self.event_date = args.get('--event-date')
         self.help = args.get('--help')
