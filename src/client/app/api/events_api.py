@@ -69,7 +69,3 @@ class EventsApi():
                 Sales.print_table(sales)
         else:
             Response_Helper.handle_exception(req.status_code, req.json()['error'])
-            exit
-        
-       
-        
