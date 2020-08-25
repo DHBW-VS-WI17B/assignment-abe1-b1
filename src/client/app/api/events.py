@@ -3,6 +3,7 @@ import json
 from app.classes.event import Event
 from app.classes.ticket import Ticket
 from app.classes.response import Response_Helper
+from app.classes.sales import Sales
 
 class Events():
     @staticmethod
@@ -44,16 +45,6 @@ class Events():
             Response_Helper.handle_exception(req.status_code, req.json()['error'])
 
     @staticmethod
-    def get_tickets(args, event_id):
-        server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.get(server_addr + '/api/events/' + event_id + '/tickets', timeout=5)
-        if(req.status_code == 204):
-            return req.json()
-        else:
-            Response_Helper.handle_exception(req.status_code, req.json()['error'])
-            exit
-
-    @staticmethod
     def purchase_tickets(args):
         headers = {}
         if args.customer_id is not None:
@@ -68,17 +59,17 @@ class Events():
     @staticmethod
     def get_sales(args):
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.get(server_addr + '/api/events', timeout=5)
-        if(req.status_code == 204):
-            Response_Helper.successfull()
+        req = requests.get(server_addr + '/api/events/sales', timeout=5)
+        if(req.status_code == 200):
+            sales =  []
+            sales.append(req.json())
+            if sales == []:
+                print("No tickets have been sold yet!")
+            else:
+                Sales.print_table(sales)
         else:
             Response_Helper.handle_exception(req.status_code, req.json()['error'])
             exit
-        events = req.json()
-        sales =  []
-        for event in events:
-            event_tickets = Events.get_tickets(args, str(event['id']))
-            for ticket in event_tickets:
-                sales.append(ticket)  
-        Ticket.print_table(sales)
+        
+       
         
