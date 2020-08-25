@@ -9,7 +9,7 @@ class Customers():
     def add_customer(args):
         customer = Customer(args)
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.post(server_addr + '/api/customers', json=customer.__dict__)
+        req = requests.post(server_addr + '/api/customers', json=customer.__dict__, timeout=5)
         if(req.status_code == 204):
             Response_Helper.successfull()
         else:
@@ -26,7 +26,7 @@ class Customers():
         if args.event_date is not None:
             params['event_date'] = args.event_date
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.get(server_addr + '/api/customers/' + args.customer_id + '/tickets', params=params, headers=headers)
+        req = requests.get(server_addr + '/api/customers/' + args.customer_id + '/tickets', params=params, headers=headers, timeout=10)
         if(req.status_code == 200):
             data = req.json()
             if data == []:
@@ -43,7 +43,7 @@ class Customers():
         # if args.customer_id is not None:
         #     headers['Customer-ID'] = args.customer_id
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.get(server_addr + '/api/customers/' + args.customer_id + '/budget', headers=headers)
+        req = requests.get(server_addr + '/api/customers/' + args.customer_id + '/budget', headers=headers, timeout=5)
         print(req.status_code)
         if(req.status_code == 200):
             data = []

@@ -9,7 +9,7 @@ class Events():
     def add_event(args):
         event = Event(args)
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.post(server_addr + '/api/events', json=event.__dict__)
+        req = requests.post(server_addr + '/api/events', json=event.__dict__, timeout=5)
         if(req.status_code == 204):
             Response_Helper.successfull()
         else:
@@ -18,7 +18,7 @@ class Events():
     @staticmethod
     def get_events(args):
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.get(server_addr + '/api/events')
+        req = requests.get(server_addr + '/api/events', timeout=5)
         if(req.status_code == 200):
             data = req.json()
             if data == []:
@@ -32,7 +32,7 @@ class Events():
     @staticmethod
     def get_event(args):
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.get(server_addr + '/api/events/' + args.event_id)
+        req = requests.get(server_addr + '/api/events/' + args.event_id, timeout=5)
         if(req.status_code == 200):
             data = []
             data.append(req.json())
@@ -46,7 +46,7 @@ class Events():
     @staticmethod
     def get_tickets(args, event_id):
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.get(server_addr + '/api/events/' + event_id + '/tickets')
+        req = requests.get(server_addr + '/api/events/' + event_id + '/tickets', timeout=5)
         if(req.status_code == 204):
             return req.json()
         else:
@@ -59,7 +59,7 @@ class Events():
         if args.customer_id is not None:
             headers['Customer-ID'] = args.customer_id
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.post(server_addr + '/api/events/' + args.event_id + '/purchase', json={'quantity': args.quantity}, headers=headers)
+        req = requests.post(server_addr + '/api/events/' + args.event_id + '/purchase', json={'quantity': args.quantity}, headers=headers, timeout=5)
         if(req.status_code == 204):
             Response_Helper.successfull()
         else:
@@ -68,7 +68,7 @@ class Events():
     @staticmethod
     def get_sales(args):
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.get(server_addr + '/api/events')
+        req = requests.get(server_addr + '/api/events', timeout=5)
         if(req.status_code == 204):
             Response_Helper.successfull()
         else:

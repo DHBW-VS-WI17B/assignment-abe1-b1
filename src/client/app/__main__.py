@@ -103,8 +103,10 @@ if __name__ == '__main__':
         })
     try:
         schema.validate(args)
-    except SchemaWrongKeyError as e:
+        main(Arguments(args))
+    except SchemaWrongKeyError as ex:
         pass
-    except SchemaError as e:
-        exit(e)
-    main(Arguments(args))
+    except SchemaError as ex:
+        exit(ex)
+    except Exception as ex:
+        exit(ex)
