@@ -65,11 +65,6 @@ disable=
     C0114, # missing-module-docstring
     C0115, # missing-class-docstring
     C0116, # missing-function-docstring
-    R0201, # no-self-use
-    R0801, # duplicate-code
-    R0903, # too-few-public-methods
-    import-outside-toplevel, 
-    redefined-builtin,
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -342,8 +337,7 @@ function-naming-style=snake_case
 # Good variable names which should always be accepted, separated by a comma.
 good-names=i,
            id,
-           ex,
-           db
+           ex
 
 # Good variable names regexes, separated by a comma. If names match any regex,
 # they will always be accepted
@@ -432,7 +426,7 @@ max-attributes=10
 max-bool-expr=5
 
 # Maximum number of branch for function / method body.
-max-branches=15
+max-branches=12
 
 # Maximum number of locals for function / method body.
 max-locals=15

@@ -8,7 +8,6 @@ greenlet==0.4.16
 itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
-peewee==3.13.3
 pyinstaller-hooks-contrib==2020.7
 pytz==2020.1
 six==1.15.0

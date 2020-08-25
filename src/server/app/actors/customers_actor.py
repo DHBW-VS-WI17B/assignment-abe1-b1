@@ -1,28 +1,41 @@
 from thespian.actors import Actor
-from app.actors.db_actor import DbActor
-from app.enums.actor_global_name import ActorGlobalName
-from app.enums.customers_action import CustomersActorAction
-from app.classes.actor_message import ActorMessage
+from app.enums.customers_actor_action import CustomersActorAction
 
 
 class CustomersActor(Actor):
+    """Customers Actor
+
+    Args:
+        Actor (Actor)
+    """
+    customers = []
 
     def receiveMessage(self, msg, sender):
-        if not isinstance(msg, ActorMessage):
-            return
+        """ Message handler
+
+        Args:
+            msg (ActorMessage): message from client
+            sender (): sender
+        """
+        if msg.action == CustomersActorAction.CUSTOMERS_GET:
+            ret_value = None
+            for customer in self.customers:
+                if customer.id == msg.payload.get('customer_id'):
+                    ret_value = customer
+                    break
+            self.send(sender, ret_value)
         if msg.action == CustomersActorAction.CUSTOMERS_ADD:
-            db_actor = self.createActor(actorClass=DbActor,
-                                        globalName=ActorGlobalName.DB_ACTOR)
-            message = ActorMessage(action=msg.action, payload=msg.payload,
-                                   customer_id=msg.customer_id, response_to=sender)
-            self.send(db_actor, message)
-        if msg.action == CustomersActorAction.CUSTOMERS_BUDGET:
-            db_actor = self.createActor(actorClass=DbActor)
-            message = ActorMessage(action=msg.action, payload=msg.payload,
-                                   customer_id=msg.customer_id, response_to=sender)
-            self.send(db_actor, message)
-        if msg.action == CustomersActorAction.CUSTOMERS_TICKETS:
-            db_actor = self.createActor(actorClass=DbActor)
-            message = ActorMessage(action=msg.action, payload=msg.payload,
-                                   customer_id=msg.customer_id, response_to=sender)
-            self.send(db_actor, message)
+            customer = msg.get('customer')
+            self.customers.append(customer)
+        if msg.get("action") == CustomersActorAction.CUSTOMERS_BUDGET:
+            ret_value = None
+            for customer in self.customers:
+                if customer.id == msg.payload.get('customer_id'):
+                    ret_value = customer.budget
+                    break
+            self.send(sender, ret_value)
+        if msg.get("action") == CustomersActorAction.CUSTOMERS_TICKETS:
+            ret_value = None
+            for customer in self.customers:
+                if customer.id == msg.payload.get('customer_id'):
+                    print('TODO')
