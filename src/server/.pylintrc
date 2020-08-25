@@ -65,6 +65,9 @@ disable=
     C0114, # missing-module-docstring
     C0115, # missing-class-docstring
     C0116, # missing-function-docstring
+    R0201, # no-self-use
+    R0801, # duplicate-code
+    R0903, # too-few-public-methods
     import-outside-toplevel, 
     redefined-builtin,
 
@@ -429,7 +432,7 @@ max-attributes=10
 max-bool-expr=5
 
 # Maximum number of branch for function / method body.
-max-branches=12
+max-branches=15
 
 # Maximum number of locals for function / method body.
 max-locals=15

@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from datetime import datetime
-from app.models.ticket import Ticket as TicketModel
 
 
 @dataclass

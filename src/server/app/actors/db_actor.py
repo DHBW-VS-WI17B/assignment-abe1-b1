@@ -62,7 +62,7 @@ class DbActor(Actor):
         try:
             CustomerModel.get(CustomerModel.id == msg.customer_id)
         except DoesNotExist:
-            raise DbActorError("Customer not found.", 404)
+            raise DbActorError("Customer not found.", 404) from DoesNotExist
 
     def __add_customer(self, msg):
         customer = msg.payload.get('customer')
@@ -77,7 +77,10 @@ class DbActor(Actor):
             customer_model = CustomerModel.get(
                 CustomerModel.id == msg.customer_id)
             events = (EventModel
-                      .select(EventModel.id, EventModel.ticket_price, (fn.COUNT(TicketModel.id)*EventModel.ticket_price).alias('total_costs'))
+                      .select(EventModel.id,
+                              EventModel.ticket_price,
+                              (fn.COUNT(TicketModel.id)*EventModel.ticket_price)
+                              .alias('total_costs'))
                       .join(TicketModel)
                       .join(CustomerModel)
                       .where(CustomerModel.id == customer_id, EventModel.date.year == year)
@@ -89,7 +92,7 @@ class DbActor(Actor):
                 payload={'budget': customer_model.budget - costs})
             self.send(msg.response_to, message)
         except DoesNotExist:
-            raise DbActorError("Customer not found.", 404)
+            raise DbActorError("Customer not found.", 404) from DoesNotExist
 
     def __get_customer_tickets(self, msg):
         try:
@@ -118,7 +121,7 @@ class DbActor(Actor):
             message = ActorMessage(payload={'tickets': tickets})
             self.send(msg.response_to, message)
         except DoesNotExist:
-            raise DbActorError("Customer not found.", 404)
+            raise DbActorError("Customer not found.", 404) from DoesNotExist
 
     def __add_event(self, msg):
         event = msg.payload.get('event')
@@ -134,7 +137,7 @@ class DbActor(Actor):
             message = ActorMessage(payload={'event': event})
             self.send(msg.response_to, message)
         except DoesNotExist:
-            raise DbActorError("Event not found.", 404)
+            raise DbActorError("Event not found.", 404) from DoesNotExist
 
     def __list_event(self, msg):
         events = []
@@ -151,14 +154,15 @@ class DbActor(Actor):
         try:
             event_model = EventModel.get(EventModel.id == event_id)
         except DoesNotExist:
-            raise DbActorError("Event not found.", 404)
+            raise DbActorError("Event not found.", 404) from DoesNotExist
         customer_model = CustomerModel.get(CustomerModel.id == msg.customer_id)
         event_customer_ticket_models = (TicketModel
                                         .select()
                                         .join(CustomerModel)
                                         .switch(TicketModel)
                                         .join(EventModel)
-                                        .where(CustomerModel.id == msg.customer_id, EventModel.id == event_id))
+                                        .where(CustomerModel.id == msg.customer_id,
+                                               EventModel.id == event_id))
         event_ticket_models = (TicketModel
                                .select()
                                .join(EventModel)
