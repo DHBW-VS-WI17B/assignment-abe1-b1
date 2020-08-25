@@ -47,7 +47,6 @@ class CustomersApi():
             headers['Customer-ID'] = args.customer_id
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.get(server_addr + '/api/customers/' + args.customer_id + '/budget', params=params, headers=headers, timeout=5)
-        print(req.status_code)
         if(req.status_code == 200):
             data = []
             data.append(req.json())

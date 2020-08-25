@@ -8,7 +8,6 @@ Usage:
 Options:
     --host=<ip>     IP address [default: 0.0.0.0].
     --port=<port>   Port [default: 8080].
-    --db-path=<path>    Path to database file. [default: server.db].
     -h, --help      Show this screen.
     -v, --version   Show version.
 """
