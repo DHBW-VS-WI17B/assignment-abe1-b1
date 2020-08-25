@@ -18,8 +18,11 @@ class EventsApi():
 
     @staticmethod
     def get_events(args):
+        headers = {}
+        if args.customer_id is not None:
+            headers['Customer-ID'] = args.customer_id
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.get(server_addr + '/api/events', timeout=5)
+        req = requests.get(server_addr + '/api/events', timeout=5, headers=headers)
         if(req.status_code == 200):
             data = req.json()
             if data == []:
@@ -35,8 +38,11 @@ class EventsApi():
 
     @staticmethod
     def get_event(args):
+        headers = {}
+        if args.customer_id is not None:
+            headers['Customer-ID'] = args.customer_id
         server_addr = 'http://' + args.ip + ":" + args.port
-        req = requests.get(server_addr + '/api/events/' + args.event_id, timeout=5)
+        req = requests.get(server_addr + '/api/events/' + args.event_id, timeout=5, headers=headers)
         if(req.status_code == 200):
             data = []
             data.append(req.json())
