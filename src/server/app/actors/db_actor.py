@@ -195,6 +195,7 @@ class DbActor(Actor):
                   .group_by(EventModel.id))
         for event in events:
             sales_dict.append({'event_id': event.id,
-                               'sales': event.sales})
+                               'sales': event.sales,
+                              'name': event.name})
         message = ActorMessage(payload={'sales_dict': sales_dict})
         self.send(msg.response_to, message)
