@@ -13,7 +13,8 @@
 	},
 	"extensions": [
 		"ms-python.python",
-		"njpwerner.autodocstring"
+		"njpwerner.autodocstring",
+		"alexcvzz.vscode-sqlite"
 	],
 	"forwardPorts": [
 		8080
