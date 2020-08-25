@@ -190,12 +190,12 @@ class DbActor(Actor):
     def __get_sales_per_event(self, msg):
         sales_dict = []
         events = (EventModel
-                  .select(EventModel.id, fn.COUNT(TicketModel.id).alias('sales'))
+                  .select(EventModel.id, EventModel.name, fn.COUNT(TicketModel.id).alias('sales'))
                   .join(TicketModel, JOIN.LEFT_OUTER)
                   .group_by(EventModel.id))
         for event in events:
             sales_dict.append({'event_id': event.id,
-                               'sales': event.sales,
-                              'name': event.name})
+                               'event_name': event.name,
+                               'sales': event.sales})
         message = ActorMessage(payload={'sales_dict': sales_dict})
         self.send(msg.response_to, message)
