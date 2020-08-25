@@ -3,6 +3,7 @@ import json
 from app.classes.customer import Customer
 from app.classes.ticket import Ticket
 from app.classes.response import Response_Helper
+from app.utils.date import DateHelper
 
 class CustomersApi():
     @staticmethod
@@ -22,15 +23,15 @@ class CustomersApi():
         if args.customer_id is not None:
             headers['Customer-ID'] = args.customer_id
         if args.order_date is not None:
-            params['order_date'] = args.order_date 
+            params['order_date'] = DateHelper.date_to_timestamp(args.order_date)
         if args.event_date is not None:
-            params['event_date'] = args.event_date
+            params['event_date'] = DateHelper.date_to_timestamp(args.event_date)
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.get(server_addr + '/api/customers/' + args.customer_id + '/tickets', params=params, headers=headers, timeout=10)
         if(req.status_code == 200):
             data = req.json()
             if data == []:
-                print("The customer has not yet purchased tickets!")
+                print("No tickets were found!")
             else:
                 Ticket.print_table(req.json())
         else:
