@@ -68,6 +68,11 @@ def main(args):
                 EventsApi.get_event(args)
             elif args.sales:
                 EventsApi.get_sales(args)
+    else:
+        print('Client CLI')
+        print()
+        print('No command provided.')
+        print('Run "client --help" to access the command documentation.')
 
 if __name__ == '__main__':
     args = docopt(__doc__, version='1.0.0')
@@ -76,3 +81,4 @@ if __name__ == '__main__':
         main(Arguments(args))
     except Exception as ex:
         exit(ex)
+    
