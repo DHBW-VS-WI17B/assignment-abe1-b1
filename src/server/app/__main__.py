@@ -1,14 +1,13 @@
 """Server CLI
 Usage:
     server
-    server start [--host=<ip>] [--port=<port>] [--db-path=<path>]
+    server start [--host=<ip>] [--port=<port>]
     server -h|--help
     server -v|--version
 
 Options:
     --host=<ip>         IP address [default: 0.0.0.0].
     --port=<port>       Port [default: 8080].
-    --db-path=<path>    Path to database file. [default: server.db].
     -h, --help          Show this screen.
     -v, --version       Show version.
 """
@@ -33,7 +32,6 @@ def signal_handler(signalnum, frame):
 def init_config(args):
     Config.set('HOST', args.get('--host'))
     Config.set('PORT', int(args.get('--port')))
-    Config.set('SQLITE_DATABASE', args.get('--db-path'))
 
 
 def init_db():
@@ -70,9 +68,11 @@ def init_web_server(host, port):
 def check_db_path(db_path):
     path_exists = os.path.exists(db_path)
     if not path_exists:
-        print('Server CLI')
+        print("Server CLI")
         print()
-        print('\033[91mDatabase file not found.\033[0m')
+        print("\033[91mDatabase file not found.\033[0m")
+        msg = "Please create a file named `{}` in the CLI directory."
+        print(msg.format(Config.get('SQLITE_DATABASE')))
         sys.exit(0)
 
 
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     arguments = docopt(__doc__, version='1.0.0')
     init_config(arguments)
     if arguments.get('start') is True:
-        check_db_path(arguments.get('--db-path'))
+        check_db_path(Config.get('SQLITE_DATABASE'))
         main()
     else:
         print('Server CLI')
