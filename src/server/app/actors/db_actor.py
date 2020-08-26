@@ -68,7 +68,8 @@ class DbActor(Actor):
         customer = msg.payload.get('customer')
         customer_model = Customer.to_model(customer)
         customer_model.save()
-        self.send(msg.response_to, ActorMessage())
+        message = ActorMessage(payload={'id': customer_model.id})
+        self.send(msg.response_to, message)
 
     def __get_customer_budget(self, msg):
         customer_id = msg.payload.get('customer_id')

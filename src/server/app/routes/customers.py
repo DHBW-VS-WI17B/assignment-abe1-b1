@@ -30,7 +30,7 @@ def add():
         response = asys.ask(actor, message)
         if response.error:
             return jsonify({'error': str(response.error.message)}), response.error.http_code
-        return "", 204
+        return jsonify(response.payload)
     except Exception as ex:
         return jsonify({'error': str(ex)}), 500
 
