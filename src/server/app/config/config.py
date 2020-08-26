@@ -2,9 +2,9 @@ class Config:
     __conf = {
         'HOST': '',
         'PORT': '',
-        'SQLITE_DATABASE': '',
+        'SQLITE_DATABASE': 'server.db',
     }
-    __setters = ['HOST', 'PORT', 'SQLITE_DATABASE']
+    __setters = ['HOST', 'PORT']
 
     @staticmethod
     def get(name):
