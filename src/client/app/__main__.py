@@ -41,22 +41,9 @@ from app.api.events_api import EventsApi
 from app.api.customers_api import CustomersApi
 from app.utils.validate_args import Validate_Args
 
+
 def main(args):
-    if args.customer:
-        if args.get_budget:
-            CustomersApi.get_budget(args)
-        elif args.ticket:
-            if args.list:
-                CustomersApi.get_tickets(args)
-        elif args.event:
-            if args.list:
-                EventsApi.get_events(args)
-            elif args.info:
-                EventsApi.get_event(args)
-            elif args.ticket:
-                if args.purchase:
-                    EventsApi.purchase_tickets(args)
-    elif args.admin:
+    if args.admin:
         if args.customer:
             CustomersApi.add_customer(args)
         elif args.event:
@@ -68,6 +55,25 @@ def main(args):
                 EventsApi.get_event(args)
             elif args.sales:
                 EventsApi.get_sales(args)
+    elif args.customer:
+        if args.get_budget:
+            CustomersApi.get_budget(args)
+        elif args.ticket:
+            if args.list:
+                CustomersApi.get_tickets(args)
+            if args.purchase:
+                EventsApi.purchase_tickets(args)
+        elif args.event:
+            if args.list:
+                EventsApi.get_events(args)
+            elif args.info:
+                EventsApi.get_event(args)
+    else:
+        print('Client CLI')
+        print()
+        print('No command provided.')
+        print('Run `client --help` to access the command documentation.')
+
 
 if __name__ == '__main__':
     args = docopt(__doc__, version='1.0.0')

@@ -11,4 +11,4 @@ class DateHelper():
     @staticmethod    
     def timestamp_to_date(timestamp):
         date = datetime.fromtimestamp(timestamp)
-        return date.strftime('%d-%m-%y')
+        return date.strftime('%d.%m.%Y')
