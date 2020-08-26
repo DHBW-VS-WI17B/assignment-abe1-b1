@@ -70,8 +70,8 @@ def get_tickets(customer_id):
         asys = ActorSystem()
         actor = asys.createActor(actorClass=CustomersActor)
         customer_id = request.headers.get('Customer-ID')
-        order_date = request.args.get('order_date', default=None, type=int)
-        event_date = request.args.get('event_date', default=None, type=int)
+        order_date = request.args.get('order_date', default=None, type=float)
+        event_date = request.args.get('event_date', default=None, type=float)
         payload = {
             'customer_id': int(customer_id),
             'order_date': datetime.fromtimestamp(order_date).date() if order_date else None,
