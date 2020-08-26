@@ -1,0 +1,46 @@
+Das Datenmodell setzt sich aus drei Entitäten \textit{Event}, \textit{Customer} und \textit{Ticket} zusammen.
+\autoref{fig:uml_data_model} beinhaltet eine Abbildung des Datenmodells als Entity-Relationship-Modell.
+
+\begin{dhbwfigure}{caption=Datenmodell,label=fig:uml_data_model,source={Eigene Darstellung.},float=H}
+    \begin{plantuml}
+        @startuml
+
+        scale 0.7
+        skinparam linetype ortho
+        left to right direction
+
+        entity "Event" as event {
+            * id: integer
+            --
+            * name: string
+            * date: integer
+            * location: string
+            * ticket_price: integer
+            * max_tickets: integer
+            * max_tickets_per_customer: integer
+            * sale_start_date: integer
+            * sale_period: integer
+        }   
+        entity "Ticket" as ticket {
+            * id: integer
+            --
+            * order_date: integer
+            --
+            * customer_id: integer
+            * event_id: integer
+        }
+        entity "Customer" as customer {
+            * id: integer
+            --
+            * name: string
+            * budget: integer
+            * address: string
+        }
+
+        event ||--o{ ticket
+        ticket }o--|| customer
+
+        @enduml
+    \end{plantuml}
+\end{dhbwfigure}
+

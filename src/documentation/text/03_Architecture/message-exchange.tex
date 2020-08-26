@@ -1,0 +1,40 @@
+\begin{dhbwfigure}{caption=Klassen im Aktorensystems,label=fig:uml_actor_system_class_diagramm,source={Eigene Darstellung.},float=H}
+    \begin{plantuml}
+        @startuml
+
+        class ActorMessage {
+            action: String
+            payload: Object 
+            customer_id: Integer
+            response_to: Object
+            error: ActorMessageError
+            ActorMessage()
+        }
+
+        class ActorMessageError {
+            message: String
+            http_code: Integer 
+            ActorMessageError()
+        }
+
+        enum EventsActorAction {
+            EVENTS_LIST
+            EVENTS_ADD
+            EVENTS_GET
+            EVENTS_SALES
+            EVENTS_PURCHASE
+        }
+
+        enum CustomersActorAction {
+            CUSTOMERS_ADD
+            CUSTOMERS_BUDGET
+            CUSTOMERS_TICKETS
+        }
+
+        ActorMessage --> ActorMessageError
+        ActorMessage --> EventsActorAction
+        ActorMessage --> CustomersActorAction
+
+        @enduml
+    \end{plantuml}
+\end{dhbwfigure}

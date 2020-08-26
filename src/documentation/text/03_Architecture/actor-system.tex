@@ -1,0 +1,40 @@
+Das Aktorensystem setzt sich aus den folgenden drei Aktorenklassen zusammen:
+\begin{enumerate}
+    \item \textbf{EventsActor}: Der EventsActor ... Von ihm existieren keine globalen Instanzen. Der EventsActor ist dafür zuständig eingehende Nachrichten an die korrekte DbActor-Instanz weiterzuleiten.
+    \item \textbf{CustomersActor}: Der CustomersActor ... Von ihm existieren keine globalen Instanzen. Der CustomersActor ist dafür zuständig eingehende Nachrichten an die korrekte DbActor-Instanz weiterzuleiten.
+    \item \textbf{DbActor}: Der DbActor ... Von ihm existieren sowohl globale als auch nicht-globale Instanzen.
+\end{enumerate}
+
+\autoref{fig:uml_overall_architecture} veranschaulicht die Architektur des Aktorensystems, das in \autoref{fig:uml_overall_architecture} bereits in die Gesamtarchitektur eingeordnet wurde.
+
+\begin{dhbwfigure}{caption=Aktorensystem,label=fig:uml_overall_architecture,source={Eigene Darstellung.},float=H}
+    \begin{plantuml}
+        @startuml
+
+            skinparam componentStyle uml2
+            left to right direction
+
+            component "Webserver" as WebServer
+            database "Datenbank" as Database
+
+            package "Aktorensystem" {
+                component "EventsActor" as EventsActor
+                component "CustomersActor" as CustomersActor
+                component "DbActor" as DbActor
+
+                
+                EventsActor --> DbActor
+                CustomersActor --> DbActor
+            }
+
+            WebServer --> EventsActor
+            WebServer --> CustomersActor
+            DbActor --> Database
+
+        @enduml
+    \end{plantuml}
+\end{dhbwfigure}
+
+Jede eingehende Anfrage eines Clients an den Webserver erzeugt einen neuen EventsActor bzw.\ CustomersActor.
+Diese leiten die Anfrage im Falle eines Lesezugriffs an einen globalen DbActor weiter, welcher ausschließlich zur Serialisierung der Schreibzugriffe auf die Datenbank dient.
+Erfolgt hingegen ein Lesezugriff, erzeugt der jeweilige EventsActor bzw.\ CustomersActor ausschließlich für diese Operation einen neuen DbActor, welcher parallel zu anderen Aktoren lesend auf die Datenbank zugreifen kann.
