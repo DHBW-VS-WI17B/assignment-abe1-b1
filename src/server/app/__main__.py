@@ -50,7 +50,6 @@ def init_db():
 def init_actor_system():
     print("Initializing actor system...")
     ActorSystem('multiprocTCPBase')
-    signal.signal(signal.SIGINT, signal_handler)
 
 
 def init_web_server(host, port):
@@ -79,6 +78,7 @@ def check_db_path(db_path):
 
 def main():
     print("Start server...")
+    signal.signal(signal.SIGINT, signal_handler)
     init_db()
     init_actor_system()
     init_web_server(Config.get('HOST'), Config.get('PORT'))
