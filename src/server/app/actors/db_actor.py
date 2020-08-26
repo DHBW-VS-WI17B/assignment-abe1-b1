@@ -114,7 +114,10 @@ class DbActor(Actor):
                                  .where(CustomerModel.id == msg.customer_id,
                                         EventModel.date == event_date))
             else:
-                ticket_models = TicketModel.select().join(CustomerModel)
+                ticket_models = (TicketModel
+                                 .select()
+                                 .join(CustomerModel)
+                                 .where(CustomerModel.id == msg.customer_id))
             for ticket_model in ticket_models:
                 ticket = Ticket.from_model(ticket_model)
                 tickets.append(ticket)
