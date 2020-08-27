@@ -22,9 +22,8 @@ Das Aktorensystem setzt sich aus den folgenden drei Aktorenklassen zusammen:
                 component "CustomersActor" as CustomersActor
                 component "DbActor" as DbActor
 
-                
-                EventsActor --> DbActor
-                CustomersActor --> DbActor
+                EventsActor <--> DbActor
+                CustomersActor <--> DbActor
             }
 
             WebServer --> EventsActor
