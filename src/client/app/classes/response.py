@@ -1,4 +1,5 @@
 class Response_Helper():
+    """handle status codes of the server responses"""
     @staticmethod
     def handle_exception(status_code, error_msg):
         if status_code == 500:

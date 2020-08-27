@@ -8,6 +8,7 @@ from app.classes.sales import Sales
 class EventsApi():
     @staticmethod
     def add_event(args):
+        """creates an event"""
         event = Event(args)
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.post(server_addr + '/api/events', json=event.__dict__, timeout=5)
@@ -18,6 +19,7 @@ class EventsApi():
 
     @staticmethod
     def get_events(args):
+        """get a list with all available events"""
         headers = {}
         if args.customer_id is not None:
             headers['Customer-ID'] = args.customer_id
@@ -38,6 +40,7 @@ class EventsApi():
 
     @staticmethod
     def get_event(args):
+        """get information about a specific event."""
         headers = {}
         if args.customer_id is not None:
             headers['Customer-ID'] = args.customer_id
@@ -58,6 +61,7 @@ class EventsApi():
 
     @staticmethod
     def purchase_tickets(args):
+        """purchases a number of tickets for a particular event."""
         headers = {}
         if args.customer_id is not None:
             headers['Customer-ID'] = args.customer_id
@@ -70,7 +74,8 @@ class EventsApi():
             Response_Helper.handle_exception(req.status_code, req.json()['error'])
     
     @staticmethod
-    def get_sales(args):        
+    def get_sales(args):  
+        """get the sales figures of all events."""      
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.get(server_addr + '/api/events/sales', timeout=5)
         if(req.status_code == 200):

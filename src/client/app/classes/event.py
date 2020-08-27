@@ -16,6 +16,7 @@ class Event:
 
     @staticmethod
     def print_table_admin(data):
+        """displays all information to the given events as table"""
         table = []
         for item in data:
             table.append([
@@ -34,6 +35,7 @@ class Event:
     
     @staticmethod
     def print_table_customer(data):
+        """displays parts of the information to the given events as table"""
         table = []
         for item in data:
             table.append([
