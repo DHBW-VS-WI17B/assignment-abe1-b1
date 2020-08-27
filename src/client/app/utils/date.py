@@ -1,7 +1,8 @@
 from datetime import datetime
 
-class DateHelper():
-    
+
+class DateHelper:
+
     @staticmethod
     def date_to_timestamp(date):
         """Converts date format `dd.mm.yyyy` to timestamp."""
@@ -9,7 +10,7 @@ class DateHelper():
         timestamp = input_date.timestamp()
         return timestamp
 
-    @staticmethod    
+    @staticmethod
     def timestamp_to_date(timestamp):
         """Converts timestamp to date format `dd.mm.yyyy`."""
         date = datetime.fromtimestamp(timestamp)
