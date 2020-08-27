@@ -19,5 +19,5 @@ $ server start [options]
 
 #### Options
 
-- `--host` (Default: `0.0.0.0`)
+- `--host` (Default: `127.0.0.1`)
 - `--port` (Default: `8080`)
