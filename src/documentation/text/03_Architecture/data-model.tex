@@ -1,4 +1,4 @@
-Das Datenmodell setzt sich aus drei Entitäten \textit{Event}, \textit{Customer} und \textit{Ticket} zusammen.
+Das Datenmodell setzt sich aus den drei Entitäten \textit{Event}, \textit{Customer} und \textit{Ticket} zusammen.
 \autoref{fig:uml_data_model} beinhaltet eine Abbildung des Datenmodells als Entity-Relationship-Modell.
 
 \begin{dhbwfigure}{caption=Datenmodell,label=fig:uml_data_model,source={Eigene Darstellung.},float=H}
@@ -44,7 +44,7 @@ Das Datenmodell setzt sich aus drei Entitäten \textit{Event}, \textit{Customer}
     \end{plantuml}
 \end{dhbwfigure}\unskip
 
-Die Entität Ticket dient grundsätzlich der Realisierung der n:m-Beziehung zwischen Event und Customer, fügt dieser Beziehung jedoch auch eine weitere Eigenschaft, das Kaufdatum, hinzu.
+Die Entität \textit{Ticket} dient grundsätzlich der Realisierung der n:m-Beziehung zwischen \textit{Event} und \textit{Customer}, fügt dieser Beziehung jedoch auch eine weitere Eigenschaft, das Kaufdatum, hinzu.
 Das Jahresbudget des Kunden wird einmalig gesetzt und anschließend bei Bedarf für das jeweilige Jahr ausgehend von diesem Wert und anhand der gekauften Tickets und Ticketpreise berechnet.
 Somit müssen nicht mehrere Budgetwerte eines Kunden gespeichert werden. 
 Zu diesen kommt es, wenn der Kunde Tickets von Events kauft, die in unterschiedlichen Jahren stattfinden.
