@@ -11,6 +11,7 @@ class Customer:
     
     @staticmethod
     def print_table_budget(data):
+        """Displays the budget of a specific year as table."""
         table = []
         for item in data:
             table.append([

@@ -3,6 +3,7 @@ from schema import Schema, And, Or, Use, SchemaWrongKeyError, SchemaError, Regex
 class Validate_Args():
     @staticmethod
     def validate_args(args):
+        """Validate the input parameters."""
         schema = Schema({
             '--ip': And(str, Regex(r'^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$'), error='The format of the IP address is wrong, please check the format. (e.g.: 127.0.0.1)'),
             '--port': And(Use(int), lambda x: 1024  <= x <= 65535, error='The port can only be a number between 1024 and 65535.'),

@@ -3,6 +3,7 @@ from dataclasses import dataclass
 @dataclass
 class Arguments:
     def __init__(self, args):
+        """Convert args dictionary to args object."""
         self.address = args.get('--address')
         self.budget = args.get('--budget')
         self.year = args.get('--year')
