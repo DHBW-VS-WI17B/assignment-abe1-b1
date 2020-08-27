@@ -1,11 +1,21 @@
 Das Aktorensystem setzt sich aus den folgenden drei Aktorenklassen zusammen:
 \begin{enumerate}
-    \item \textbf{EventsActor}: Der EventsActor ... Von ihm existieren keine globalen Instanzen. Der EventsActor ist dafür zuständig eingehende Nachrichten an die korrekte DbActor-Instanz weiterzuleiten.
-    \item \textbf{CustomersActor}: Der CustomersActor ... Von ihm existieren keine globalen Instanzen. Der CustomersActor ist dafür zuständig eingehende Nachrichten an die korrekte DbActor-Instanz weiterzuleiten.
-    \item \textbf{DbActor}: Der DbActor ... Von ihm existieren sowohl globale als auch nicht-globale Instanzen.
+    \item \textbf{DbActor}: Aktoren dieser Klasse sind für die Kommunikation mit der Datenbank zuständig.
+    Es existiert genau ein Aktor dieser Klasse, welcher ausschließlich für Schreibzugriffe verwendet wird.
+    Dieser Aktor besitzt einen vordefinierten globalen Namen.
+    Der globale Name identifiziert den Aktor eindeutig und ermöglicht anderen Aktoren die Referenzierung dieser Instanz.\ifootcite{thespianpy_com_guide}
+    Dadurch wird sichergestellt, dass alle Schreibzugriffe gemäß der Aufgabenstellung sequentiell ablaufen.
+    Bei Lesezugriffen ist für jeden Zugriff ein eigener Aktor zuständig.
+    Dies ermöglicht eine nebenläufige Verarbeitung aller eingehenden Anfragen.
+    \item \textbf{EventsActor}: Ein Aktor dieser Klasse ist für die Verarbeitung von Aktionen, welche sich auf Veranstaltungen beziehen, verantwortlich.
+    Dazu gehört u.\ a.\ der Kauf von Tickets.
+    Der Webserver erstellt mit jeder eingehende Anfrage auf die Basisroute \enquote{/api/events} eine Instanz dieser Aktorenklasse. 
+    Die Aufgabe dieses Aktors ist anschließend die Weiterleitung der benötigten Informationen an die korrekte DbActor-Instanz.
+    \item \textbf{CustomersActor}: Ein Aktor dieser Klasse ist für die Verarbeitung von Aktionen, welche sich auf Kunden beziehen, verantwortlich.
+    Dazu gehört u.\ a.\ das Abfragen des Budgets für ein ausgewähltes Jahr durch den Kunden.
+    Der Webserver erstellt mit jeder eingehende Anfrage auf die Basisroute \enquote{/api/customers} eine Instanz dieser Aktorenklasse. 
+    Die Aufgabe dieses Aktors ist anschließend die Weiterleitung der benötigten Informationen an die korrekte DbActor-Instanz.
 \end{enumerate}
-
-\autoref{fig:uml_overall_architecture} veranschaulicht die Architektur des Aktorensystems, das in \autoref{fig:uml_overall_architecture} bereits in die Gesamtarchitektur eingeordnet wurde.
 
 \begin{dhbwfigure}{caption=Aktorensystem,label=fig:uml_overall_architecture,source={Eigene Darstellung.},float=H}
     \begin{plantuml}
@@ -34,6 +44,4 @@ Das Aktorensystem setzt sich aus den folgenden drei Aktorenklassen zusammen:
     \end{plantuml}
 \end{dhbwfigure}\unskip
 
-Jede eingehende Anfrage eines Clients an den Webserver erzeugt einen neuen EventsActor bzw.\ CustomersActor.
-Diese leiten die Anfrage im Falle eines Lesezugriffs an einen globalen DbActor weiter, welcher ausschließlich zur Serialisierung der Schreibzugriffe auf die Datenbank dient.
-Erfolgt hingegen ein Lesezugriff, erzeugt der jeweilige EventsActor bzw.\ CustomersActor ausschließlich für diese Operation einen neuen DbActor, welcher parallel zu anderen Aktoren lesend auf die Datenbank zugreifen kann.
+\autoref{fig:uml_overall_architecture} veranschaulicht die Architektur des Aktorensystems, das in \autoref{fig:uml_overall_architecture} bereits in die Gesamtarchitektur eingeordnet wurde.
