@@ -22,6 +22,7 @@ Im Rahmen dieses Kapitels werden die in \autoref{sec:requirements} beschriebenen
                 (Veranstaltung anlegen) --- Admin
                 (Veranstaltungsliste abrufen) ---- Admin
                 (Veranstaltungsdaten abrufen) ---- Admin
+                (Kunde anlegen) ---- Admin
             }
         @enduml
     \end{plantuml}
@@ -30,7 +31,7 @@ Im Rahmen dieses Kapitels werden die in \autoref{sec:requirements} beschriebenen
 \autoref{fig:use_case_diagram} beinhaltet ein Anwendungsfalldiagramm.
 Es dient der Beschreibung von elementaren Funktionen und \dfootcite[59]{objektorientierte_systemanalyse}{[...] stellt das Zusammenspiel der Anwendungsfälle eines Systems untereinander und mit den Akteuren dar}.
 
-Die ermittelten Anwendungsfälle werden in den Tabellen \ref{tab:use_case_list_events} bis \ref{tab:use_case_add_event} genauer erläutert. % TODO
+Die ermittelten Anwendungsfälle werden in den Tabellen \ref{tab:use_case_list_events} bis \ref{tab:use_case_add_customer} genauer erläutert.
 
 \begin{dhbwtable}{caption={Anwendungsfall: Veranstaltungsliste abrufen},label=tab:use_case_list_events,float=H}
     \begin{tabularx}{\textwidth}{lX}
@@ -163,6 +164,24 @@ Die ermittelten Anwendungsfälle werden in den Tabellen \ref{tab:use_case_list_e
             \item Der Akteur stellt über den Client eine Anfrage an die Verwaltungskomponente.
             \item Der Client prüft, ob alle erforderlichen Informationen übergeben wurden.
             \item Der Client gibt entweder die ID der angelegten Veranstaltung oder einen Hinweis auf fehlende Eingaben aus.
+        \end{enumerate}
+        \end{minipage} \\\bottomrule
+    \end{tabularx}    
+\end{dhbwtable}
+
+\begin{dhbwtable}{caption={Anwendungsfall: Kunde anlegen},label=tab:use_case_add_customer,float=H}
+    \begin{tabularx}{\textwidth}{lX}
+        \toprule
+        \textbf{Merkmal} & \textbf{Beschreibung}  \\ \midrule
+        Beschreibung    & Der Akteur legt einen Kunden an. \\
+        Akteure         & Verwalter \\
+        Vorbedingungen  & Keine \\
+        Ablauf          & \begin{minipage}[t]{\linewidth}
+        \vspace*{-3mm}
+        \begin{enumerate}[leftmargin=*,nosep,after=\strut]
+            \item Der Akteur stellt über den Client eine Anfrage an die Verwaltungskomponente.
+            \item Der Client prüft, ob alle erforderlichen Informationen übergeben wurden.
+            \item Der Client gibt entweder die ID des angelegten Kunden oder einen Hinweis auf fehlende Eingaben aus.
         \end{enumerate}
         \end{minipage} \\\bottomrule
     \end{tabularx}    
