@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from tabulate import tabulate
 
+
 @dataclass
 class Sales:
     @staticmethod
@@ -10,8 +11,8 @@ class Sales:
         for item in data:
             table.append([
                 item['event_id'],
-                item['event_name'], 
-                item['sales'] 
+                item['event_name'],
+                item['sales']
             ])
-        headers = ["ID", "Name", "Sales"]
+        headers = ["Event ID", "Event name", "Number of sales"]
         print(tabulate(table, headers=headers, floatfmt=".4f"))
