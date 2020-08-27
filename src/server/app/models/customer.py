@@ -1,4 +1,4 @@
-from peewee import CharField, IntegerField, AutoField, FloatField
+from peewee import CharField, AutoField, FloatField
 from app.models.base_model import BaseModel
 
 
