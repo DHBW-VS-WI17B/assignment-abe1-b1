@@ -5,7 +5,7 @@ Das Aktorensystem setzt sich aus den folgenden drei Aktorenklassen zusammen:
     Dieser Aktor besitzt einen vordefinierten globalen Namen.
     Der globale Name identifiziert den Aktor eindeutig und ermöglicht anderen Aktoren die Referenzierung dieser Instanz.\ifootcite{thespianpy_com_guide}
     Dadurch wird sichergestellt, dass alle Schreibzugriffe gemäß der Aufgabenstellung sequentiell ablaufen.
-    Bei Lesezugriffen ist pro Zugriff ein eigener Aktor zuständig.
+    Bei Lesezugriffen ist pro Zugriff ein eigener Aktor verantwortlich.
     Dies ermöglicht eine nebenläufige Verarbeitung aller eingehenden Anfragen dieser Art.
     \item \textbf{EventsActor}: Ein Aktor dieser Klasse ist für die Verarbeitung von Aktionen, die sich auf Veranstaltungen beziehen, zuständig.
     Dazu gehört u.\ a.\ der Kauf von Tickets.
