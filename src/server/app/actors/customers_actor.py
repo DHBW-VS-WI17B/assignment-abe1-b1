@@ -8,6 +8,7 @@ from app.classes.actor_message import ActorMessage
 class CustomersActor(Actor):
 
     def receiveMessage(self, msg, sender):
+        """handle actor messages and call db actor"""
         if not isinstance(msg, ActorMessage):
             return
         if msg.action == CustomersActorAction.CUSTOMERS_ADD:

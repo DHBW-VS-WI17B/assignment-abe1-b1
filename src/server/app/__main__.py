@@ -24,17 +24,30 @@ from app.config.config import Config
 
 
 def signal_handler(signalnum, frame):
+    """Signal Handler
+
+    Args:
+        signalnum ([type]): [description]
+        frame ([type]): [description]
+    """
     # pylint: disable=unused-argument
     ActorSystem().shutdown()
     sys.exit(0)
 
 
 def init_config(args):
+    """set configuration server
+
+    Args:
+        args (dict): input args from console
+    """
     Config.set('HOST', args.get('--host'))
     Config.set('PORT', int(args.get('--port')))
 
 
 def init_db():
+    """Initialize database
+    """
     from app.models.customer import Customer
     from app.models.event import Event
     from app.models.ticket import Ticket
@@ -51,6 +64,12 @@ def init_actor_system():
 
 
 def init_web_server(host, port):
+    """Initialize and start server 
+
+    Args:
+        host (string): IP address of the server
+        port (string): port of the server
+    """
     from app.routes import customers
     from app.routes import events
     print("Initializing web server...")
@@ -66,6 +85,11 @@ def init_web_server(host, port):
 
 
 def check_db_path(db_path):
+    """check Database path if the db file exists
+
+    Args:
+        db_path (string): path of the db
+    """
     path_exists = os.path.exists(db_path)
     if not path_exists:
         print("Server CLI")

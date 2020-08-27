@@ -20,6 +20,7 @@ class Event:
 
     @staticmethod
     def from_json(json):
+        """create tickets object from json"""
         id = json.get('id')
         name = json.get('name')
         date = datetime.fromtimestamp(json.get('date')).date()
@@ -37,6 +38,7 @@ class Event:
 
     @staticmethod
     def to_dict(event):
+        """Convert event object to dictionary"""
         id = event.id
         name = event.name
         date = datetime.timestamp(datetime(
@@ -56,6 +58,7 @@ class Event:
 
     @staticmethod
     def from_model(model):
+        """convert model to event object"""
         id = model.id
         name = model.name
         date = model.date
@@ -73,6 +76,7 @@ class Event:
 
     @staticmethod
     def to_model(event):
+        """convert event object to model"""
         id = event.id
         name = event.name
         date = event.date

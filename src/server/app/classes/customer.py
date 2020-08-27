@@ -13,6 +13,7 @@ class Customer:
 
     @staticmethod
     def from_json(json):
+        """create customer object from json"""
         id = json.get('id')
         name = json.get('name')
         budget = json.get('budget')
@@ -22,6 +23,7 @@ class Customer:
 
     @staticmethod
     def to_dict(customer):
+        """Convert customer object to dictionary"""
         id = customer.id
         name = customer.name
         budget = customer.budget
@@ -32,6 +34,7 @@ class Customer:
 
     @staticmethod
     def from_model(model):
+        """convert model to customer object"""
         id = model.id
         name = model.name
         budget = model.budget
@@ -41,6 +44,7 @@ class Customer:
 
     @staticmethod
     def to_model(customer):
+        """convert customer object to model"""
         id = customer.id
         name = customer.name
         budget = customer.budget
