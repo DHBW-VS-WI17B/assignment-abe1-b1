@@ -1,3 +1,5 @@
+Für den Nachrichtenaustausch zwischen den Aktoren wird die in \autoref{fig:uml_actor_system_class_diagramm} abgebildete Klasse \textit{ActorMessage} verwendet.
+
 \begin{dhbwfigure}{caption=Klassen im Aktorensystems,label=fig:uml_actor_system_class_diagramm,source={Eigene Darstellung.},float=H}
     \begin{plantuml}
         @startuml
@@ -38,3 +40,10 @@
         @enduml
     \end{plantuml}
 \end{dhbwfigure}\unskip
+
+Die möglichen Anwendungsfälle werden durch die Klassen \textit{EventsActorAction} und \textit{CustomersActorAction} abgebildet.
+Da es sich bei den Aktionen \textit{EVENTS_ADD}, \textit{CUSTOMERS_ADD} und \textit{EVENTS_PURCHASE} um Aktionen handelt, bei denen Schreibzugriffe auf die Datenbank durchgeführt werden müssen, werden Nachrichten mit diesen Aktionen an den globalen DbActor weitergeleitet.
+Die Eigenschaft \textit{payload} enthält die eigentliche Nachricht an den Zielaktor.
+Stammt die eingehende Anfrage von einem Kunden besitzt das Attribut \textit{customer_id} die Kunden-ID des jeweiligen Kunden.
+Die Eigenschaft \textit{response_to} enthält die Adresse des Aktors, von dem die Nachricht ursprünglich stammt und an den somit auch die Antwort geschickt werden sollte.
+Im Fehlerfall wird ein Objekt der Klasse \textit{ActorMessageError} der Eigenschaft \textit{error} zugewiesen.
