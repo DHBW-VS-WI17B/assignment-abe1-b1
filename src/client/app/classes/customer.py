@@ -16,5 +16,5 @@ class Customer:
             table.append([
                 item['budget']
             ])
-        headers = ["Budget"]
+        headers = ["Budget (€)"]
         print(tabulate(table, headers=headers, floatfmt=".4f"))

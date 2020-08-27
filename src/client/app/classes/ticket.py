@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from tabulate import tabulate
-from app.utils.date  import DateHelper
+from app.utils.date import DateHelper
+
 
 @dataclass
 class Ticket:
@@ -10,9 +11,9 @@ class Ticket:
         for item in data:
             table.append([
                 item['id'],
-                DateHelper.timestamp_to_date(item['order_date']), 
-                item['customer_id'], 
+                DateHelper.timestamp_to_date(item['order_date']),
+                item['customer_id'],
                 item['event_id']
             ])
-        headers = ["ID", "Order Date", "Customer ID", "Event ID"]
+        headers = ["Ticket ID", "Order date", "Customer ID", "Event ID"]
         print(tabulate(table, headers=headers, floatfmt=".4f"))
