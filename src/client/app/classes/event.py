@@ -30,12 +30,12 @@ class Event:
                 item['max_tickets'],
                 item['max_tickets_per_customer'],
                 DateHelper.timestamp_to_date(item['sale_start_date']),
-                item['ticket_price']
+                item['sale_period']
             ])
         headers = ["Event ID", "Name", "Date", "Location",
                    "Price (€)", "Max. tickets", "Max. tickets per customer",
                    "Sales start date", "Sales period (Days)"]
-        print(tabulate(table, headers=headers, floatfmt=".4f"))
+        print(tabulate(table, headers=headers, floatfmt=".2f"))
 
     @staticmethod
     def print_table_customer(data):
@@ -50,4 +50,4 @@ class Event:
                 item['ticket_price']
             ])
         headers = ["Event ID", "Name", "Date", "Location", "Price (€)"]
-        print(tabulate(table, headers=headers, floatfmt=".4f"))
+        print(tabulate(table, headers=headers, floatfmt=".2f"))
