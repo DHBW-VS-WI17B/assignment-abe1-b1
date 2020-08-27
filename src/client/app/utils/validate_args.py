@@ -1,4 +1,5 @@
 from schema import Schema, And, Or, Use, SchemaWrongKeyError, SchemaError, Regex
+from app.utils.date import DateHelper
 
 class Validate_Args():
     @staticmethod
@@ -24,6 +25,11 @@ class Validate_Args():
             '<customer-id>': Or(None, And(Use(int)), error='The customer id can only be a number. Please check your input.'),
             '--year': Or(None, And(Use(int)), error='The year can only be given as a number e.g. 2020. Please check your input.')
         })
+        if args.get('--date') is not None and args.get('--sale-start-date') is not None:
+            event_date = DateHelper.date_to_timestamp(args.get('--date'))
+            sale_start_date = DateHelper.date_to_timestamp(args.get('--sale-start-date'))
+            if sale_start_date > event_date:
+                raise SchemaError(None, errors="The date of the event cannot be earlier than the start date of the sale. Please check your input.")
         try:
             schema.validate(args)
         except SchemaWrongKeyError as ex:
