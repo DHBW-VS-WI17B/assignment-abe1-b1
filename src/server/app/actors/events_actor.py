@@ -8,6 +8,7 @@ from app.classes.actor_message import ActorMessage
 class EventsActor(Actor):
 
     def receiveMessage(self, msg, sender):
+        """Receive a actor message and forward the message to the correct DbActor."""
         if not isinstance(msg, ActorMessage):
             return
         if msg.action == EventsActorAction.EVENTS_ADD:
