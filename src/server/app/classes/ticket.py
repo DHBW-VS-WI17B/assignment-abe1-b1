@@ -12,7 +12,7 @@ class Ticket:
 
     @staticmethod
     def to_dict(ticket):
-        """Convert ticket object to dictionary"""
+        """Create dictionary from ticket object."""
         id = ticket.id
         order_date = datetime.timestamp(datetime(
             ticket.order_date.year, ticket.order_date.month, ticket.order_date.day))
@@ -24,7 +24,7 @@ class Ticket:
 
     @staticmethod
     def from_model(model):
-        """convert model to ticket object"""
+        """Create ticket object from database model."""
         id = model.id
         order_date = model.order_date
         customer_id = model.customer.id

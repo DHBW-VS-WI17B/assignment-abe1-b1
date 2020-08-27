@@ -24,7 +24,7 @@ class DbActor(Actor):
     db = SqliteDatabase(Config.get('SQLITE_DATABASE'))
 
     def receiveMessage(self, msg, sender):
-        """handle received message"""
+        """Handle incoming actor messages."""
         if not isinstance(msg, ActorMessage):
             return
         self.db.connect(reuse_if_open=True)
@@ -60,14 +60,14 @@ class DbActor(Actor):
                 self.db.close()
 
     def __check_customer_id(self, msg):
-        """check if customer exists"""
+        """Check if customer exists."""
         try:
             CustomerModel.get(CustomerModel.id == msg.customer_id)
         except DoesNotExist:
             raise DbActorError("Customer not found.", 404) from DoesNotExist
 
     def __add_customer(self, msg):
-        """add customer to database"""
+        """Add customer to database."""
         customer = msg.payload.get('customer')
         customer_model = Customer.to_model(customer)
         customer_model.save()
@@ -75,7 +75,7 @@ class DbActor(Actor):
         self.send(msg.response_to, message)
 
     def __get_customer_budget(self, msg):
-        """get customer budget for a specific year"""
+        """Get customer budget for a specific year."""
         customer_id = msg.payload.get('customer_id')
         year = msg.payload.get('year')
         try:
@@ -100,7 +100,7 @@ class DbActor(Actor):
             raise DbActorError("Customer not found.", 404) from DoesNotExist
 
     def __get_customer_tickets(self, msg):
-        """get customer tickets filtered by order date or event date"""
+        """Get customer tickets filtered by order date or event date."""
         try:
             tickets = []
             order_date = msg.payload.get('order_date')
@@ -133,14 +133,14 @@ class DbActor(Actor):
             raise DbActorError("Customer not found.", 404) from DoesNotExist
 
     def __add_event(self, msg):
-        """add event to database"""
+        """Add event to database."""
         event = msg.payload.get('event')
         event_model = Event.to_model(event)
         event_model.save()
         self.send(msg.response_to, ActorMessage())
 
     def __get_event(self, msg):
-        """get event by event id"""
+        """Get event by event ID."""
         event_id = msg.payload.get('event_id')
         try:
             event_model = EventModel.get(EventModel.id == event_id)
@@ -151,7 +151,7 @@ class DbActor(Actor):
             raise DbActorError("Event not found.", 404) from DoesNotExist
 
     def __list_event(self, msg):
-        """get all available events"""
+        """Get all available events."""
         events = []
         event_models = EventModel.select()
         for event_model in event_models:
@@ -161,7 +161,7 @@ class DbActor(Actor):
         self.send(msg.response_to, message)
 
     def __purchase_event_ticket(self, msg):
-        """purchase a given quantity of tickets from specific event"""
+        """Purchase of a certain number of tickets for a specific event."""
         event_id = msg.payload.get('event_id')
         quantity = msg.payload.get('quantity')
         try:
@@ -205,7 +205,7 @@ class DbActor(Actor):
         self.send(msg.response_to, ActorMessage())
 
     def __get_sales_per_event(self, msg):
-        """get sales numbers of all events"""
+        """Get number of sales of all events."""
         sales_dict = []
         events = (EventModel
                   .select(EventModel.id, EventModel.name, fn.COUNT(TicketModel.id).alias('sales'))
