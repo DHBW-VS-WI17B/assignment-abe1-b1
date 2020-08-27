@@ -32,8 +32,6 @@ Informationen zu dieser Syntax erhält ein Benutzer durch Aufrufen der \ac{CLI} 
 
 \autoref{fig:uml_overall_rchitecture} bildet die Gesamtarchitektur des Systems ab.
 Client und Server kommunizieren über \ac{HTTP} miteinander.
-Hierfür implementiert der Server neben dem Aktorensystem \textit{Thespian}\ifootcite{thespianpy_com} einen Webserver und stellt eine \ac{API} zur Verfügung. 
+Hierfür implementiert der Server neben dem Aktorensystem \textit{Thespian}\ifootcite{thespianpy_com} einen Webserver über den eine \ac{REST}-\ac{API} zur Verfügung steht.
+Diese \ac{REST}-\ac{API} stellt die zwei Basisrouten \enquote{/api/events} und \enquote{/api/customers} bereit.
 Der Client kann \ac{HTTP}-Anfragen an den Webserver senden und so über die \ac{API} mit dem Aktorensystem kommunizieren, welches wiederum mit der SQLite-Datenbank interagiert. 
-
-% TODO: Tabelle mit Informationen zur API einfügen
-% Jeder Anwendungsfall hat seine eigene Route. -> Anwendungsfall "User hinzufügen" fehlt noch
