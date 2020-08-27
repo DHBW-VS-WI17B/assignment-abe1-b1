@@ -5,7 +5,7 @@ from tabulate import tabulate
 class Sales:
     @staticmethod
     def print_table(data):
-        """displays the sales of all the events as table"""
+        """Displays the sales of all events as table."""
         table = []
         for item in data:
             table.append([

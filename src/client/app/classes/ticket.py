@@ -6,7 +6,7 @@ from app.utils.date  import DateHelper
 class Ticket:
     @staticmethod
     def print_table(data):
-        """displays tickets as table"""
+        """Displays the tickets as table."""
         table = []
         for item in data:
             table.append([
