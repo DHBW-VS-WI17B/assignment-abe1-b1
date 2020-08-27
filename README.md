@@ -5,7 +5,7 @@
 [![ci-server](https://github.com/DHBW-VS-WI17B/assignment-abe1-b1/workflows/ci-server/badge.svg?branch=master)](https://github.com/DHBW-VS-WI17B/assignment-abe1-b1/actions?query=workflow%3Aci-server)
 [![ci-client](https://github.com/DHBW-VS-WI17B/assignment-abe1-b1/workflows/ci-client/badge.svg?branch=master)](https://github.com/DHBW-VS-WI17B/assignment-abe1-b1/actions?query=workflow%3Aci-client)
 
-This assignment replaces the exams for the lecture `Applied Business Engineering I, 5th/6th semester 2020, WWI17` of group B1. 
+This assignment replaces the exams for the lecture `Applied Business Engineering I, 5th/6th semester 2020, WWI17` of group `B1`. 
 
 ## Requirements
 
