@@ -124,10 +124,14 @@ jobs:
           path: artifacts
       - name: Prepare
         run: |
-          mkdir staging
-          mv artifacts/documentation/root.pdf "staging/WWI17B_Seminararbeit_ABE1_Gruppe_B1-${GITHUB_REF##*/}.pdf"
-          mv artifacts/server** staging
-          mv artifacts/client** staging
+          mkdir -p staging/Seminararbeit-ABE1-Gruppe-B1
+          mkdir -p staging/Binaries
+          mv src/server staging/Seminararbeit-ABE1-Gruppe-B1
+          mv src/client staging/Seminararbeit-ABE1-Gruppe-B1
+          mv artifacts/documentation/root.pdf "staging/Seminararbeit-ABE1-Gruppe-B1/WWI17B-Seminararbeit-ABE1-Gruppe-B1-${GITHUB_REF##*/}.pdf"
+          mv artifacts/server** staging/Binaries
+          mv artifacts/client** staging/Binaries
+          cd staging && zip -r ../Seminararbeit-ABE1-Gruppe-B1.zip Seminararbeit-ABE1-Gruppe-B1 && zip -r ../Binaries.zip Binaries
       - name: Deploy
         uses: softprops/action-gh-release@v1
         with:
