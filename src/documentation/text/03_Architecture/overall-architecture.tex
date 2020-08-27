@@ -1,0 +1,37 @@
+Die Gesamtarchitektur beschreibt die grundlegenden Komponenten und deren Zusammenspiel.
+Zum Einsatz kommt eine Client-Server-Architektur.
+Beide Teilsysteme besitzen jeweils eine \ac{CLI}, über die Benutzer mit der jeweiligen Komponente interagieren können.
+Die Eingaben müssen hierbei einer bestimmten Syntax folgen.
+Informationen zu dieser Syntax erhält der Benutzer durch Aufrufen der \ac{CLI} mit dem \enquote{help}-Parameter.
+
+\begin{dhbwfigure}{caption=Gesamtarchitektur,label=fig:uml_overall_rchitecture,source={Eigene Darstellung.},float=H}
+    \begin{plantuml}
+        @startuml
+
+            skinparam componentStyle uml2
+            left to right direction
+
+            package "Client-CLI" {
+                component "Client" as Client
+            }
+
+            package "Server-CLI" {
+                component "Webserver" as WebServer
+                component "Aktorensystem" as ActorSystem
+                database "Datenbank" as Database
+
+                WebServer --> ActorSystem
+                Database <- ActorSystem
+            }
+
+            Client --> WebServer: HTTP
+
+        @enduml
+    \end{plantuml}
+\end{dhbwfigure}\unskip
+
+\autoref{fig:uml_overall_rchitecture} bildet die Gesamtarchitektur des Systems ab.
+Client und Server kommunizieren über \ac{HTTP} miteinander.
+Hierfür implementiert der Server neben dem Aktorensystem \textit{Thespian}\ifootcite{thespianpy_com} einen Webserver über den eine \ac{REST}-\ac{API} zur Verfügung steht.
+Diese \ac{REST}-\ac{API} stellt die zwei Basisrouten \enquote{/api/events} und \enquote{/api/customers} bereit.
+Der Client kann \ac{HTTP}-Anfragen an den Webserver senden und so über die \ac{API} mit dem Aktorensystem kommunizieren, das wiederum mit der SQLite-Datenbank interagiert. 

@@ -1,0 +1,48 @@
+Für den Nachrichtenaustausch zwischen den Aktoren wird die in \autoref{fig:uml_actor_system_class_diagramm} abgebildete Klasse \textit{ActorMessage} verwendet.
+
+\begin{dhbwfigure}{caption=Klassen im Aktorensystems,label=fig:uml_actor_system_class_diagramm,source={Eigene Darstellung.},float=H}
+    \begin{plantuml}
+        @startuml
+
+        class ActorMessage {
+            action: String
+            payload: Object 
+            customer_id: Integer
+            response_to: Object
+            error: ActorMessageError
+            ActorMessage()
+        }
+
+        class ActorMessageError {
+            message: String
+            http_code: Integer 
+            ActorMessageError()
+        }
+
+        enum EventsActorAction {
+            EVENTS_LIST
+            EVENTS_ADD
+            EVENTS_GET
+            EVENTS_SALES
+            EVENTS_PURCHASE
+        }
+
+        enum CustomersActorAction {
+            CUSTOMERS_ADD
+            CUSTOMERS_BUDGET
+            CUSTOMERS_TICKETS
+        }
+
+        ActorMessage --> ActorMessageError
+
+        @enduml
+    \end{plantuml}
+\end{dhbwfigure}\unskip
+
+Die möglichen Anwendungsfälle werden durch die Enum-Klassen \textit{EventsActorAction} und \textit{CustomersActorAction} abgebildet.
+Die Werte dieser Klassen sind vom Typ \textit{String}.
+Da es sich bei den Aktionen \textit{EVENTS\_ADD}, \textit{CUSTOMERS\_ADD} und\newline \textit{EVENTS\_PURCHASE} um Aktionen handelt, bei denen Schreibzugriffe auf die Datenbank durchgeführt werden müssen, werden Nachrichten mit diesen Aktionen an den globalen DbActor weitergeleitet.
+Die Eigenschaft \textit{payload} enthält die eigentliche Nachricht an den Zielaktor.
+Stammt die eingehende Anfrage von einem Kunden besitzt das Attribut \textit{customer\_id} die Kunden-ID des jeweiligen Kunden.
+Die Eigenschaft \textit{response\_to} enthält die Adresse des Aktors, von dem die Nachricht ursprünglich stammt und an den somit auch die Antwort geschickt werden muss.
+Im Fehlerfall wird ein Objekt der Klasse \textit{ActorMessageError} der Eigenschaft \textit{error} zugewiesen.

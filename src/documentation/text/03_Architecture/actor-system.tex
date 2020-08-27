@@ -1,0 +1,47 @@
+Das Aktorensystem setzt sich aus den folgenden drei Aktorenklassen zusammen:
+\begin{enumerate}
+    \item \textbf{DbActor}: Aktoren dieser Klasse sind für die Kommunikation mit der Datenbank zuständig.
+    Es existiert genau ein Aktor dieser Klasse, der ausschließlich für Schreibzugriffe verwendet wird.
+    Dieser Aktor besitzt einen vordefinierten globalen Namen.
+    Der globale Name identifiziert den Aktor eindeutig und ermöglicht anderen Aktoren die Referenzierung dieser Instanz.\ifootcite{thespianpy_com_guide}
+    Dadurch wird sichergestellt, dass alle Schreibzugriffe gemäß der Aufgabenstellung sequentiell ablaufen.
+    Bei Lesezugriffen ist pro Zugriff ein eigener Aktor verantwortlich.
+    Dies ermöglicht eine nebenläufige Verarbeitung aller eingehenden Anfragen dieser Art.
+    \item \textbf{EventsActor}: Ein Aktor dieser Klasse ist für die Verarbeitung von Aktionen, die sich auf Veranstaltungen beziehen, zuständig.
+    Dazu gehört u.\ a.\ der Kauf von Tickets.
+    Der Webserver erstellt mit jeder eingehende Anfrage auf die Basisroute \enquote{/api/events} eine Instanz dieser Aktorenklasse. 
+    Die Aufgabe des Aktors ist anschließend die Weiterleitung der benötigten Informationen an die korrekte \textit{DbActor}-Instanz.
+    \item \textbf{CustomersActor}: Ein Aktor dieser Klasse ist für die Verarbeitung von Aktionen, die sich auf Kunden beziehen, zuständig.
+    Dazu gehört u.\ a.\ das Abfragen des Budgets für ein ausgewähltes Jahr durch den Kunden.
+    Der Webserver erstellt mit jeder eingehende Anfrage auf die Basisroute \enquote{/api/customers} eine Instanz dieser Aktorenklasse. 
+    Die Aufgabe des Aktors ist anschließend die Weiterleitung der benötigten Informationen an die korrekte \textit{DbActor}-Instanz.
+\end{enumerate}
+
+\begin{dhbwfigure}{caption=Aktorensystem,label=fig:uml_overall_architecture,source={Eigene Darstellung.},float=H}
+    \begin{plantuml}
+        @startuml
+
+            skinparam componentStyle uml2
+            left to right direction
+
+            component "Webserver" as WebServer
+            database "Datenbank" as Database
+
+            package "Aktorensystem" {
+                component "EventsActor" as EventsActor
+                component "CustomersActor" as CustomersActor
+                component "DbActor" as DbActor
+
+                EventsActor <--> DbActor
+                CustomersActor <--> DbActor
+            }
+
+            WebServer --> EventsActor
+            WebServer --> CustomersActor
+            DbActor --> Database
+
+        @enduml
+    \end{plantuml}
+\end{dhbwfigure}\unskip
+
+\autoref{fig:uml_overall_architecture} veranschaulicht die Architektur des Aktorensystems, das in \autoref{fig:uml_overall_architecture} bereits in die Gesamtarchitektur eingeordnet wurde.
