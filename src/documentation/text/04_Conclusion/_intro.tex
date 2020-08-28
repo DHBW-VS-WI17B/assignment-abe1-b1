@@ -1,0 +1,7 @@
+Ziel der Seminararbeit war der Entwurf und die Implementierung eines Aktorensystems für den Anwendungsfall eines Ticketverkaufs für Veranstaltungen.
+Die Grundlage für den Entwurf stellten die in \autoref{sec:requirements} und in \autoref{sec:use_cases} beschriebenen Anforderungen und Anwendungsfälle dar.
+Als Gesamtarchitektur wurde eine Client-Server-Architektur gewählt, die eine strikte Trennung beider Teilsysteme ermöglicht.
+Anschließend wurde ein Datenmodell definiert, auf dessen Basis die Entwicklung des Aktorensystems erfolgte.
+Zur Kommunikation zwischen Client und Server wird \ac{HTTP} eingesetzt.
+Hierfür implementiert der Server neben dem Aktorensystem \textit{Thespian} und einer Datenbank einen Webserver, der eine \ac{REST}-\ac{API} zur Verfügung stellt.
+Beide Teilsysteme sind über eine \ac{CLI} durch den Benutzer bedienbar.
