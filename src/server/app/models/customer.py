@@ -1,9 +1,9 @@
-from peewee import CharField, IntegerField, AutoField
+from peewee import CharField, AutoField, FloatField
 from app.models.base_model import BaseModel
 
 
 class Customer(BaseModel):
     id = AutoField()
     name = CharField()
-    budget = IntegerField()
+    budget = FloatField()
     address = CharField()

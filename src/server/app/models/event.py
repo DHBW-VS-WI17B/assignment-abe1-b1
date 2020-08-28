@@ -1,4 +1,4 @@
-from peewee import CharField, IntegerField, DateField, AutoField
+from peewee import CharField, IntegerField, DateField, AutoField, FloatField
 from app.models.base_model import BaseModel
 
 
@@ -7,7 +7,7 @@ class Event(BaseModel):
     name = CharField()
     date = DateField()
     location = CharField()
-    ticket_price = IntegerField()
+    ticket_price = FloatField()
     max_tickets = IntegerField()
     max_tickets_per_customer = IntegerField()
     sale_start_date = DateField()

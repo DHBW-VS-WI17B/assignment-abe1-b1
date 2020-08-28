@@ -18,4 +18,4 @@ class Customer:
                 item['budget']
             ])
         headers = ["Budget (€)"]
-        print(tabulate(table, headers=headers, floatfmt=".4f"))
+        print(tabulate(table, headers=headers, floatfmt=".2f"))
