@@ -1,0 +1,11 @@
+Ziel der Seminararbeit war es, ein Aktorensystem für den Ticketverkauf von Veranstaltungen zu konzipieren und zu implementieren. 
+Die Grundlage für die Konzeption waren die, in Kapitel 1 und 2 dargestellten Anforderungen und Anwendungsfälle. 
+
+Das Aktorensystem wurde durch eine Client-Server-Architektur realisiert, welche serverseitig das Aktorensystem Thepsian und einen Webserver über eine REST-API zur Verfügung stellt. 
+Die Interaktion zwischen Client und Server basiert auf HTTP-Anfragen, die über eine REST-API an das Aktorensystem übermittelt werden. 
+Zuletzt verarbeitet die integrierte SQLite-Datenbank die gesendeten Anfragen. 
+Das verwendete Datenmodell bestehend aus den Entitäten Event, Customer und Ticket soll die Funktionalität des Aktorensystems gewährleisten.
+
+Die Gesamtarchitektur stellt für beide Teilsysteme jeweils eine CLI für die Interaktion zur Verfügung. 
+Die drei Aktorenklassen DBActor, EventsActor und CustomersActor wurden für die Implementierung des Ticketverkaufs eingesetzt. 
+Der Nachrichtenaustausch zwischen den Aktoren erfolgt über die Klasse ActorMessage, die abschließend in Kapitel 3.4 beschrieben wurde.
