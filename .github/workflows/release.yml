@@ -39,7 +39,7 @@ jobs:
           name: documentation
           path: src/documentation/root.pdf
   build-server:
-    name: Build on ${{ matrix.os }}
+    name: Build server on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -74,7 +74,7 @@ jobs:
           name: server-${{ matrix.os }}
           path: src/server/dist/*
   build-client:
-    name: Build on ${{ matrix.os }}
+    name: Build client on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -118,6 +118,8 @@ jobs:
     needs: [ build-documentation, build-server, build-client ]
     runs-on: ubuntu-18.04
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Download
         uses: actions/download-artifact@v2
         with:
