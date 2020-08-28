@@ -1,12 +1,8 @@
 name: release
 
 on:
-  push:
-    branches:
-      - master
-    tags:
-      - '*'
-  workflow_dispatch:
+  release:
+    types: [created]
 
 jobs:
   build-documentation:
