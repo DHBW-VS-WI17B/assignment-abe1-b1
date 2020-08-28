@@ -204,9 +204,8 @@ class DbActor(Actor):
         if sale_not_started or sale_over:
             raise DbActorError("Currently no tickets can be purchased for this event.",
                                400)
-        date_today = date.today()
         for _ in range(quantity):
-            ticket_model = TicketModel(order_date=date_today,
+            ticket_model = TicketModel(order_date=date.today(),
                                        customer=customer_model, event=event_model)
             ticket_model.save()
 
