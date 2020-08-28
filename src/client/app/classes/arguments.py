@@ -5,8 +5,7 @@ class Arguments:
     def __init__(self, args):
         """Convert args dictionary to args object."""
         self.address = args.get('--address')
-        if args.get('--budget') is not None:
-            self.budget = round(float(args.get('--budget')),2)
+        self.budget = args.get('--budget')
         self.year = args.get('--year')
         self.date = args.get('--date')
         self.event_date = args.get('--event-date')
@@ -21,8 +20,7 @@ class Arguments:
         self.quantity = args.get('--quantity')
         self.sale_period = args.get('--sale-period')
         self.sale_start_date = args.get('--sale-start-date')
-        if args.get('--ticket-price') is not None:
-            self.ticket_price = round(float(args.get('--ticket-price')),2)
+        self.ticket_price = args.get('--ticket-price')
         self.version = args.get('--version')
         self.customer_id = args.get('<customer-id>')
         if args.get('<event-id>') == None:
