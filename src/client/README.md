@@ -1,5 +1,12 @@
 # Client
 
+## Development
+
+Follow these steps to start development:
+1. Make sure you have at least version `3.7` of Python installed: `python --version` 
+2. Install all dependencies: `python -m pip install -r requirements.txt`
+3. Start the application: `python -m app --help`
+
 ## Help
 
 The client CLI ships with command documentation that is accessible with the `--help` flag.
