@@ -1,3 +1,4 @@
+import sys
 from schema import Schema, And, Or, Use, SchemaWrongKeyError, SchemaError, Regex
 from app.utils.date import DateHelper
 
@@ -38,4 +39,4 @@ class ValidateArgs():
         except SchemaWrongKeyError as ex:
             pass
         except SchemaError as ex:
-            exit(ex)
+            sys.exit(ex)

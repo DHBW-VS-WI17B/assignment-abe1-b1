@@ -35,6 +35,7 @@ Options:
     -v, --version                       Show version.
 """
 
+import sys
 from docopt import docopt
 from app.classes.arguments import Arguments
 from app.api.events_api import EventsApi
@@ -81,4 +82,4 @@ if __name__ == '__main__':
         ValidateArgs.validate_args(args)
         main(Arguments(args))
     except Exception as ex:
-        exit(ex)
+        sys.exit(ex)
