@@ -1,4 +1,4 @@
-class Response_Helper():
+class ResponseHelper():
     """Helper class for handling status codes of server responses."""
     @staticmethod
     def handle_exception(status_code, error_msg):
