@@ -1,11 +1,11 @@
 # Client
 
-## Development
+## Usage
 
-Follow these steps to start development:
+Follow these steps to start the client with the `--help` flag:
 1. Make sure you have at least version `3.7` of Python installed: `python --version` 
 2. Install all dependencies: `python -m pip install -r requirements.txt`
-3. Start the application: `python -m app --help`
+3. Start the client with the `--help` flag: `python -m app --help`
 
 ## Help
 
