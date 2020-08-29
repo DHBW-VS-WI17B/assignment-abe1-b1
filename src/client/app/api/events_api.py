@@ -30,10 +30,7 @@ class EventsApi():
             if data == []:
                 print("No events were found!")
             else:
-                if args.admin:
-                    Event.print_table_admin(data)
-                else:
-                    Event.print_table_customer(data)
+                Event.print_table(data)
         else:
             Response_Helper.handle_exception(req.status_code, req.json()['error'])
         
@@ -52,10 +49,7 @@ class EventsApi():
             if data == []:
                 print("No matching event was found!")
             else:
-                if args.admin:
-                    Event.print_table_admin(data)
-                else:
-                    Event.print_table_customer(data)
+                Event.print_extended_table(data)
         else:
             Response_Helper.handle_exception(req.status_code, req.json()['error'])
 
