@@ -1,7 +1,5 @@
 import requests
-import json
 from app.classes.event import Event
-from app.classes.ticket import Ticket
 from app.classes.response import Response_Helper
 from app.classes.sales import Sales
 

@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from tabulate import tabulate
-from app.utils.date import DateHelper
 
 
 @dataclass

@@ -1,5 +1,4 @@
 import requests
-import json
 from app.classes.customer import Customer
 from app.classes.ticket import Ticket
 from app.classes.response import Response_Helper
