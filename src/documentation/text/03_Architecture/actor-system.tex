@@ -9,13 +9,15 @@ Das Aktorensystem setzt sich aus den folgenden drei Aktorenklassen zusammen:
     Dies ermöglicht eine nebenläufige Verarbeitung aller eingehenden Anfragen dieser Art.
     \item \textbf{EventsActor}: Ein Aktor dieser Klasse ist für die Verarbeitung von Aktionen, die sich auf Veranstaltungen beziehen, zuständig.
     Dazu gehört u.\ a.\ der Kauf von Tickets.
-    Der Webserver erstellt mit jeder eingehende Anfrage auf die Basisroute \enquote{/api/events} eine Instanz dieser Aktorenklasse. 
+    Der Webserver erstellt mit jeder eingehenden Anfrage auf die Basisroute \enquote{/api/events} eine Instanz dieser Aktorenklasse. 
     Die Aufgabe des Aktors ist anschließend die Weiterleitung der benötigten Informationen an die korrekte \textit{DbActor}-Instanz.
     \item \textbf{CustomersActor}: Ein Aktor dieser Klasse ist für die Verarbeitung von Aktionen, die sich auf Kunden beziehen, zuständig.
     Dazu gehört u.\ a.\ das Abfragen des Budgets für ein ausgewähltes Jahr durch den Kunden.
-    Der Webserver erstellt mit jeder eingehende Anfrage auf die Basisroute \enquote{/api/customers} eine Instanz dieser Aktorenklasse. 
+    Der Webserver erstellt mit jeder eingehenden Anfrage auf die Basisroute \enquote{/api/customers} eine Instanz dieser Aktorenklasse. 
     Die Aufgabe des Aktors ist anschließend die Weiterleitung der benötigten Informationen an die korrekte \textit{DbActor}-Instanz.
 \end{enumerate}
+
+\autoref{fig:uml_overall_architecture} veranschaulicht die Architektur des Aktorensystems, das in \autoref{fig:uml_overall_architecture} bereits in die Gesamtarchitektur eingeordnet wurde.
 
 \begin{dhbwfigure}{caption=Aktorensystem,label=fig:uml_overall_architecture,source={Eigene Darstellung.},float=H}
     \begin{plantuml}
@@ -43,5 +45,3 @@ Das Aktorensystem setzt sich aus den folgenden drei Aktorenklassen zusammen:
         @enduml
     \end{plantuml}
 \end{dhbwfigure}\unskip
-
-\autoref{fig:uml_overall_architecture} veranschaulicht die Architektur des Aktorensystems, das in \autoref{fig:uml_overall_architecture} bereits in die Gesamtarchitektur eingeordnet wurde.
