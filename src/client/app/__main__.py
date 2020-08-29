@@ -39,7 +39,7 @@ from docopt import docopt
 from app.classes.arguments import Arguments
 from app.api.events_api import EventsApi
 from app.api.customers_api import CustomersApi
-from app.utils.validate_args import Validate_Args
+from app.utils.validate_args import ValidateArgs
 
 
 def main(args):
@@ -78,7 +78,7 @@ def main(args):
 if __name__ == '__main__':
     args = docopt(__doc__, version='1.0.0')
     try:
-        Validate_Args.validate_args(args)
+        ValidateArgs.validate_args(args)
         main(Arguments(args))
     except Exception as ex:
         exit(ex)

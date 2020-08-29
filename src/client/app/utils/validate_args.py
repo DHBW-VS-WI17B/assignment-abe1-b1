@@ -2,7 +2,7 @@ from schema import Schema, And, Or, Use, SchemaWrongKeyError, SchemaError, Regex
 from app.utils.date import DateHelper
 
 
-class Validate_Args():
+class ValidateArgs():
     @staticmethod
     def validate_args(args):
         """Validate the input parameters."""
