@@ -42,7 +42,7 @@ Für den Nachrichtenaustausch zwischen den Aktoren wird die in \autoref{fig:uml_
 Die möglichen Anwendungsfälle werden durch die Enum-Klassen \textit{EventsActorAction} und \textit{CustomersActorAction} abgebildet.
 Die Werte dieser Klassen sind vom Typ \textit{String}.
 Da es sich bei den Aktionen \textit{EVENTS\_ADD}, \textit{CUSTOMERS\_ADD} und\linebreak \textit{EVENTS\_PURCHASE} um Aktionen handelt, bei denen Schreibzugriffe auf die Datenbank durchgeführt werden müssen, werden Nachrichten mit diesen Aktionen an den globalen DbActor weitergeleitet.
-Die Eigenschaft \textit{payload} enthält benötigte zusätzliche Daten für den Zielaktor.
+Die Eigenschaft \textit{payload} enthält, falls notwendig, zusätzliche Daten für den Zielaktor.
 Stammt die eingehende Anfrage von einem Kunden besitzt das Attribut \textit{customer\_id} die Kunden-ID des jeweiligen Kunden.
 Die Eigenschaft \textit{response\_to} enthält die Adresse des Aktors, von dem die Nachricht ursprünglich stammt und an den somit auch die Antwort geschickt werden muss.
 Im Fehlerfall wird ein Objekt der Klasse \textit{ActorMessageError} der Eigenschaft \textit{error} zugewiesen.
