@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class Arguments:
     def __init__(self, args):
