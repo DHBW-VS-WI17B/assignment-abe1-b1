@@ -27,8 +27,14 @@ class Event:
                 DateHelper.timestamp_to_date(item['date']),
                 item['location'],
                 item['ticket_price'],
+                item['max_tickets'],
+                item['max_tickets_per_customer'],
+                DateHelper.timestamp_to_date(item['sale_start_date']),
+                item['sale_period']
             ])
-        headers = ["Event ID", "Name", "Date", "Location", "Price (€)"]
+        headers = ["Event ID", "Name", "Date", "Location",
+                   "Price (€)", "Max. tickets", "Max. tickets per customer",
+                   "Sales start date", "Sales period (Days)"]
         print(tabulate(table, headers=headers, floatfmt=".2f"))
 
     @staticmethod
