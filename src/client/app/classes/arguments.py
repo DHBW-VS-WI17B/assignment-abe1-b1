@@ -24,7 +24,7 @@ class Arguments:
         self.ticket_price = args.get('--ticket-price')
         self.version = args.get('--version')
         self.customer_id = args.get('<customer-id>')
-        if args.get('<event-id>') == None:
+        if args.get('<event-id>') is None:
             self.event_id = args.get('--event-id')
         else:
             self.event_id = args.get('<event-id>')

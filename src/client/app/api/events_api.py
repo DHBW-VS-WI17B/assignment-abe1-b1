@@ -1,6 +1,6 @@
 import requests
 from app.classes.event import Event
-from app.classes.response import Response_Helper
+from app.classes.response_helper import ResponseHelper
 from app.classes.sales import Sales
 
 
@@ -12,10 +12,10 @@ class EventsApi():
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.post(server_addr + '/api/events',
                             json=event.__dict__, timeout=5)
-        if(req.status_code == 204):
-            Response_Helper.successfull()
+        if req.status_code == 204:
+            ResponseHelper.successfull()
         else:
-            Response_Helper.handle_exception(
+            ResponseHelper.handle_exception(
                 req.status_code, req.json()['error'])
 
     @staticmethod
@@ -27,14 +27,14 @@ class EventsApi():
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.get(server_addr + '/api/events',
                            timeout=5, headers=headers)
-        if(req.status_code == 200):
+        if req.status_code == 200:
             data = req.json()
             if data == []:
                 print("No events were found!")
             else:
                 Event.print_table(data)
         else:
-            Response_Helper.handle_exception(
+            ResponseHelper.handle_exception(
                 req.status_code, req.json()['error'])
 
     @staticmethod
@@ -46,7 +46,7 @@ class EventsApi():
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.get(server_addr + '/api/events/' +
                            args.event_id, timeout=5, headers=headers)
-        if(req.status_code == 200):
+        if req.status_code == 200:
             data = []
             data.append(req.json())
             if data == []:
@@ -54,7 +54,7 @@ class EventsApi():
             else:
                 Event.print_extended_table(data)
         else:
-            Response_Helper.handle_exception(
+            ResponseHelper.handle_exception(
                 req.status_code, req.json()['error'])
 
     @staticmethod
@@ -67,10 +67,10 @@ class EventsApi():
         req = requests.post(server_addr + '/api/events/' + args.event_id + '/purchase',
                             json={'quantity': args.quantity}, headers=headers, timeout=5)
 
-        if(req.status_code == 204):
-            Response_Helper.successfull()
+        if req.status_code == 204:
+            ResponseHelper.successfull()
         else:
-            Response_Helper.handle_exception(
+            ResponseHelper.handle_exception(
                 req.status_code, req.json()['error'])
 
     @staticmethod
@@ -78,12 +78,12 @@ class EventsApi():
         """Get the sales figures of all events."""
         server_addr = 'http://' + args.ip + ":" + args.port
         req = requests.get(server_addr + '/api/events/sales', timeout=5)
-        if(req.status_code == 200):
+        if req.status_code == 200:
             sales = req.json()
             if sales == []:
                 print("No tickets have been sold yet!")
             else:
                 Sales.print_table(sales)
         else:
-            Response_Helper.handle_exception(
+            ResponseHelper.handle_exception(
                 req.status_code, req.json()['error'])
