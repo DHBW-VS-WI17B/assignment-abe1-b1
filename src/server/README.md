@@ -5,7 +5,8 @@
 Follow these steps to start the server with the `--help` flag:
 1. Make sure you have at least version `3.7` of Python installed: `python --version` 
 2. Install all dependencies: `python -m pip install -r requirements.txt`
-3. Start the server with the `--help` flag: `python -m app --help`
+3. Create a database file in this directory with the file name `server.db`.
+4. Start the server with the `--help` flag: `python -m app --help`
 
 ## Help
 
