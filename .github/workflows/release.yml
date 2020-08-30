@@ -114,7 +114,7 @@ jobs:
     needs: [ build-documentation, build-server, build-client ]
     runs-on: ubuntu-18.04
     env:
-      RELEASE_FILE_NAME: Seminararbeit-ABE1-Gruppe-B1-${GITHUB_REF##*/}
+      RELEASE_FILE_NAME: Seminararbeit-ABE1-Gruppe-B1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -124,19 +124,19 @@ jobs:
           path: artifacts
       - name: Prepare
         run: |
-          mkdir -p staging/${RELEASE_FILE_NAME}
+          mkdir -p staging/${RELEASE_FILE_NAME}-${GITHUB_REF##*/}
           mkdir -p staging/Binaries
-          mv src/server staging/${RELEASE_FILE_NAME}
-          mv src/client staging/${RELEASE_FILE_NAME}
-          mv artifacts/documentation/root.pdf "staging/${RELEASE_FILE_NAME}/${RELEASE_FILE_NAME}.pdf"
+          mv src/server staging/${RELEASE_FILE_NAME}-${GITHUB_REF##*/}
+          mv src/client staging/${RELEASE_FILE_NAME}-${GITHUB_REF##*/}
+          mv artifacts/documentation/root.pdf "staging/${RELEASE_FILE_NAME}-${GITHUB_REF##*/}/${RELEASE_FILE_NAME}-${GITHUB_REF##*/}.pdf"
           mv artifacts/server** staging/Binaries
           mv artifacts/client** staging/Binaries
-          cd staging && zip -r ../${RELEASE_FILE_NAME}.zip ${RELEASE_FILE_NAME} && zip -r ../Binaries.zip Binaries
+          cd staging && zip -r ../${RELEASE_FILE_NAME}-${GITHUB_REF##*/}.zip ${RELEASE_FILE_NAME}-${GITHUB_REF##*/} && zip -r ../Binaries.zip Binaries
       - name: Deploy
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ${RELEASE_FILE_NAME}.zip
+            ${RELEASE_FILE_NAME}-${GITHUB_REF##*/}.zip
             Binaries.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
