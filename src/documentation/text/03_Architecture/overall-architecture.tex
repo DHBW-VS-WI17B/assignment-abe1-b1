@@ -4,7 +4,7 @@ Beide Teilsysteme besitzen jeweils eine \ac{CLI}, über die Benutzer mit der jew
 Die Eingaben müssen hierbei einer bestimmten Syntax folgen.
 Informationen zu dieser Syntax erhält der Benutzer durch Aufrufen der \ac{CLI} mit dem \enquote{help}-Parameter.
 
-\begin{dhbwfigure}{caption=Gesamtarchitektur,label=fig:uml_overall_rchitecture,source={Eigene Darstellung.},float=H}
+\begin{dhbwfigure}{caption=Gesamtarchitektur,label=fig:uml_overall_architecture,source={Eigene Darstellung.},float=H}
     \begin{plantuml}
         @startuml
 
@@ -30,7 +30,7 @@ Informationen zu dieser Syntax erhält der Benutzer durch Aufrufen der \ac{CLI} 
     \end{plantuml}
 \end{dhbwfigure}\unskip
 
-\autoref{fig:uml_overall_rchitecture} bildet die Gesamtarchitektur des Systems ab.
+\autoref{fig:uml_overall_architecture} bildet die Gesamtarchitektur des Systems ab.
 Client und Server kommunizieren über \ac{HTTP} miteinander.
 Hierfür implementiert der Server neben dem Aktorensystem \textit{Thespian}\ifootcite{thespianpy_com} einen Webserver über den eine \ac{REST}-\ac{API} zur Verfügung steht.
 Diese \ac{REST}-\ac{API} stellt die zwei Basisrouten \enquote{/api/events} und \enquote{/api/customers} bereit.
